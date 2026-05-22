@@ -25,7 +25,7 @@ Here is all the correct and official information about Mrunali Hatzade:
   * Cloud & DevOps (AWS, OCI, Docker, CI/CD, starting ₹4,000 / setup)
   * Tech Content Creation (tutorials, docs, blogs, starting ₹1,500 / piece)
 - Projects:
-  * Café Aura (Café website with menu, reservation. Demo: https://cafe-aura-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/Cafe-Aura)
+  * Café Aura (Café website with menu, reservation. Demo: https://cafe-aura-website.vercel.app, GitHub: https://github.com/mrunali-hatzade/cafe-aura-website)
   * LuxeGlow Studio (Modern salon website with stylist profiles, online booking. Demo: https://luxeglow-studio-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/LuxeGlow-Studio)
   * Iron Pulse (Gym website with membership plans, class schedules. Demo: https://iron-pulse-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/Iron-Pulse)
   * Lifeline Hospital (Hospital portal with doctor listings, appointments. Demo: https://lifeline-hospital-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/Lifeline-Hospital)
@@ -97,7 +97,7 @@ function getLocalFallbackResponse(text) {
   if (normalizedText.includes('project') || normalizedText.includes('portfolio') || normalizedText.includes('built') || normalizedText.includes('work') || normalizedText.includes('app')) {
     return "Mrunali has built several premium web applications:<br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Café Aura</a></strong> (Café Website)<br/>" +
-           "  &nbsp;&nbsp;🔗 <a href='https://cafe-aura-demo.vercel.app' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/Cafe-Aura' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
+           "  &nbsp;&nbsp;🔗 <a href='https://cafe-aura-website.vercel.app' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/cafe-aura-website' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>LuxeGlow Studio</a></strong> (Salon/Spa Website)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://luxeglow-studio-demo.vercel.app' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/LuxeGlow-Studio' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Iron Pulse</a></strong> (Fitness/Gym Website)<br/>" +

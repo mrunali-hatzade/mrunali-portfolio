@@ -119,6 +119,7 @@ nav {
   align-items: flex-start;
   text-align: left;
   width: 100%;
+  padding-left: 220px; /* Leave space for floating social links on the left */
 }
 .available-dot {
   display: inline-flex; align-items: center; gap: 0.5rem;
@@ -242,29 +243,29 @@ nav {
   transition: color 0.3s;
 }
 
-/* Coordinates — all on right side to flank left-aligned content */
+/* Coordinates — all on left side to flank right-shifted content */
 .floating-social-badge.github {
-  top: 12%; right: 6%;
+  top: 12%; left: 4%;
   --delay: 0s; --duration: 5.5s;
   --entry-delay: 1.2s;
 }
 .floating-social-badge.linkedin {
-  top: 28%; right: 3%;
+  top: 28%; left: 8%;
   --delay: -1.2s; --duration: 6.2s;
   --entry-delay: 1.3s;
 }
 .floating-social-badge.instagram {
-  top: 46%; right: 7%;
+  top: 46%; left: 2%;
   --delay: -2.8s; --duration: 5.8s;
   --entry-delay: 1.4s;
 }
 .floating-social-badge.email {
-  top: 62%; right: 2%;
+  top: 62%; left: 9%;
   --delay: -4.5s; --duration: 6.6s;
   --entry-delay: 1.5s;
 }
 .floating-social-badge.youtube {
-  top: 78%; right: 5%;
+  top: 78%; left: 5%;
   --delay: -3.2s; --duration: 6.0s;
   --entry-delay: 1.6s;
 }
@@ -1236,6 +1237,9 @@ footer {
 .reveal.visible { opacity: 1; transform: none; }
 
 @media (max-width: 992px) {
+  .hero-content {
+    padding-left: 0;
+  }
   .hero-container {
     padding: 0 1.5rem;
   }
