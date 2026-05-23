@@ -1822,27 +1822,30 @@ footer {
 .chatbot-quick-replies {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  padding: 0.6rem 1.2rem;
-  background: rgba(11, 12, 16, 0.4);
-  border-top: 1px solid rgba(100, 255, 218, 0.05);
+  gap: 0.45rem;
+  padding: 0.65rem 1rem;
+  background: rgba(11, 12, 16, 0.55);
+  border-top: 1px solid rgba(100, 255, 218, 0.06);
 }
 
 .chatbot-quick-replies button {
-  background: rgba(100, 255, 218, 0.05);
-  border: 1px solid rgba(100, 255, 218, 0.15);
+  background: rgba(100, 255, 218, 0.04);
+  border: 1px solid rgba(100, 255, 218, 0.12);
   color: var(--accent);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
+  font-size: 0.68rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 50px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .chatbot-quick-replies button:hover {
-  background: rgba(100, 255, 218, 0.12);
+  background: rgba(100, 255, 218, 0.1);
   border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(100, 255, 218, 0.08);
 }
 
 .chatbot-input-form {
@@ -2246,5 +2249,256 @@ footer {
   
   body.custom-cursor-enabled .custom-cyber-cursor {
     display: block;
+  }
+}
+
+/* ── DEV TERMINAL STYLES ── */
+.hero-right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  width: 100%;
+}
+
+.dev-terminal-window {
+  background: rgba(13, 14, 22, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  height: 270px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.dev-terminal-window:hover {
+  border-color: rgba(100, 255, 218, 0.3);
+  box-shadow: 0 12px 40px rgba(100, 255, 218, 0.05), 0 0 20px rgba(100, 255, 218, 0.03);
+}
+
+.terminal-header {
+  background: rgba(20, 21, 33, 0.8);
+  border-bottom: 1px solid var(--border);
+  padding: 0.65rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.terminal-dots .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
+
+.terminal-title {
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.terminal-body {
+  padding: 1rem;
+  flex: 1;
+  overflow-y: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  cursor: text;
+}
+
+.terminal-body::-webkit-scrollbar {
+  width: 5px;
+}
+.terminal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.terminal-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+.terminal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 255, 218, 0.2);
+}
+
+.terminal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: left;
+}
+
+.terminal-line.output {
+  color: var(--text);
+  white-space: pre-wrap;
+}
+
+.terminal-line.input {
+  color: var(--accent);
+}
+
+.terminal-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.terminal-prompt {
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.terminal-input-field {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-family: inherit;
+  font-size: inherit;
+  flex: 1;
+  padding: 0;
+  margin: 0;
+}
+
+/* ── ABOUT QUICK READ TOGGLE ── */
+.about-toggle-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.toggle-segment-control {
+  display: flex;
+  background: rgba(20, 21, 33, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 0.25rem;
+  position: relative;
+  width: 250px;
+  height: 38px;
+}
+
+.toggle-option {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.3s;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-option.active {
+  color: #0b0c10;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  height: calc(100% - 6px);
+  background: var(--accent);
+  border-radius: 50px;
+  z-index: 1;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ── QUICK READ GRID ── */
+.quick-read-container {
+  width: 100%;
+}
+
+.quick-read-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+
+.qr-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.4rem 1.6rem;
+  text-align: left;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.qr-card:hover {
+  border-color: rgba(100, 255, 218, 0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(100, 255, 218, 0.05);
+}
+
+.qr-icon {
+  font-size: 1.5rem;
+}
+
+.qr-card h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  color: var(--white);
+  font-weight: 600;
+  margin: 0;
+}
+
+.qr-card p {
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.qr-card p strong {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Responsive grid for about section */
+@media (max-width: 900px) {
+  .quick-read-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .quick-read-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-header-row {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+  .about-toggle-container {
+    width: 100%;
+  }
+  .toggle-segment-control {
+    width: 100%;
   }
 }

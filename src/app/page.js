@@ -13,6 +13,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [quickRead, setQuickRead] = useState(false);
 
   // Chatbot State
   const [chatOpen, setChatOpen] = useState(false);
@@ -290,76 +291,99 @@ export default function Home() {
     });
   };
 
-  // Code editor typewriter effect for bio
-  const codeText = `const developer = {
-  name: 'Mrunali Hatzade',
-  role: 'Full-Stack Developer',
-  stack: ['Java', 'Spring Boot', 'Next.js', 'AI'],
-  available: true,
-  location: 'Pune, India'
-};
-
-// Let's build something incredible together`;
-
-  const [typedCode, setTypedCode] = useState('');
+  // Interactive Dev Terminal State
+  const [terminalInput, setTerminalInput] = useState('');
+  const [terminalHistory, setTerminalHistory] = useState([
+    { type: 'output', text: 'System initialized. Welcome to Mrunali\'s Terminal OS v1.0.0.' },
+    { type: 'output', text: 'Type "help" for a list of available commands.' }
+  ]);
+  const terminalBottomRef = useRef(null);
 
   useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      if (i < codeText.length) {
-        setTypedCode(codeText.slice(0, i + 1));
-        i++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 20);
-    return () => clearInterval(interval);
-  }, []);
+    if (terminalBottomRef.current) {
+      terminalBottomRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [terminalHistory]);
 
+  const handleTerminalSubmit = (e) => {
+    e.preventDefault();
+    const cmd = terminalInput.trim().toLowerCase();
+    if (!cmd) return;
 
-
-  const highlightCode = (line) => {
-    let comment = '';
-    let codePart = line;
-    const commentIdx = line.indexOf('//');
-    if (commentIdx !== -1) {
-      codePart = line.substring(0, commentIdx);
-      comment = line.substring(commentIdx);
+    let response = [];
+    switch (cmd) {
+      case 'help':
+        response = [
+          'Available commands:',
+          '  info     - About Mrunali',
+          '  skills   - Core tech stack',
+          '  projects - Featured developments',
+          '  contact  - Get in touch',
+          '  stats    - Key metrics',
+          '  clear    - Clear terminal logs'
+        ];
+        break;
+      case 'info':
+        response = [
+          'Mrunali Hatzade — Full Stack Developer & AI Explorer.',
+          'Graduated in 2025 in ENTC Engineering from DYPIEMR, Pune.',
+          'Passionate about backend services (Java/Spring Boot), interactive',
+          'frontends (React/Next.js), DevOps, and building AI-first apps.'
+        ];
+        break;
+      case 'skills':
+        response = [
+          'Core Technologies:',
+          '  Frontend : React, Next.js, HTML5, CSS3, Tailwind CSS, JS/TS',
+          '  Backend  : Java, Spring Boot, Spring Security, JWT, Node.js, Python',
+          '  Databases: PostgreSQL, MySQL, MongoDB, Prisma ORM',
+          '  AI & Cloud: LLMs, LangChain, OCI AI Associate, AWS, Docker'
+        ];
+        break;
+      case 'projects':
+        response = [
+          'Featured Projects:',
+          '  1. Café Aura        - Next.js, CSS, Tailwind (Café reservation)',
+          '  2. LuxeGlow Studio  - HTML/CSS, JS, Animations (Salon/Spa Portal)',
+          '  3. Iron Pulse       - React, Tailwind, Framer Motion (Gym site)',
+          '  4. Lifeline Hospital- Next.js, React, Tailwind (Medical dashboard)'
+        ];
+        break;
+      case 'contact':
+        response = [
+          'Reach out via:',
+          '  Email   : mrunalithatzade20@gmail.com',
+          '  Phone   : +91 72184 05826',
+          '  LinkedIn: linkedin.com/in/mrunali-hatzade-72a35a231',
+          '  GitHub  : github.com/mrunali-hatzade'
+        ];
+        break;
+      case 'stats':
+        response = [
+          'Key Metrics:',
+          '  • Projects Completed : 5+',
+          '  • Experience Level   : Fresh & Ready to Ship',
+          '  • Client Trust Score : 100%',
+          '  • Learning Curiosity: Infinite (∞)'
+        ];
+        break;
+      case 'clear':
+        setTerminalHistory([]);
+        setTerminalInput('');
+        return;
+      default:
+        response = [
+          `Command not found: "${cmd}"`,
+          'Type "help" to see all valid commands.'
+        ];
     }
 
-    const strings = [];
-    let processedCode = codePart.replace(/('[^'\n]*'?|"[^"\n]*"?)/g, (match) => {
-      strings.push(match);
-      return `__STR_${strings.length - 1}__`;
-    });
-
-    let escaped = processedCode
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-
-    escaped = escaped.replace(/\b(const)\b/g, '<span class="code-keyword">$1</span>');
-    escaped = escaped.replace(/\b(true|false)\b/g, '<span class="code-boolean">$1</span>');
-    escaped = escaped.replace(/\b(name|role|stack|available|location)(?=\s*:)/g, '<span class="code-property">$1</span>');
-
-    escaped = escaped.replace(/__STR_(\d+)__/g, (match, p1) => {
-      const strVal = strings[parseInt(p1, 10)];
-      const escapedStrVal = strVal
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-      return `<span class="code-string">${escapedStrVal}</span>`;
-    });
-
-    if (comment) {
-      const escapedComment = comment
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-      escaped += `<span class="code-comment">${escapedComment}</span>`;
-    }
-
-    return escaped;
+    setTerminalHistory((prev) => [
+      ...prev,
+      { type: 'input', text: `guest@mrunali:~$ ${terminalInput}` },
+      ...response.map(line => ({ type: 'output', text: line }))
+    ]);
+    setTerminalInput('');
   };
 
   // Scroll reveal animation
@@ -660,25 +684,60 @@ export default function Home() {
           {/* Vertical Divider line */}
           <div className="hero-divider"></div>
 
-          {/* Right Column: Stats Section */}
-          <div className="hero-stats-column">
-            <p className="stats-header">// stats</p>
-            <div className="stats-grid">
-              <div className="stats-card">
-                <span className="stats-number">5+</span>
-                <span className="stats-label">Projects</span>
+          {/* Right Column: Dev Terminal & Stats */}
+          <div className="hero-right-column">
+            <div className="dev-terminal-window">
+              <div className="terminal-header">
+                <div className="terminal-dots">
+                  <span className="dot dot-red"></span>
+                  <span className="dot dot-yellow"></span>
+                  <span className="dot dot-green"></span>
+                </div>
+                <span className="terminal-title">guest@mrunali: ~</span>
               </div>
-              <div className="stats-card">
-                <span className="stats-number">Fresh</span>
-                <span className="stats-label">Experience</span>
+              <div className="terminal-body" onClick={() => document.getElementById('terminal-input')?.focus()}>
+                <div className="terminal-content">
+                  {terminalHistory.map((line, idx) => (
+                    <div key={idx} className={`terminal-line ${line.type}`}>
+                      {line.text}
+                    </div>
+                  ))}
+                  <form onSubmit={handleTerminalSubmit} className="terminal-form">
+                    <span className="terminal-prompt">guest@mrunali:~$</span>
+                    <input
+                      id="terminal-input"
+                      type="text"
+                      value={terminalInput}
+                      onChange={(e) => setTerminalInput(e.target.value)}
+                      className="terminal-input-field"
+                      autoComplete="off"
+                    />
+                  </form>
+                  <div ref={terminalBottomRef} />
+                </div>
               </div>
-              <div className="stats-card">
-                <span className="stats-number">100%</span>
-                <span className="stats-label">Trustworthy</span>
-              </div>
-              <div className="stats-card">
-                <span className="stats-number">∞</span>
-                <span className="stats-label">Curiosity</span>
+            </div>
+
+            {/* Stats Section */}
+            <div className="hero-stats-column">
+              <p className="stats-header">// stats</p>
+              <div className="stats-grid">
+                <div className="stats-card">
+                  <span className="stats-number">5+</span>
+                  <span className="stats-label">Projects</span>
+                </div>
+                <div className="stats-card">
+                  <span className="stats-number">Fresh</span>
+                  <span className="stats-label">Experience</span>
+                </div>
+                <div className="stats-card">
+                  <span className="stats-number">100%</span>
+                  <span className="stats-label">Trustworthy</span>
+                </div>
+                <div className="stats-card">
+                  <span className="stats-number">∞</span>
+                  <span className="stats-label">Curiosity</span>
+                </div>
               </div>
             </div>
           </div>
@@ -688,39 +747,98 @@ export default function Home() {
       {/* 01. ABOUT */}
       <section id="about">
         <p className="section-label">01. About</p>
-        <h2 className="section-title">Who I Am</h2>
-        <div className="about-grid reveal">
-          <div className="about-text">
-            <p>Hi! I'm a <span>2025 graduate</span> in <span>Electronics & Telecommunication Engineering (ENTC)</span> from <span>Dr. D.Y. Patil Institute of Engineering, Management and Research (DYPIEMR)</span>, Akurdi, Pune.</p>
-            <p>I'm a <span>Full Stack Developer</span> who loves building end-to-end digital products — crafting responsive, intuitive frontends, scalable backends, and thoughtful UI/UX experiences.</p>
-            <p>The market is evolving fast and <span>AI is at the center of it</span>. I've embraced this shift and actively explore AI integrations, making solutions smarter and businesses future-ready. I also dabble in <span>DevOps & Cloud Computing</span> to ship and scale reliably.</p>
-            <p>Beyond engineering, I'm a <span>content creator</span> — I believe great tech deserves great storytelling. Let's connect and build something incredible together!</p>
-            <div className="about-chips">
-              <span className="about-chip">🎓 ENTC Engineer, 2025</span>
-              <span className="about-chip">📍 Pune, India</span>
-              <span className="about-chip">💼 Open to Full-Time</span>
-              <span className="about-chip">🤖 AI-First Mindset</span>
-              <span className="about-chip">☁️ DevOps Explorer</span>
-              <span className="about-chip">✍️ Content Creator</span>
-            </div>
-          </div>
-          <div>
-            <div className="about-facts">
-              <span className="fact">Frontend Dev</span>
-              <span className="fact">Backend Dev</span>
-              <span className="fact">UI/UX Design</span>
-              <span className="fact">AI Integration</span>
-              <span className="fact">Java & Spring Boot</span>
-              <span className="fact">Node.js & Next.js</span>
-              <span className="fact">Cloud & DevOps</span>
-              <span className="fact">Content Creation</span>
-              <span className="fact">REST APIs</span>
-              <span className="fact">Database Design</span>
-              <span className="fact">Git & GitHub</span>
-              <span className="fact">Problem Solving</span>
+        <div className="about-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem', marginBottom: '2.5rem' }}>
+          <h2 className="section-title" style={{ marginBottom: 0 }}>Who I Am</h2>
+          <div className="about-toggle-container">
+            <div className="toggle-segment-control">
+              <button 
+                type="button" 
+                className={`toggle-option ${!quickRead ? 'active' : ''}`} 
+                onClick={() => setQuickRead(false)}
+              >
+                Detailed Story
+              </button>
+              <button 
+                type="button" 
+                className={`toggle-option ${quickRead ? 'active' : ''}`} 
+                onClick={() => setQuickRead(true)}
+              >
+                10-Sec Scan
+              </button>
+              <div className="toggle-slider" style={{ transform: quickRead ? 'translateX(100%)' : 'translateX(0)' }}></div>
             </div>
           </div>
         </div>
+
+        {quickRead ? (
+          <div className="quick-read-container reveal visible">
+            <div className="quick-read-grid">
+              <div className="qr-card">
+                <span className="qr-icon">🎓</span>
+                <h4>Education & Origin</h4>
+                <p><strong>B.E. in Electronics & Telecommunication</strong> (ENTC, 2025) from <strong>Dr. D.Y. Patil Institute (DYPIEMR)</strong>, Akurdi, Pune.</p>
+              </div>
+              <div className="qr-card">
+                <span className="qr-icon">💼</span>
+                <h4>Employment Status</h4>
+                <p><strong>Available for Work</strong>. Open to Full-Time roles & freelance/contract development projects.</p>
+              </div>
+              <div className="qr-card">
+                <span className="qr-icon">🚀</span>
+                <h4>Primary Tech Stack</h4>
+                <p>Core focus in <strong>Java, Spring Boot, React, Next.js, and SQL</strong>, with experience in building secure REST APIs & cloud setups.</p>
+              </div>
+              <div className="qr-card">
+                <span className="qr-icon">📍</span>
+                <h4>Location & Mobility</h4>
+                <p>Based in <strong>Pune, India</strong>. Ready for remote collaborations or open to relocation to major tech hubs.</p>
+              </div>
+              <div className="qr-card">
+                <span className="qr-icon">🏅</span>
+                <h4>Top Credentials</h4>
+                <p>Winner of **Techcombact 2.0 Hackathon** and certified **Oracle Cloud (OCI) AI Foundations Associate**.</p>
+              </div>
+              <div className="qr-card">
+                <span className="qr-icon">🤖</span>
+                <h4>AI First Integration</h4>
+                <p>Equipped with an **AI-first mindset**, actively building applications with LLM API integrations (Gemini, Claude) & prompt design.</p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="about-grid reveal">
+            <div className="about-text">
+              <p>Hi! I'm a <span>2025 graduate</span> in <span>Electronics & Telecommunication Engineering (ENTC)</span> from <span>Dr. D.Y. Patil Institute of Engineering, Management and Research (DYPIEMR)</span>, Akurdi, Pune.</p>
+              <p>I'm a <span>Full Stack Developer</span> who loves building end-to-end digital products — crafting responsive, intuitive frontends, scalable backends, and thoughtful UI/UX experiences.</p>
+              <p>The market is evolving fast and <span>AI is at the center of it</span>. I've embraced this shift and actively explore AI integrations, making solutions smarter and businesses future-ready. I also dabble in <span>DevOps & Cloud Computing</span> to ship and scale reliably.</p>
+              <p>Beyond engineering, I'm a <span>content creator</span> — I believe great tech deserves great storytelling. Let's connect and build something incredible together!</p>
+              <div className="about-chips">
+                <span className="about-chip">🎓 ENTC Engineer, 2025</span>
+                <span className="about-chip">📍 Pune, India</span>
+                <span className="about-chip">💼 Open to Full-Time</span>
+                <span className="about-chip">🤖 AI-First Mindset</span>
+                <span className="about-chip">☁️ DevOps Explorer</span>
+                <span className="about-chip">✍️ Content Creator</span>
+              </div>
+            </div>
+            <div>
+              <div className="about-facts">
+                <span className="fact">Frontend Dev</span>
+                <span className="fact">Backend Dev</span>
+                <span className="fact">UI/UX Design</span>
+                <span className="fact">AI Integration</span>
+                <span className="fact">Java & Spring Boot</span>
+                <span className="fact">Node.js & Next.js</span>
+                <span className="fact">Cloud & DevOps</span>
+                <span className="fact">Content Creation</span>
+                <span className="fact">REST APIs</span>
+                <span className="fact">Database Design</span>
+                <span className="fact">Git & GitHub</span>
+                <span className="fact">Problem Solving</span>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* 02. SERVICES */}
