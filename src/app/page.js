@@ -34,6 +34,7 @@ export default function Home() {
   const [cursorState, setCursorState] = useState('');
 
   useEffect(() => {
+    document.body.classList.add('custom-cursor-enabled');
     let mouseX = 0;
     let mouseY = 0;
     let ringX = 0;
@@ -84,6 +85,7 @@ export default function Home() {
     rafId = requestAnimationFrame(updateRing);
     
     return () => {
+      document.body.classList.remove('custom-cursor-enabled');
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);

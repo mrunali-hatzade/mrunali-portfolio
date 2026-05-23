@@ -2226,12 +2226,25 @@ footer {
 
 /* Media query to hide default pointer on desktop/mouse screens and show custom cursor */
 @media (hover: hover) and (pointer: fine) {
-  html, body, a, button, select, input, textarea, [role="button"],
-  .svc-card, .project-card, .stats-card, .cert-pill, .award-pill, .social-pill, .hamburger, .chatbot-toggle-btn {
+  body.custom-cursor-enabled,
+  body.custom-cursor-enabled a,
+  body.custom-cursor-enabled button,
+  body.custom-cursor-enabled select,
+  body.custom-cursor-enabled input,
+  body.custom-cursor-enabled textarea,
+  body.custom-cursor-enabled [role="button"],
+  body.custom-cursor-enabled .svc-card,
+  body.custom-cursor-enabled .project-card,
+  body.custom-cursor-enabled .stats-card,
+  body.custom-cursor-enabled .cert-pill,
+  body.custom-cursor-enabled .award-pill,
+  body.custom-cursor-enabled .social-pill,
+  body.custom-cursor-enabled .hamburger,
+  body.custom-cursor-enabled .chatbot-toggle-btn {
     cursor: none !important;
   }
   
-  .custom-cyber-cursor {
+  body.custom-cursor-enabled .custom-cyber-cursor {
     display: block;
   }
 }
