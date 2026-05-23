@@ -25,7 +25,7 @@ Here is all the correct and official information about Mrunali Hatzade:
   * Cloud & DevOps (AWS, OCI, Docker, CI/CD, starting ₹4,000 / setup)
   * Tech Content Creation (tutorials, docs, blogs, starting ₹1,500 / piece)
 - Projects:
-  * Café Aura (Café website with menu, reservation. Demo: https://cafe-aura-website.vercel.app, GitHub: https://github.com/mrunali-hatzade/cafe-aura-website)
+  * Café Aura (Café website built with Next.js, CSS, Tailwind, and other technologies, featuring menu, reservation. Demo: https://cafe-aura-website.vercel.app, GitHub: https://github.com/mrunali-hatzade/cafe-aura-website)
   * LuxeGlow Studio (Modern salon website with stylist profiles, online booking. Demo: https://luxeglow-studio-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/LuxeGlow-Studio)
   * Iron Pulse (Gym website with membership plans, class schedules. Demo: https://iron-pulse-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/Iron-Pulse)
   * Lifeline Hospital (Hospital portal with doctor listings, appointments. Demo: https://lifeline-hospital-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/Lifeline-Hospital)

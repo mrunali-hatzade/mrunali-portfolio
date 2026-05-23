@@ -29,6 +29,69 @@ export default function Home() {
   // Scroll to Top state
   const [showScrollTop, setShowScrollTop] = useState(false);
 
+  // Custom cyber cursor state
+  const cursorRef = useRef(null);
+  const [cursorState, setCursorState] = useState('');
+
+  useEffect(() => {
+    let mouseX = 0;
+    let mouseY = 0;
+    let ringX = 0;
+    let ringY = 0;
+    let rafId;
+
+    const handleMouseMove = (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (cursorRef.current) {
+        cursorRef.current.style.setProperty('--dot-x', `${e.clientX}px`);
+        cursorRef.current.style.setProperty('--dot-y', `${e.clientY}px`);
+      }
+    };
+
+    const updateRing = () => {
+      // Calculate spring-lag coordinates for the cursor ring (decoupled from canvas for high-performance 60fps+)
+      ringX += (mouseX - ringX) * 0.125;
+      ringY += (mouseY - ringY) * 0.125;
+
+      if (cursorRef.current) {
+        cursorRef.current.style.setProperty('--ring-x', `${ringX}px`);
+        cursorRef.current.style.setProperty('--ring-y', `${ringY}px`);
+      }
+      rafId = requestAnimationFrame(updateRing);
+    };
+    
+    const handleMouseDown = () => {
+      setCursorState(prev => prev.includes('hovered') ? 'clicked hovered' : 'clicked');
+    };
+    
+    const handleMouseUp = () => {
+      setCursorState(prev => prev.includes('hovered') ? 'hovered' : '');
+    };
+    
+    const handleMouseOver = (e) => {
+      if (e.target.closest('a, button, [role="button"], .svc-card, .project-card, .stats-card, .cert-pill, .award-pill, .social-pill, .hamburger, .chatbot-toggle-btn')) {
+        setCursorState(prev => prev.includes('clicked') ? 'clicked hovered' : 'hovered');
+      } else {
+        setCursorState(prev => prev.includes('clicked') ? 'clicked' : '');
+      }
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('mouseover', handleMouseOver);
+    rafId = requestAnimationFrame(updateRing);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('mouseover', handleMouseOver);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
   // Scroll chatbot to bottom
   useEffect(() => {
     if (chatMessagesRef.current) {
@@ -49,7 +112,7 @@ export default function Home() {
     return () => window.removeEventListener('scroll', checkScroll);
   }, []);
 
-  // 3D Canvas Background Animation (Floating Constellation)
+  // 3D Canvas Background Animation (Interactive 3D Digital Wave/Mesh Terrain)
   useEffect(() => {
     const canvas = document.getElementById('bg-3d-canvas');
     if (!canvas) return;
@@ -59,70 +122,9 @@ export default function Home() {
     let animationFrameId;
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
-
-    const particles = [];
-    const particleCount = Math.min(65, Math.floor((width * height) / 24000));
-    const connectionDistance = 145;
     
-    let mouse = { x: null, y: null, active: false };
-
-    class Particle {
-      constructor() {
-        this.reset();
-        this.x = (Math.random() - 0.5) * width * 1.5;
-        this.y = (Math.random() - 0.5) * height * 1.5;
-      }
-
-      reset() {
-        this.x = (Math.random() - 0.5) * width * 1.5;
-        this.y = (Math.random() - 0.5) * height * 1.5;
-        this.z = Math.random() * 1000 + 200;
-        this.vx = (Math.random() - 0.5) * 0.9;
-        this.vy = (Math.random() - 0.5) * 0.9;
-        this.vz = -Math.random() * 0.7 - 0.3; // depth velocity
-        this.radius = Math.random() * 1.4 + 0.8;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.z += this.vz;
-
-        if (mouse.active) {
-          const dx = (mouse.x - width / 2) * 0.05;
-          const dy = (mouse.y - height / 2) * 0.05;
-          this.x += (dx - this.x) * 0.002;
-          this.y += (dy - this.y) * 0.002;
-        }
-
-        if (this.z <= 10 || Math.abs(this.x) > width || Math.abs(this.y) > height) {
-          this.reset();
-          this.z = 1000;
-        }
-      }
-
-      draw() {
-        const fov = 350;
-        const scale = fov / (fov + this.z);
-        const projX = this.x * scale + width / 2;
-        const projY = this.y * scale + height / 2;
-
-        let alpha = 1 - (this.z / 1200);
-        if (this.z < 100) alpha *= (this.z / 100);
-        alpha = Math.max(0, Math.min(0.60, alpha));
-
-        ctx.beginPath();
-        ctx.arc(projX, projY, this.radius * scale * 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(100, 255, 218, ${alpha})`;
-        ctx.fill();
-
-        return { x: projX, y: projY, alpha };
-      }
-    }
-
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
-    }
+    let mouse = { x: width / 2, y: height / 2, active: false };
+    let time = 0;
 
     const handleResize = () => {
       width = canvas.width = window.innerWidth;
@@ -144,35 +146,145 @@ export default function Home() {
     document.addEventListener('mouseleave', handleMouseLeave);
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(11, 12, 16, 0.18)'; 
+      // Semi-clear canvas to create smooth trails
+      ctx.fillStyle = 'rgba(11, 12, 16, 0.18)';
       ctx.fillRect(0, 0, width, height);
 
+      time += 0.5;
+
+      // (Ring coordinates are now updated on a separate, high-performance requestAnimationFrame loop)
+
+      // Terrain parameters
+      const cols = 28;
+      const rows = 28;
+      const fov = 350;
+      const floorY = height * 0.70; // plane height
+      const rowDistance = 38;
+      const scrollOffset = (time * 0.8) % rowDistance;
+
       const projected = [];
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.update();
-        projected.push(p.draw());
+
+      // Calculate all 3D mesh points
+      for (let c = 0; c < cols; c++) {
+        projected[c] = [];
+        for (let r = 0; r < rows; r++) {
+          // X: centered around center of viewport
+          let x = (c - cols / 2) * 75;
+          // Z: depth of grid rows scrolling forward
+          let z = (r * rowDistance) + 140 - scrollOffset;
+
+          // Multi-frequency waves for natural flow
+          let baseY = Math.sin(x * 0.0035 + time * 0.035) * Math.cos(z * 0.0035 + time * 0.02) * 55;
+          baseY += Math.sin((x + z) * 0.0015 + time * 0.012) * 25;
+
+          // Valley structure: raise side coordinates to frame the text content
+          let centerDist = Math.abs(c - cols / 2) / (cols / 2);
+          let elevation = Math.pow(centerDist, 2.2) * 160;
+          let totalBaseY = baseY + elevation;
+
+          // Projected baseline screen space positions
+          let scale = fov / (fov + z);
+          let px = x * scale + width / 2;
+          let py = (floorY - totalBaseY) * scale + height / 2;
+
+          // Distance check for real-time cursor deformation (ripple effect)
+          let dist = 99999;
+          let ripple = 0;
+          if (mouse.active) {
+            let dx = px - mouse.x;
+            let dy = py - mouse.y;
+            dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 240) {
+              let force = 1 - dist / 240;
+              // Propagate ripples outward based on screen distance
+              ripple = Math.sin(dist * 0.05 - time * 0.1) * 45 * Math.pow(force, 1.5);
+            }
+          }
+
+          let finalY = totalBaseY + ripple;
+          let finalPy = (floorY - finalY) * scale + height / 2;
+
+          // Fade coordinates into the depth (atmospheric distance haze)
+          let alpha = (1 - z / 1100);
+          if (z < 160) {
+            alpha *= Math.max(0, (z - 100) / 60); // smooth clip close to lens
+          }
+          alpha = Math.max(0, Math.min(0.24, alpha));
+
+          projected[c][r] = {
+            x: px,
+            y: finalPy,
+            alpha: alpha,
+            z: z,
+            distToMouse: dist
+          };
+        }
       }
 
-      ctx.lineWidth = 0.55;
-      for (let i = 0; i < projected.length; i++) {
-        for (let j = i + 1; j < projected.length; j++) {
-          const pi = projected[i];
-          const pj = projected[j];
+      // Drawing function for grid lines connecting vertices
+      const drawGridLine = (p1, p2) => {
+        let avgZ = (p1.z + p2.z) / 2;
+        let alpha = (1 - avgZ / 1100);
+        if (avgZ < 160) {
+          alpha *= Math.max(0, (avgZ - 100) / 60);
+        }
+        alpha = Math.max(0, Math.min(0.24, alpha));
 
-          const dx = pi.x - pj.x;
-          const dy = pi.y - pj.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+        if (alpha <= 0) return;
 
-          if (dist < connectionDistance) {
-            let lineAlpha = (1 - dist / connectionDistance) * 0.12;
-            lineAlpha *= Math.min(pi.alpha, pj.alpha);
-            
-            ctx.beginPath();
-            ctx.moveTo(pi.x, pi.y);
-            ctx.lineTo(pj.x, pj.y);
-            ctx.strokeStyle = `rgba(100, 255, 218, ${lineAlpha})`;
-            ctx.stroke();
+        let avgDist = (p1.distToMouse + p2.distToMouse) / 2;
+        let mouseRatio = 0;
+        if (mouse.active && avgDist < 200) {
+          mouseRatio = Math.pow(1 - avgDist / 200, 1.5);
+        }
+
+        // Color shift from cyber-green (#64ffda) to accent-violet (#7f77dd) on cursor proximity
+        let r = Math.floor(100 * (1 - mouseRatio) + 127 * mouseRatio);
+        let g = Math.floor(255 * (1 - mouseRatio) + 119 * mouseRatio);
+        let b = Math.floor(218 * (1 - mouseRatio) + 221 * mouseRatio);
+
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha * (0.55 + mouseRatio * 0.45)})`;
+        ctx.lineWidth = mouseRatio > 0 ? 0.8 + mouseRatio * 0.8 : 0.65;
+        ctx.stroke();
+      };
+
+      // Loop to render horizontal and vertical grid lines
+      for (let c = 0; c < cols; c++) {
+        for (let r = 0; r < rows; r++) {
+          let p = projected[c][r];
+
+          // Connect horizontal mesh lines
+          if (c < cols - 1) {
+            drawGridLine(p, projected[c + 1][r]);
+          }
+          // Connect vertical mesh lines
+          if (r < rows - 1) {
+            drawGridLine(p, projected[c][r + 1]);
+          }
+
+          // Draw small glowing data points at specific intervals on the mesh grid
+          if ((c + r) % 4 === 0) {
+            let dotAlpha = p.alpha;
+            if (p.z < 160) {
+              dotAlpha *= Math.max(0, (p.z - 100) / 60);
+            }
+            if (dotAlpha > 0) {
+              let mouseRatio = 0;
+              if (mouse.active && p.distToMouse < 200) {
+                mouseRatio = Math.pow(1 - p.distToMouse / 200, 1.5);
+              }
+              let rColor = Math.floor(100 * (1 - mouseRatio) + 127 * mouseRatio);
+              let gColor = Math.floor(255 * (1 - mouseRatio) + 119 * mouseRatio);
+              let bColor = Math.floor(218 * (1 - mouseRatio) + 221 * mouseRatio);
+
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, (1 - p.z / 1100) * 1.8 + 0.8, 0, Math.PI * 2);
+              ctx.fillStyle = `rgba(${rColor}, ${gColor}, ${bColor}, ${dotAlpha * (0.85 + mouseRatio * 0.15)})`;
+              ctx.fill();
+            }
           }
         }
       }
@@ -223,34 +335,7 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Cycling role typewriter
-  const roles = [
-    'Full Stack Developer',
-    'AI Integration Engineer',
-    'DevOps Explorer',
-    'Content Creator',
-    'Java & Spring Boot Dev',
-  ];
-  const [typedRole, setTypedRole] = useState('');
-  const [roleIdx, setRoleIdx] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
 
-  useEffect(() => {
-    const current = roles[roleIdx];
-    let timeout;
-    if (!isDeleting && typedRole === current) {
-      timeout = setTimeout(() => setIsDeleting(true), 2000);
-    } else if (isDeleting && typedRole === '') {
-      setIsDeleting(false);
-      setRoleIdx(prev => (prev + 1) % roles.length);
-    } else {
-      const speed = isDeleting ? 45 : 75;
-      timeout = setTimeout(() => {
-        setTypedRole(current.slice(0, isDeleting ? typedRole.length - 1 : typedRole.length + 1));
-      }, speed);
-    }
-    return () => clearTimeout(timeout);
-  }, [typedRole, roleIdx, isDeleting]);
 
   const highlightCode = (line) => {
     let comment = '';
@@ -548,59 +633,73 @@ export default function Home() {
         <div className="hero-grid"></div>
         <div className="hero-glow"></div>
         <div className="hero-container">
-          <div className="hero-content">
+          {/* Left Column: Hero Content */}
+          <div className="hero-left-content">
             <p className="hero-tag">// hello world — welcome to my portfolio</p>
             <h1 className="hero-name">
               Mrunali<br />Hatzade
             </h1>
-            <p className="hero-role">
-              <span className="role-dash">— </span>{typedRole}<span className="hero-desc-cursor">|</span>
+            <p className="hero-subtitle">
+              Full Stack Developer &amp; AI Explorer
             </p>
+
+            <div className="hero-chips">
+              <span className="hero-chip">Engineer</span>
+              <span className="hero-chip">Content Creator</span>
+              <span className="hero-chip">DevOps</span>
+            </div>
 
             <p className="hero-desc">
               I build complete digital experiences — from pixel-perfect frontends to robust backends — and I&apos;m passionate about integrating AI into modern solutions. In today&apos;s market, AI isn&apos;t optional; it&apos;s essential. Let me help your business stand out.
             </p>
-            <div className="hero-btns">
-              <a href="#projects" className="btn-primary">View My Work</a>
-              <a href="#contact" className="btn-accent">Get In Touch →</a>
+
+            <div className="hero-social-pills">
+              <a href="https://github.com/mrunali-hatzade/" target="_blank" rel="noreferrer" className="social-pill">GitHub</a>
+              <a href="https://www.linkedin.com/in/mrunali-hatzade-72a35a231/" target="_blank" rel="noreferrer" className="social-pill">LinkedIn</a>
+              <a href="https://youtube.com/@mrunalihatzade3652?si=a9jj1ibGiBVHT2ib" target="_blank" rel="noopener noreferrer" className="social-pill">YouTube</a>
+              <a href="https://www.instagram.com/mrunali.35/" target="_blank" rel="noreferrer" className="social-pill">Instagram</a>
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=mrunalithatzade20@gmail.com" target="_blank" rel="noopener noreferrer" className="social-pill">Email</a>
+            </div>
+
+            <div className="hero-action-buttons">
+              <a href="#contact" className="btn-collaborate">Let&apos;s Collaborate →</a>
+              <a href="#projects" className="btn-projects-outline">Explore Projects</a>
               <a
                 href="https://drive.google.com/uc?export=download&id=13bFl8OEjv3xnyamQGS7wz9ozDqU4M7m0"
                 download="Mrunali_Hatzade_Resume.pdf"
-                className="btn-resume-icon"
+                className="btn-resume-outline"
                 title="Download Resume"
                 aria-label="Download Resume"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                  <polyline points="7,10 12,15 17,10"/>
-                  <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-                <span className="btn-resume-label">Resume</span>
+                Resume
               </a>
             </div>
           </div>
-          
-          <div className="hero-socials-float-container">
-            <a href="https://github.com/mrunali-hatzade/" target="_blank" rel="noreferrer" className="floating-social-badge github">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-              <span>GitHub</span>
-            </a>
-            <a href="https://www.linkedin.com/in/mrunali-hatzade-72a35a231/" target="_blank" rel="noreferrer" className="floating-social-badge linkedin">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-              <span>LinkedIn</span>
-            </a>
-            <a href="https://www.instagram.com/mrunali.35/" target="_blank" rel="noreferrer" className="floating-social-badge instagram">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-              <span>Instagram</span>
-            </a>
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=mrunalithatzade20@gmail.com" target="_blank" rel="noopener noreferrer" className="floating-social-badge email">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              <span>Email</span>
-            </a>
-            <a href="https://youtube.com/@mrunalihatzade3652?si=a9jj1ibGiBVHT2ib" target="_blank" rel="noreferrer" className="floating-social-badge youtube">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.91 29 29 0 00.46-5.33 29 29 0 00-.46-5.34z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
-              <span>YouTube</span>
-            </a>
+
+          {/* Vertical Divider line */}
+          <div className="hero-divider"></div>
+
+          {/* Right Column: Stats Section */}
+          <div className="hero-stats-column">
+            <p className="stats-header">// stats</p>
+            <div className="stats-grid">
+              <div className="stats-card">
+                <span className="stats-number">5+</span>
+                <span className="stats-label">Projects</span>
+              </div>
+              <div className="stats-card">
+                <span className="stats-number">Fresh</span>
+                <span className="stats-label">Experience</span>
+              </div>
+              <div className="stats-card">
+                <span className="stats-number">100%</span>
+                <span className="stats-label">Trustworthy</span>
+              </div>
+              <div className="stats-card">
+                <span className="stats-number">∞</span>
+                <span className="stats-label">Curiosity</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -658,7 +757,7 @@ export default function Home() {
             </div>
             <h3>Full Stack Development</h3>
             <p>End-to-end web applications — from pixel-perfect frontends to robust, scalable backends. I handle the complete stack.</p>
-            <div className="svc-price">Starting ₹15,000 / project</div>
+            <div className="svc-price">Starting ₹17,000 / project</div>
           </div>
           <div className="svc-card">
             <div className="svc-num">02 /</div>
@@ -667,16 +766,16 @@ export default function Home() {
             </div>
             <h3>AI-Integrated Solutions</h3>
             <p>Embed AI into your product — chatbots, intelligent automation, LLM integrations. Stay competitive with AI-first features.</p>
-            <div className="svc-price">Starting ₹5,000 / integration</div>
+            <div className="svc-price">Starting ₹9,000 / integration</div>
           </div>
           <div className="svc-card">
             <div className="svc-num">03 /</div>
             <div className="svc-icon-wrap">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
             </div>
-            <h3>UI/UX & Prototyping</h3>
-            <p>User-first interfaces that look stunning and feel intuitive. Designs that convert visitors into loyal customers.</p>
-            <div className="svc-price">Starting ₹3,000 / design</div>
+            <h3>Landing Page Design</h3>
+            <p>High-conversion landing page layouts that look stunning and feel intuitive. Designs that convert visitors into loyal customers.</p>
+            <div className="svc-price">Starting ₹5,000 / design</div>
           </div>
           <div className="svc-card">
             <div className="svc-num">04 /</div>
@@ -685,7 +784,7 @@ export default function Home() {
             </div>
             <h3>Backend & API Dev</h3>
             <p>Secure, high-performance REST APIs with Spring Boot, Node.js and Java. JWT auth, clean architecture, production-ready.</p>
-            <div className="svc-price">Starting ₹6,000 / project</div>
+            <div className="svc-price">Starting ₹9,000 / project</div>
           </div>
           <div className="svc-card">
             <div className="svc-num">05 /</div>
@@ -694,7 +793,7 @@ export default function Home() {
             </div>
             <h3>Cloud & DevOps</h3>
             <p>Deploy and scale on AWS, OCI, Docker and CI/CD pipelines. Ship faster and manage infrastructure effortlessly.</p>
-            <div className="svc-price">Starting ₹4,000 / setup</div>
+            <div className="svc-price">Starting ₹6,000 / setup</div>
           </div>
           <div className="svc-card">
             <div className="svc-num">06 /</div>
@@ -740,25 +839,31 @@ export default function Home() {
             }}
           >
             <div className="tilt-shine" />
-            <span className="project-emoji">☕</span>
-            <p className="project-icon">// project_01</p>
-            <h3>Café Aura</h3>
-            <p>A beautiful, fully responsive café website featuring an interactive menu, gallery, reservation system, and warm brand identity — designed to bring the café experience online.</p>
-            <div className="project-links">
-              <a href="https://cafe-aura-website.vercel.app" target="_blank" rel="noopener noreferrer" className="project-link" id="cafe-live">
-                <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
-                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-                  <polyline points="15,3 21,3 21,9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-                Live Demo
-              </a>
-              <a href="https://github.com/mrunali-hatzade/cafe-aura-website" target="_blank" rel="noopener noreferrer" className="project-link" id="cafe-github">
-                <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
-                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
-                </svg>
-                GitHub
-              </a>
+            <div className="project-card-header project-header-cafe">
+              <div className="project-mockup-frame">
+                <img src="/cafe-aura-thumb.png" alt="Café Aura Website Preview" />
+              </div>
+            </div>
+            <div className="project-card-body">
+              <div className="project-tech">
+                <span className="tech-tag tag-next">Next.js</span>
+                <span className="tech-tag tag-css">CSS</span>
+                <span className="tech-tag tag-tailwind">Tailwind</span>
+                <span className="tech-tag tag-other">Other</span>
+              </div>
+              <h3>Café Aura</h3>
+              <p>A beautiful, fully responsive café website featuring an interactive menu, gallery, reservation system, and warm brand identity — designed to bring the café experience online.</p>
+              <div className="project-actions">
+                <a href="https://cafe-aura-website.vercel.app" target="_blank" rel="noopener noreferrer" className="project-btn-primary" id="cafe-live">
+                  View Demo →
+                </a>
+                <a href="https://github.com/mrunali-hatzade/cafe-aura-website" target="_blank" rel="noopener noreferrer" className="project-btn-github" id="cafe-github" title="GitHub Repository">
+                  <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
+                  </svg>
+                  GitHub
+                </a>
+              </div>
             </div>
           </div>
 
@@ -787,25 +892,30 @@ export default function Home() {
             }}
           >
             <div className="tilt-shine" />
-            <span className="project-emoji">💇</span>
-            <p className="project-icon">// project_02</p>
-            <h3>LuxeGlow Studio</h3>
-            <p>A sleek, modern salon website with service listings, stylist profiles, online booking integration, and a gallery — crafted to elevate the brand's digital presence.</p>
-            <div className="project-links">
-              <a href="https://luxeglow-studio-demo.vercel.app" target="_blank" rel="noopener noreferrer" className="project-link" id="salon-live">
-                <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
-                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-                  <polyline points="15,3 21,3 21,9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-                Live Demo
-              </a>
-              <a href="https://github.com/mrunali-hatzade/LuxeGlow-Studio" target="_blank" rel="noopener noreferrer" className="project-link" id="salon-github">
-                <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
-                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
-                </svg>
-                GitHub
-              </a>
+            <div className="project-card-header project-header-salon">
+              <div className="project-mockup-frame">
+                <img src="/luxeglow-studio-thumb.png" alt="LuxeGlow Studio Website Preview" />
+              </div>
+            </div>
+            <div className="project-card-body">
+              <div className="project-tech">
+                <span className="tech-tag tag-html">HTML/CSS</span>
+                <span className="tech-tag tag-js">JavaScript</span>
+                <span className="tech-tag tag-animations">Animations</span>
+              </div>
+              <h3>LuxeGlow Studio</h3>
+              <p>A sleek, modern salon website with service listings, stylist profiles, online booking integration, and a gallery — crafted to elevate the brand's digital presence.</p>
+              <div className="project-actions">
+                <a href="https://luxeglow-studio-demo.vercel.app" target="_blank" rel="noopener noreferrer" className="project-btn-primary" id="salon-live">
+                  View Demo →
+                </a>
+                <a href="https://github.com/mrunali-hatzade/LuxeGlow-Studio" target="_blank" rel="noopener noreferrer" className="project-btn-github" id="salon-github" title="GitHub Repository">
+                  <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
+                  </svg>
+                  GitHub
+                </a>
+              </div>
             </div>
           </div>
 
@@ -834,25 +944,30 @@ export default function Home() {
             }}
           >
             <div className="tilt-shine" />
-            <span className="project-emoji">🏋️</span>
-            <p className="project-icon">// project_03</p>
-            <h3>Iron Pulse</h3>
-            <p>An energetic, high-impact gym website featuring membership plans, class schedules, trainer profiles, and a motivational design to convert visitors into members.</p>
-            <div className="project-links">
-              <a href="https://iron-pulse-demo.vercel.app" target="_blank" rel="noopener noreferrer" className="project-link" id="gym-live">
-                <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
-                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-                  <polyline points="15,3 21,3 21,9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-                Live Demo
-              </a>
-              <a href="https://github.com/mrunali-hatzade/Iron-Pulse" target="_blank" rel="noopener noreferrer" className="project-link" id="gym-github">
-                <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
-                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
-                </svg>
-                GitHub
-              </a>
+            <div className="project-card-header project-header-gym">
+              <div className="project-mockup-frame">
+                <img src="/iron-pulse-thumb.png" alt="Iron Pulse Website Preview" />
+              </div>
+            </div>
+            <div className="project-card-body">
+              <div className="project-tech">
+                <span className="tech-tag tag-react">React</span>
+                <span className="tech-tag tag-tailwind">Tailwind</span>
+                <span className="tech-tag tag-animations">Animations</span>
+              </div>
+              <h3>Iron Pulse</h3>
+              <p>An energetic, high-impact gym website featuring membership plans, class schedules, trainer profiles, and a motivational design to convert visitors into members.</p>
+              <div className="project-actions">
+                <a href="https://iron-pulse-demo.vercel.app" target="_blank" rel="noopener noreferrer" className="project-btn-primary" id="gym-live">
+                  View Demo →
+                </a>
+                <a href="https://github.com/mrunali-hatzade/Iron-Pulse" target="_blank" rel="noopener noreferrer" className="project-btn-github" id="gym-github" title="GitHub Repository">
+                  <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
+                  </svg>
+                  GitHub
+                </a>
+              </div>
             </div>
           </div>
 
@@ -881,25 +996,30 @@ export default function Home() {
             }}
           >
             <div className="tilt-shine" />
-            <span className="project-emoji">🏥</span>
-            <p className="project-icon">// project_04</p>
-            <h3>Lifeline Hospital</h3>
-            <p>A professional hospital website with doctor listings, department info, appointment booking, and an emergency contact section — building trust with a clean, accessible design.</p>
-            <div className="project-links">
-              <a href="https://lifeline-hospital-demo.vercel.app" target="_blank" rel="noopener noreferrer" className="project-link" id="hospital-live">
-                <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
-                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-                  <polyline points="15,3 21,3 21,9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-                Live Demo
-              </a>
-              <a href="https://github.com/mrunali-hatzade/Lifeline-Hospital" target="_blank" rel="noopener noreferrer" className="project-link" id="hospital-github">
-                <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
-                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
-                </svg>
-                GitHub
-              </a>
+            <div className="project-card-header project-header-hospital">
+              <div className="project-mockup-frame">
+                <img src="/lifeline-hospital-thumb.png" alt="Lifeline Hospital Website Preview" />
+              </div>
+            </div>
+            <div className="project-card-body">
+              <div className="project-tech">
+                <span className="tech-tag tag-react">React</span>
+                <span className="tech-tag tag-tailwind">Tailwind</span>
+                <span className="tech-tag tag-next">Next.js</span>
+              </div>
+              <h3>Lifeline Hospital</h3>
+              <p>A professional hospital website with doctor listings, department info, appointment booking, and an emergency contact section — building trust with a clean, accessible design.</p>
+              <div className="project-actions">
+                <a href="https://lifeline-hospital-demo.vercel.app" target="_blank" rel="noopener noreferrer" className="project-btn-primary" id="hospital-live">
+                  View Demo →
+                </a>
+                <a href="https://github.com/mrunali-hatzade/Lifeline-Hospital" target="_blank" rel="noopener noreferrer" className="project-btn-github" id="hospital-github" title="GitHub Repository">
+                  <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
+                  </svg>
+                  GitHub
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -1370,7 +1490,7 @@ export default function Home() {
       </section>
 
       <footer>
-        <p>© 2025 Mrunali Hatzade. All rights reserved</p>
+        <p>© 2026 Mrunali Hatzade. All rights reserved</p>
         <div className="footer-location" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', marginTop: '0.6rem', color: 'var(--muted)', fontSize: '0.75rem' }}>
           <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor" style={{ width: '13px', height: '13px', stroke: 'var(--accent)' }}>
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
@@ -1535,6 +1655,20 @@ export default function Home() {
           </svg>
         </button>
       )}
+
+      {/* CUSTOM CYBER CURSOR */}
+      <div ref={cursorRef} className={`custom-cyber-cursor ${cursorState}`}>
+        <div className="cursor-glow"></div>
+        <div className="cursor-ring">
+          <div className="cursor-ticks">
+            <span className="tick tick-t"></span>
+            <span className="tick tick-r"></span>
+            <span className="tick tick-b"></span>
+            <span className="tick tick-l"></span>
+          </div>
+        </div>
+        <div className="cursor-dot"></div>
+      </div>
     </>
   );
 }
