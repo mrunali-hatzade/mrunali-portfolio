@@ -35,41 +35,22 @@ export default function Home() {
 
   useEffect(() => {
     document.body.classList.add('custom-cursor-enabled');
-    let mouseX = 0;
-    let mouseY = 0;
-    let ringX = 0;
-    let ringY = 0;
-    let rafId;
 
     const handleMouseMove = (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
       if (cursorRef.current) {
         cursorRef.current.style.setProperty('--dot-x', `${e.clientX}px`);
         cursorRef.current.style.setProperty('--dot-y', `${e.clientY}px`);
       }
     };
 
-    const updateRing = () => {
-      // Calculate spring-lag coordinates for the cursor ring (decoupled from canvas for high-performance 60fps+)
-      ringX += (mouseX - ringX) * 0.125;
-      ringY += (mouseY - ringY) * 0.125;
-
-      if (cursorRef.current) {
-        cursorRef.current.style.setProperty('--ring-x', `${ringX}px`);
-        cursorRef.current.style.setProperty('--ring-y', `${ringY}px`);
-      }
-      rafId = requestAnimationFrame(updateRing);
-    };
-    
     const handleMouseDown = () => {
       setCursorState(prev => prev.includes('hovered') ? 'clicked hovered' : 'clicked');
     };
-    
+
     const handleMouseUp = () => {
       setCursorState(prev => prev.includes('hovered') ? 'hovered' : '');
     };
-    
+
     const handleMouseOver = (e) => {
       if (e.target.closest('a, button, [role="button"], .svc-card, .project-card, .stats-card, .cert-pill, .award-pill, .social-pill, .hamburger, .chatbot-toggle-btn')) {
         setCursorState(prev => prev.includes('clicked') ? 'clicked hovered' : 'hovered');
@@ -77,20 +58,18 @@ export default function Home() {
         setCursorState(prev => prev.includes('clicked') ? 'clicked' : '');
       }
     };
-    
+
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
     window.addEventListener('mouseover', handleMouseOver);
-    rafId = requestAnimationFrame(updateRing);
-    
+
     return () => {
       document.body.classList.remove('custom-cursor-enabled');
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
       window.removeEventListener('mouseover', handleMouseOver);
-      cancelAnimationFrame(rafId);
     };
   }, []);
 

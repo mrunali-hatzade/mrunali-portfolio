@@ -2023,7 +2023,7 @@ footer {
   border: 1.5px solid var(--accent);
   border-radius: 50%;
   z-index: 2;
-  transform: translate3d(var(--ring-x, -100px), var(--ring-y, -100px), 0) translate(-50%, -50%);
+  transform: translate3d(var(--dot-x, -100px), var(--dot-y, -100px), 0) translate(-50%, -50%);
   transition: width 0.25s cubic-bezier(0.25, 1, 0.5, 1),
               height 0.25s cubic-bezier(0.25, 1, 0.5, 1),
               border-color 0.25s,
