@@ -738,7 +738,7 @@ export default function Home() {
             </div>
             <h3>Full Stack Development</h3>
             <p>End-to-end web applications — from pixel-perfect frontends to robust, scalable backends. I handle the complete stack.</p>
-            <div className="svc-price">Starting ₹17,000 / project</div>
+            <div className="svc-price">Rates tailored to project scope</div>
           </div>
           <div className="svc-card">
             <div className="svc-num">02 /</div>
@@ -747,7 +747,7 @@ export default function Home() {
             </div>
             <h3>AI-Integrated Solutions</h3>
             <p>Embed AI into your product — chatbots, intelligent automation, LLM integrations. Stay competitive with AI-first features.</p>
-            <div className="svc-price">Starting ₹9,000 / integration</div>
+            <div className="svc-price">Custom pricing based on complexity</div>
           </div>
           <div className="svc-card">
             <div className="svc-num">03 /</div>
@@ -756,7 +756,7 @@ export default function Home() {
             </div>
             <h3>Landing Page Design</h3>
             <p>High-conversion landing page layouts that look stunning and feel intuitive. Designs that convert visitors into loyal customers.</p>
-            <div className="svc-price">Starting ₹5,000 / design</div>
+            <div className="svc-price">Rates based on page length & styling</div>
           </div>
           <div className="svc-card">
             <div className="svc-num">04 /</div>
@@ -765,7 +765,7 @@ export default function Home() {
             </div>
             <h3>Backend & API Dev</h3>
             <p>Secure, high-performance REST APIs with Spring Boot, Node.js and Java. JWT auth, clean architecture, production-ready.</p>
-            <div className="svc-price">Starting ₹9,000 / project</div>
+            <div className="svc-price">Rates based on database & endpoints</div>
           </div>
           <div className="svc-card">
             <div className="svc-num">05 /</div>
@@ -774,7 +774,7 @@ export default function Home() {
             </div>
             <h3>Cloud & DevOps</h3>
             <p>Deploy and scale on AWS, OCI, Docker and CI/CD pipelines. Ship faster and manage infrastructure effortlessly.</p>
-            <div className="svc-price">Starting ₹6,000 / setup</div>
+            <div className="svc-price">Tailored setups matching your scale</div>
           </div>
           <div className="svc-card">
             <div className="svc-num">06 /</div>
@@ -783,7 +783,7 @@ export default function Home() {
             </div>
             <h3>Tech Content Creation</h3>
             <p>Tutorials, documentation, social posts and blogs that educate, build authority and grow your tech audience.</p>
-            <div className="svc-price">Starting ₹1,500 / piece</div>
+            <div className="svc-price">Flexible pricing per project / piece</div>
           </div>
         </div>
       </section>

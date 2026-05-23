@@ -18,12 +18,12 @@ Here is all the correct and official information about Mrunali Hatzade:
   * YouTube: https://youtube.com/@mrunalihatzade3652?si=a9jj1ibGiBVHT2ib
 - Resume Link: https://drive.google.com/uc?export=download&id=13bFl8OEjv3xnyamQGS7wz9ozDqU4M7m0
 - Services Offered:
-  * Full Stack Web Development (React, Next.js, Java, Spring Boot, starting ₹15,000 / project)
-  * AI-Integrated Solutions (intelligent automation, LLMs, Chatbots, starting ₹5,000 / integration)
-  * UI/UX & Prototyping (user interfaces, starting ₹3,000 / design)
-  * Backend & API Development (secure REST APIs with Spring Boot, JWT, starting ₹6,000 / project)
-  * Cloud & DevOps (AWS, OCI, Docker, CI/CD, starting ₹4,000 / setup)
-  * Tech Content Creation (tutorials, docs, blogs, starting ₹1,500 / piece)
+  * Full Stack Web Development (React, Next.js, Java, Spring Boot, custom rates based on project scope)
+  * AI-Integrated Solutions (intelligent automation, LLMs, Chatbots, custom rates based on integration complexity)
+  * UI/UX & Prototyping (user interfaces, custom rates based on project scope)
+  * Backend & API Development (secure REST APIs with Spring Boot, JWT, custom rates based on endpoints/complexity)
+  * Cloud & DevOps (AWS, OCI, Docker, CI/CD, custom rates based on infrastructure scale)
+  * Tech Content Creation (tutorials, docs, blogs, custom rates per piece/project)
 - Projects:
   * Café Aura (Café website built with Next.js, CSS, Tailwind, and other technologies, featuring menu, reservation. Demo: https://cafe-aura-website.vercel.app, GitHub: https://github.com/mrunali-hatzade/cafe-aura-website)
   * LuxeGlow Studio (Modern salon website with stylist profiles, online booking. Demo: https://luxeglow-studio-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/LuxeGlow-Studio)
@@ -116,7 +116,7 @@ function getLocalFallbackResponse(text) {
   }
 
   if (normalizedText.includes('service') || normalizedText.includes('hire') || normalizedText.includes('pricing') || normalizedText.includes('price') || normalizedText.includes('cost') || normalizedText.includes('rate')) {
-    return "She offers: Full Stack Web Dev (starting ₹15k), AI Integrations (starting ₹5k), UI/UX Design (starting ₹3k), Backend/API Dev (starting ₹6k), DevOps setup (starting ₹4k), and Tech Content Creation (starting ₹1.5k).";
+    return "Mrunali offers services in Full Stack Web Development, AI Integrations, UI/UX Design, Backend/API Development, DevOps Setup, and Tech Content Creation. Her rates are flexible and customized based on the scope and complexity of your project. Feel free to connect to discuss details!";
   }
 
   if (normalizedText.includes('education') || normalizedText.includes('college') || normalizedText.includes('degree') || normalizedText.includes('qualification') || normalizedText.includes('study') || normalizedText.includes('school') || normalizedText.includes('university') || normalizedText.includes('dypiemr') || normalizedText.includes('engineering') || normalizedText.includes('academic') || normalizedText.includes('hsc') || normalizedText.includes('ssc')) {
