@@ -806,7 +806,7 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div className="about-grid reveal">
+          <div className="about-grid reveal visible">
             <div className="about-text">
               <p>Hi! I'm a <span>2025 graduate</span> in <span>Electronics & Telecommunication Engineering (ENTC)</span> from <span>Dr. D.Y. Patil Institute of Engineering, Management and Research (DYPIEMR)</span>, Akurdi, Pune.</p>
               <p>I'm a <span>Full Stack Developer</span> who loves building end-to-end digital products — crafting responsive, intuitive frontends, scalable backends, and thoughtful UI/UX experiences.</p>
@@ -1622,27 +1622,13 @@ export default function Home() {
                   <span className="chatbot-status-online"><span className="online-dot"></span>Online</span>
                 </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+              <div className="chatbot-header-actions">
                 {messages.length > 1 && (
                   <button 
                     type="button"
                     className="chatbot-header-action-btn"
                     onClick={promptNewChat} 
                     title="New Chat"
-                    style={{
-                      background: 'rgba(100,255,218,0.1)',
-                      border: '1px solid rgba(100,255,218,0.2)',
-                      color: 'var(--accent)',
-                      fontSize: '0.72rem',
-                      fontFamily: 'var(--font-jetbrains), monospace',
-                      padding: '0.2rem 0.5rem',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '4px',
-                      transition: 'background 0.25s'
-                    }}
                   >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" style={{width: '10px', height: '10px'}}><path d="M12 5v14M5 12h14"/></svg>
                     New Chat
@@ -1660,39 +1646,20 @@ export default function Home() {
                       {msg.text}
                     </div>
                   ) : msg.isConfirmation ? (
-                    <div className="chat-bubble bot-bubble chat-confirm-box" style={{ width: '100%', maxWidth: '240px', background: 'var(--bg3)', border: '1px solid var(--border)', padding: '1rem', borderRadius: '8px' }}>
-                      <p style={{ marginBottom: '0.8rem', fontSize: '0.82rem', color: 'var(--text)', lineHeight: '1.4' }}>{msg.text}</p>
-                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <div className="chat-bubble bot-bubble chat-confirm-box">
+                      <p>{msg.text}</p>
+                      <div className="confirm-actions">
                         <button 
                           type="button" 
+                          className="confirm-btn-primary"
                           onClick={handleStartNewChat}
-                          style={{
-                            background: 'var(--accent)',
-                            color: '#0b0c10',
-                            border: 'none',
-                            borderRadius: '4px',
-                            padding: '0.35rem 0.75rem',
-                            fontSize: '0.72rem',
-                            fontWeight: '600',
-                            cursor: 'pointer',
-                            flex: '1'
-                          }}
                         >
                           Start New
                         </button>
                         <button 
                           type="button" 
+                          className="confirm-btn-secondary"
                           onClick={() => handleContinueChat(idx)}
-                          style={{
-                            background: 'rgba(255,255,255,0.06)',
-                            color: 'var(--text)',
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            borderRadius: '4px',
-                            padding: '0.35rem 0.75rem',
-                            fontSize: '0.72rem',
-                            cursor: 'pointer',
-                            flex: '1'
-                          }}
                         >
                           Continue
                         </button>
