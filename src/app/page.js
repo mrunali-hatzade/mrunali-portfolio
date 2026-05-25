@@ -294,9 +294,9 @@ export default function Home() {
   // Interactive Dev Terminal State
   const [terminalInput, setTerminalInput] = useState('');
   const [terminalHistory, setTerminalHistory] = useState([
-    { type: 'output', text: 'System initialized. Welcome to Mrunali\'s Terminal OS v1.0.0.' },
-    { type: 'output', text: 'Type "help" for a list of available commands.' }
+    { type: 'output', text: 'System initialized. Welcome to Mrunali\'s Terminal OS v1.0.0.' }
   ]);
+  const [isAutotyping, setIsAutotyping] = useState(true);
   const terminalBottomRef = useRef(null);
 
   useEffect(() => {
@@ -305,9 +305,8 @@ export default function Home() {
     }
   }, [terminalHistory]);
 
-  const handleTerminalSubmit = (e) => {
-    e.preventDefault();
-    const cmd = terminalInput.trim().toLowerCase();
+  const executeCommand = (cmdText) => {
+    const cmd = cmdText.trim().toLowerCase();
     if (!cmd) return;
 
     let response = [];
@@ -344,8 +343,8 @@ export default function Home() {
         response = [
           'Featured Projects:',
           '  1. Café Aura        - Next.js, CSS, Tailwind (Café reservation)',
-          '  2. LuxeGlow Studio  - HTML/CSS, JS, Animations (Salon/Spa Portal)',
-          '  3. Iron Pulse       - React, Tailwind, Framer Motion (Gym site)',
+          '  2. LuxeGlow Studio  - HTML/CSS, JS, Animations [Coming Soon]',
+          '  3. Iron Pulse       - React, Tailwind, Framer Motion [Coming Soon]',
           '  4. Lifeline Hospital- Next.js, React, Tailwind (Medical dashboard)'
         ];
         break;
@@ -369,7 +368,6 @@ export default function Home() {
         break;
       case 'clear':
         setTerminalHistory([]);
-        setTerminalInput('');
         return;
       default:
         response = [
@@ -380,10 +378,74 @@ export default function Home() {
 
     setTerminalHistory((prev) => [
       ...prev,
-      { type: 'input', text: `guest@mrunali:~$ ${terminalInput}` },
+      { type: 'input', text: `guest@mrunali:~$ ${cmdText}` },
       ...response.map(line => ({ type: 'output', text: line }))
     ]);
+  };
+
+  // Autotyping Intro Sequence
+  useEffect(() => {
+    let active = true;
+    
+    const typeSequence = async () => {
+      // 1. Wait 1200ms for page entrance animations
+      await new Promise(resolve => setTimeout(resolve, 1200));
+      if (!active) return;
+      
+      // 2. Type "help"
+      const word1 = "help";
+      for (let i = 1; i <= word1.length; i++) {
+        if (!active) return;
+        setTerminalInput(word1.slice(0, i));
+        await new Promise(resolve => setTimeout(resolve, 120));
+      }
+      
+      // Wait 400ms
+      await new Promise(resolve => setTimeout(resolve, 400));
+      if (!active) return;
+      
+      // Submit "help"
+      executeCommand("help");
+      setTerminalInput("");
+      
+      // 3. Wait 1800ms
+      await new Promise(resolve => setTimeout(resolve, 1800));
+      if (!active) return;
+      
+      // 4. Type "info"
+      const word2 = "info";
+      for (let i = 1; i <= word2.length; i++) {
+        if (!active) return;
+        setTerminalInput(word2.slice(0, i));
+        await new Promise(resolve => setTimeout(resolve, 120));
+      }
+      
+      // Wait 400ms
+      await new Promise(resolve => setTimeout(resolve, 400));
+      if (!active) return;
+      
+      // Submit "info"
+      executeCommand("info");
+      setTerminalInput("");
+      
+      // 5. Complete autotyping
+      setIsAutotyping(false);
+    };
+    
+    typeSequence();
+    
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const handleTerminalSubmit = (e) => {
+    e.preventDefault();
+    if (isAutotyping) return;
+    const cmd = terminalInput.trim();
+    if (!cmd) return;
     setTerminalInput('');
+    executeCommand(cmd);
   };
 
   // Scroll reveal animation
@@ -711,6 +773,8 @@ export default function Home() {
                       onChange={(e) => setTerminalInput(e.target.value)}
                       className="terminal-input-field"
                       autoComplete="off"
+                      readOnly={isAutotyping}
+                      placeholder={isAutotyping ? "System typing..." : "Type 'help', 'projects', 'skills'..."}
                     />
                   </form>
                   <div ref={terminalBottomRef} />
@@ -991,9 +1055,15 @@ export default function Home() {
             }}
           >
             <div className="tilt-shine" />
-            <div className="project-card-header project-header-salon">
+            <div className="project-card-header project-header-salon" style={{ position: 'relative' }}>
               <div className="project-mockup-frame">
                 <img src="/luxeglow-studio-thumb.png" alt="LuxeGlow Studio Website Preview" />
+              </div>
+              <div className="project-coming-soon-overlay">
+                <div className="coming-soon-badge">
+                  <svg viewBox="0 0 24 24" strokeWidth="2.2" fill="none" stroke="currentColor" style={{ width: '12px', height: '12px' }}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                  COMING SOON
+                </div>
               </div>
             </div>
             <div className="project-card-body">
@@ -1005,15 +1075,10 @@ export default function Home() {
               <h3>LuxeGlow Studio</h3>
               <p>A sleek, modern salon website with service listings, stylist profiles, online booking integration, and a gallery — crafted to elevate the brand's digital presence.</p>
               <div className="project-actions">
-                <a href="https://luxeglow-studio-demo.vercel.app" target="_blank" rel="noopener noreferrer" className="project-btn-primary" id="salon-live">
-                  View Demo →
-                </a>
-                <a href="https://github.com/mrunali-hatzade/LuxeGlow-Studio" target="_blank" rel="noopener noreferrer" className="project-btn-github" id="salon-github" title="GitHub Repository">
-                  <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
-                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
-                  </svg>
-                  GitHub
-                </a>
+                <span className="project-btn-coming-soon">
+                  <svg viewBox="0 0 24 24" strokeWidth="2.2" fill="none" stroke="currentColor" style={{ width: '12px', height: '12px' }}><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                  Under Construction
+                </span>
               </div>
             </div>
           </div>
@@ -1043,9 +1108,15 @@ export default function Home() {
             }}
           >
             <div className="tilt-shine" />
-            <div className="project-card-header project-header-gym">
+            <div className="project-card-header project-header-gym" style={{ position: 'relative' }}>
               <div className="project-mockup-frame">
                 <img src="/iron-pulse-thumb.png" alt="Iron Pulse Website Preview" />
+              </div>
+              <div className="project-coming-soon-overlay">
+                <div className="coming-soon-badge">
+                  <svg viewBox="0 0 24 24" strokeWidth="2.2" fill="none" stroke="currentColor" style={{ width: '12px', height: '12px' }}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                  COMING SOON
+                </div>
               </div>
             </div>
             <div className="project-card-body">
@@ -1057,15 +1128,10 @@ export default function Home() {
               <h3>Iron Pulse</h3>
               <p>An energetic, high-impact gym website featuring membership plans, class schedules, trainer profiles, and a motivational design to convert visitors into members.</p>
               <div className="project-actions">
-                <a href="https://iron-pulse-demo.vercel.app" target="_blank" rel="noopener noreferrer" className="project-btn-primary" id="gym-live">
-                  View Demo →
-                </a>
-                <a href="https://github.com/mrunali-hatzade/Iron-Pulse" target="_blank" rel="noopener noreferrer" className="project-btn-github" id="gym-github" title="GitHub Repository">
-                  <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
-                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
-                  </svg>
-                  GitHub
-                </a>
+                <span className="project-btn-coming-soon">
+                  <svg viewBox="0 0 24 24" strokeWidth="2.2" fill="none" stroke="currentColor" style={{ width: '12px', height: '12px' }}><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                  Under Construction
+                </span>
               </div>
             </div>
           </div>
