@@ -28,7 +28,7 @@ Here is all the correct and official information about Mrunali Hatzade:
   * Café Aura (Café website built with Next.js, CSS, Tailwind, and other technologies, featuring menu, reservation. Demo: https://cafe-aura-website.vercel.app, GitHub: https://github.com/mrunali-hatzade/cafe-aura-website)
   * LuxeGlow Studio (Modern salon website with stylist profiles, online booking. Demo: https://luxeglow-studio-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/LuxeGlow-Studio)
   * Iron Pulse (Gym website with membership plans, class schedules. Demo: https://iron-pulse-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/Iron-Pulse)
-  * Lifeline Hospital (Hospital portal with doctor listings, appointments. Demo: https://lifeline-hospital-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/Lifeline-Hospital)
+  * Lifeline Hospital (Hospital portal with doctor listings, appointments. Demo: https://hospital-seven-orpin.vercel.app/, GitHub: https://github.com/mrunali-hatzade/hospital)
 - Professional Experience:
   * Java Full Stack Developer Intern (Bangalore, remote, Nov 25 - Jan 26) - Developed task management backend with Java/Spring Boot/Spring Security/JWT/MySQL.
   * Full Stack Java Application Developer Intern (Pune, onsite, Dec 23 - Mar 24) - Developed/maintained database modules using Java, JDBC, and MySQL.
@@ -103,7 +103,7 @@ function getLocalFallbackResponse(text) {
            "• <strong><a href='#projects' class='chat-link'>Iron Pulse</a></strong> (Fitness/Gym Website)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://iron-pulse-demo.vercel.app' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/Iron-Pulse' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Lifeline Hospital</a></strong> (Medical/Hospital Portal)<br/>" +
-           "  &nbsp;&nbsp;🔗 <a href='https://lifeline-hospital-demo.vercel.app' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/Lifeline-Hospital' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
+           "  &nbsp;&nbsp;🔗 <a href='https://hospital-seven-orpin.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/hospital' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "Click on any project name to view it on the page, or click the links to check them out directly!";
   }
 

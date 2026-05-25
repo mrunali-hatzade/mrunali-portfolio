@@ -1219,10 +1219,10 @@ export default function Home() {
               <h3>Lifeline Hospital</h3>
               <p>A professional hospital website with doctor listings, department info, appointment booking, and an emergency contact section — building trust with a clean, accessible design.</p>
               <div className="project-actions">
-                <a href="https://lifeline-hospital-demo.vercel.app" target="_blank" rel="noopener noreferrer" className="project-btn-primary" id="hospital-live">
+                <a href="https://hospital-seven-orpin.vercel.app/" target="_blank" rel="noopener noreferrer" className="project-btn-primary" id="hospital-live">
                   View Demo →
                 </a>
-                <a href="https://github.com/mrunali-hatzade/Lifeline-Hospital" target="_blank" rel="noopener noreferrer" className="project-btn-github" id="hospital-github" title="GitHub Repository">
+                <a href="https://github.com/mrunali-hatzade/hospital" target="_blank" rel="noopener noreferrer" className="project-btn-github" id="hospital-github" title="GitHub Repository">
                   <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
                     <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
                   </svg>
