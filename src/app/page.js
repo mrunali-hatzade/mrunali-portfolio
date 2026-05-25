@@ -973,6 +973,47 @@ export default function Home() {
         </div>
       </section>
 
+      {/* TECH TICKER SLIDER */}
+      <div className="tech-ticker-container">
+        <div className="tech-ticker-wrapper">
+          <div className="ticker-header">SKILLS</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>React</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Next.js</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Spring Boot</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Java</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>PostgreSQL</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>TypeScript</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Python</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Tailwind CSS</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Docker</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>AWS</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>LangChain</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>REST APIs</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Node.js</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>MongoDB</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Git & GitHub</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>AI Integration</div>
+          
+          {/* Repeated for seamless loop */}
+          <div className="ticker-header">SKILLS</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>React</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Next.js</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Spring Boot</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Java</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>PostgreSQL</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>TypeScript</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Python</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Tailwind CSS</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Docker</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>AWS</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>LangChain</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>REST APIs</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Node.js</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>MongoDB</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>Git & GitHub</div>
+          <div className="ticker-item"><span className="ticker-dot"></span>AI Integration</div>
+        </div>
+      </div>
 
       {/* 03. PROJECTS */}
       <section id="projects">
@@ -1299,46 +1340,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* TECH TICKER SLIDER */}
-      <div className="tech-ticker-container">
-        <div className="tech-ticker-wrapper">
-          <div className="ticker-item"><span className="ticker-dot"></span>React</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Next.js</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Spring Boot</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Java</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>PostgreSQL</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>TypeScript</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Python</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Tailwind CSS</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Docker</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>AWS</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>LangChain</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>REST APIs</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Node.js</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>MongoDB</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Git & GitHub</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>AI Integration</div>
-          
-          {/* Repeated for seamless loop */}
-          <div className="ticker-item"><span className="ticker-dot"></span>React</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Next.js</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Spring Boot</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Java</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>PostgreSQL</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>TypeScript</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Python</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Tailwind CSS</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Docker</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>AWS</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>LangChain</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>REST APIs</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Node.js</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>MongoDB</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>Git & GitHub</div>
-          <div className="ticker-item"><span className="ticker-dot"></span>AI Integration</div>
-        </div>
-      </div>
 
       {/* 05. SKILLS */}
       <section id="skills">
