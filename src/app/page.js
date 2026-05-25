@@ -297,11 +297,11 @@ export default function Home() {
     { type: 'output', text: 'System initialized. Welcome to Mrunali\'s Terminal OS v1.0.0.' }
   ]);
   const [isAutotyping, setIsAutotyping] = useState(true);
-  const terminalBottomRef = useRef(null);
+  const terminalBodyRef = useRef(null);
 
   useEffect(() => {
-    if (terminalBottomRef.current) {
-      terminalBottomRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (terminalBodyRef.current) {
+      terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
     }
   }, [terminalHistory]);
 
@@ -757,7 +757,11 @@ export default function Home() {
                 </div>
                 <span className="terminal-title">guest@mrunali: ~</span>
               </div>
-              <div className="terminal-body" onClick={() => document.getElementById('terminal-input')?.focus()}>
+              <div 
+                className="terminal-body" 
+                ref={terminalBodyRef}
+                onClick={() => document.getElementById('terminal-input')?.focus()}
+              >
                 <div className="terminal-content">
                   {terminalHistory.map((line, idx) => (
                     <div key={idx} className={`terminal-line ${line.type}`}>
@@ -777,7 +781,6 @@ export default function Home() {
                       placeholder={isAutotyping ? "System typing..." : "Type 'help', 'projects', 'skills'..."}
                     />
                   </form>
-                  <div ref={terminalBottomRef} />
                 </div>
               </div>
             </div>
