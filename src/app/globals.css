@@ -2725,3 +2725,63 @@ footer {
   pointer-events: none;
 }
 
+/* ── TECH TICKER SLIDER ── */
+.tech-ticker-container {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background: rgba(19, 20, 26, 0.45);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  padding: 1.25rem 0;
+  display: flex;
+  position: relative;
+  margin-bottom: 4rem;
+  margin-top: 2rem;
+  box-shadow: inset 0 1px 20px rgba(0, 0, 0, 0.2);
+}
+
+.tech-ticker-wrapper {
+  display: flex;
+  white-space: nowrap;
+  animation: ticker-slide 32s linear infinite;
+  gap: 3.5rem;
+  padding-right: 3.5rem;
+}
+
+.tech-ticker-wrapper:hover {
+  animation-play-state: paused;
+}
+
+.ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: default;
+}
+
+.ticker-item:hover {
+  color: var(--accent);
+  transform: translateY(-1px) scale(1.04);
+  text-shadow: 0 0 10px rgba(100, 255, 218, 0.25);
+}
+
+.ticker-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent2);
+  box-shadow: 0 0 8px rgba(127, 119, 221, 0.6);
+  display: inline-block;
+}
+
+@keyframes ticker-slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
