@@ -33,6 +33,7 @@ export default function Home() {
   // Custom cyber cursor state
   const cursorRef = useRef(null);
   const [cursorState, setCursorState] = useState('');
+  const bulletsRef = useRef([]);
 
   useEffect(() => {
     document.body.classList.add('custom-cursor-enabled');
@@ -44,8 +45,40 @@ export default function Home() {
       }
     };
 
-    const handleMouseDown = () => {
+    const handleMouseDown = (e) => {
       setCursorState(prev => prev.includes('hovered') ? 'clicked hovered' : 'clicked');
+      
+      // Prevent text selection highlights when clicking non-interactive elements
+      if (!e.target.closest('a, button, input, textarea, [role="button"], .chatbot-window, .dev-terminal-window, select')) {
+        e.preventDefault();
+      }
+      
+      // Fire bullets on left click
+      if (e.button === 0) {
+        const isHovered = cursorRef.current?.classList.contains('hovered');
+        const bulletColor = isHovered ? 'rgba(127, 119, 221, 1)' : 'rgba(100, 255, 218, 1)';
+        
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const floorY = height * 0.70;
+
+        bulletsRef.current.push({
+          bx: (e.clientX - 12) - width / 2,
+          by: floorY - (e.clientY - height / 2),
+          bz: 0,
+          vz: 22,
+          color: bulletColor,
+          size: 3
+        });
+        bulletsRef.current.push({
+          bx: (e.clientX + 12) - width / 2,
+          by: floorY - (e.clientY - height / 2),
+          bz: 0,
+          vz: 22,
+          color: bulletColor,
+          size: 3
+        });
+      }
     };
 
     const handleMouseUp = () => {
@@ -128,9 +161,8 @@ export default function Home() {
     document.addEventListener('mouseleave', handleMouseLeave);
 
     const animate = () => {
-      // Semi-clear canvas to create smooth trails
-      ctx.fillStyle = 'rgba(11, 12, 16, 0.18)';
-      ctx.fillRect(0, 0, width, height);
+      // Clear canvas completely to prevent ghosting/marks and keep background image sharp
+      ctx.clearRect(0, 0, width, height);
 
       time += 0.5;
 
@@ -268,6 +300,40 @@ export default function Home() {
               ctx.fill();
             }
           }
+        }
+      }
+
+      // UPDATE AND DRAW 3D LASER BULLETS
+      const activeBullets = bulletsRef.current;
+      for (let i = activeBullets.length - 1; i >= 0; i--) {
+        const b = activeBullets[i];
+        b.bz += b.vz; // travel forward in Z
+
+        // Calculate 3D perspective projected screen points for the front and back of the laser line
+        const scaleFront = fov / (fov + b.bz);
+        const pxFront = b.bx * scaleFront + width / 2;
+        const pyFront = (floorY - b.by) * scaleFront + height / 2;
+
+        const scaleBack = fov / (fov + b.bz - 40); // trail back in Z
+        const pxBack = b.bx * scaleBack + width / 2;
+        const pyBack = (floorY - b.by) * scaleBack + height / 2;
+
+        // Draw 3D laser line
+        ctx.beginPath();
+        ctx.moveTo(pxFront, pyFront);
+        ctx.lineTo(pxBack, pyBack);
+        ctx.strokeStyle = b.color;
+        ctx.lineWidth = b.size * scaleFront; // gets thinner in the distance
+        ctx.lineCap = 'round';
+        
+        ctx.shadowBlur = 8 * scaleFront;
+        ctx.shadowColor = b.color;
+        ctx.stroke();
+        ctx.shadowBlur = 0; // reset shadow
+
+        // Remove bullet if it goes too far or becomes too small
+        if (b.bz > 1200 || scaleFront < 0.05) {
+          activeBullets.splice(i, 1);
         }
       }
 

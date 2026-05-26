@@ -2414,6 +2414,13 @@ footer {
   body.custom-cursor-enabled .custom-cyber-cursor {
     display: block;
   }
+
+  body.custom-cursor-enabled {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
 }
 
 /* ── DEV TERMINAL STYLES ── */
