@@ -33,6 +33,7 @@ Here is all the correct and official information about Mrunali Hatzade:
   * Iron Pulse (Gym website with membership plans, class schedules. Demo: https://gym-xi-sand.vercel.app/, GitHub: https://github.com/mrunali-hatzade/gym)
   * Gym 2 (Secondary gym landing page with membership options and class details. Demo: https://gym2-lilac.vercel.app/, GitHub: https://github.com/mrunali-hatzade/gym2-)
   * Lifeline Hospital (Hospital portal with doctor listings, appointments. Demo: https://hospital-seven-orpin.vercel.app/, GitHub: https://github.com/mrunali-hatzade/hospital)
+  * Jaycees Convent (Comprehensive school website built with React, Tailwind, and animations, featuring academic details, activity listings, and a dynamic student portal. Demo: https://jaycees-convent.vercel.app/, GitHub: https://github.com/mrunali-hatzade/jaycees-convent)
 - Professional Experience:
   * Java Full Stack Developer Intern (Bangalore, remote, Nov 25 - Jan 26) - Developed task management backend with Java/Spring Boot/Spring Security/JWT/MySQL.
   * Full Stack Java Application Developer Intern (Pune, onsite, Dec 23 - Mar 24) - Developed/maintained database modules using Java, JDBC, and MySQL.
@@ -116,6 +117,8 @@ function getLocalFallbackResponse(text) {
            "  &nbsp;&nbsp;🔗 <a href='https://gym2-lilac.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/gym2-' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Lifeline Hospital</a></strong> (Medical/Hospital Portal)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://hospital-seven-orpin.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/hospital' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
+           "• <strong><a href='#projects' class='chat-link'>Jaycees Convent</a></strong> (Education Website)<br/>" +
+           "  &nbsp;&nbsp;🔗 <a href='https://jaycees-convent.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/jaycees-convent' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "Click on any project name to view it on the page, or click the links to check them out directly!";
   }
 
