@@ -434,7 +434,7 @@ export default function Home() {
       case 'stats':
         response = [
           'Key Metrics:',
-          '  • Projects Built     : 8+ (across 6 industries)',
+          '  • Projects Built     : 9+ (across 6 industries)',
           '  • Experience Level   : Fresh & Ready to Ship',
           '  • Client Trust Score : 100%',
           '  • Learning Curiosity: Infinite (∞)'
@@ -772,6 +772,25 @@ export default function Home() {
       githubId: 'cafe-github',
     },
     {
+      id: 'glam-glow-salon',
+      category: 'salon',
+      status: 'live',
+      title: 'Glam & Glow Salon',
+      description: 'A stunning salon website with elegant service showcases, gallery, online appointment booking, and a luxe brand identity — built to attract and convert beauty-conscious clients.',
+      tech: [
+        { label: 'HTML/CSS', cls: 'tag-html' },
+        { label: 'JavaScript', cls: 'tag-js' },
+        { label: 'Animations', cls: 'tag-animations' },
+      ],
+      thumb: '/glam-glow-salon-thumb.png',
+      thumbAlt: 'Glam & Glow Salon Website Preview',
+      headerClass: 'project-header-salon',
+      liveUrl: 'https://glamandglow-eight.vercel.app/',
+      githubUrl: 'https://github.com/mrunali-hatzade/salon-glam-glow',
+      liveId: 'glam-glow-live',
+      githubId: 'glam-glow-github',
+    },
+    {
       id: 'js-salon-akurdi',
       category: 'salon',
       status: 'live',
@@ -792,23 +811,24 @@ export default function Home() {
       githubId: 'js-salon-github',
     },
     {
-      id: 'glam-glow-salon',
-      category: 'salon',
+      id: 'club-36-cafe',
+      category: 'cafe',
       status: 'live',
-      title: 'Glam & Glow Salon',
-      description: 'A stunning salon website with elegant service showcases, gallery, online appointment booking, and a luxe brand identity — built to attract and convert beauty-conscious clients.',
+      title: 'Club 36 Cafe',
+      description: 'A vibrant cafe website featuring a modern digital menu, location info, and customer outreach features — crafted to bring the Club 36 Cafe experience online.',
       tech: [
-        { label: 'HTML/CSS', cls: 'tag-html' },
-        { label: 'JavaScript', cls: 'tag-js' },
+        { label: 'Next.js', cls: 'tag-next' },
+        { label: 'React', cls: 'tag-react' },
+        { label: 'Tailwind', cls: 'tag-tailwind' },
         { label: 'Animations', cls: 'tag-animations' },
       ],
-      thumb: '/glam-glow-salon-thumb.png',
-      thumbAlt: 'Glam & Glow Salon Website Preview',
-      headerClass: 'project-header-salon',
-      liveUrl: 'https://glamandglow-eight.vercel.app/',
-      githubUrl: 'https://github.com/mrunali-hatzade/salon-glam-glow',
-      liveId: 'glam-glow-live',
-      githubId: 'glam-glow-github',
+      thumb: '/club-36-cafe-thumb.png',
+      thumbAlt: 'Club 36 Cafe Website Preview',
+      headerClass: 'project-header-cafe',
+      liveUrl: 'https://club-36-cafe-bhandara.vercel.app/',
+      githubUrl: 'https://github.com/mrunali-hatzade/club-36-cafe-bhandara',
+      liveId: 'club-36-live',
+      githubId: 'club-36-github',
     },
     {
       id: 'seven-the-salon',
@@ -1060,7 +1080,7 @@ export default function Home() {
               <p className="stats-header">// stats</p>
               <div className="stats-grid">
                 <div className="stats-card">
-                  <span className="stats-number">8+</span>
+                  <span className="stats-number">9+</span>
                   <span className="stats-label">Projects</span>
                 </div>
                 <div className="stats-card">
