@@ -411,15 +411,17 @@ export default function Home() {
         break;
       case 'projects':
         response = [
-          'Featured Projects (8 total — by industry):',
+          'Featured Projects (10 total — by industry):',
           '  1. Café Aura        - Next.js, CSS, Tailwind       [Café] 🟢 Live',
-          '  2. JS Salon Akurdi  - Next.js, React, Tailwind     [Salon] 🟢 Live',
-          '  3. Glam & Glow      - HTML/CSS, JS, Animations     [Salon] 🟢 Live',
-          '  4. Seven The Salon  - React, HTML/CSS, JS, Anim.   [Salon] 🟢 Live',
-          '  5. Iron Pulse       - React, Tailwind, Animations  [Gym] 🟡 WIP',
-          '  6. Lifeline Hospital- Next.js, React, Tailwind     [Hospital] 🟢 Live',
-          '  7. NestFind Realty  - Next.js, React, Tailwind     [Real Estate] 🟡 WIP',
-          '  8. EduSpark Academy - React, Node.js, MongoDB      [Education] 🟡 WIP'
+          '  2. Glam & Glow      - HTML/CSS, JS, Animations     [Salon] 🟢 Live',
+          '  3. JS Salon Akurdi  - Next.js, React, Tailwind     [Salon] 🟢 Live',
+          '  4. Club 36 Cafe     - Next.js, React, Tailwind     [Café] 🟢 Live',
+          '  5. Seven The Salon  - React, HTML/CSS, JS, Anim.   [Salon] 🟢 Live',
+          '  6. Iron Edge        - React, Tailwind, Animations  [Gym] 🟢 Live',
+          '  7. Gym 2            - React, Tailwind, Animations  [Gym] 🟢 Live',
+          '  8. Nakade Hospital  - Next.js, React, Tailwind     [Hospital] 🟢 Live',
+          '  9. NestFind Realty  - Next.js, React, Tailwind     [Real Estate] 🟡 WIP',
+          '  10. Jaycees Convent - React, Tailwind, Animations  [Education] 🟢 Live'
         ];
         break;
       case 'contact':
@@ -851,10 +853,10 @@ export default function Home() {
       githubId: 'seven-salon-github',
     },
     {
-      id: 'iron-pulse',
+      id: 'iron-edge',
       category: 'gym',
       status: 'live',
-      title: 'Iron Pulse',
+      title: 'Iron Edge',
       description: 'An energetic, high-impact gym website featuring membership plans, class schedules, trainer profiles, and a motivational design to convert visitors into members.',
       tech: [
         { label: 'React', cls: 'tag-react' },
@@ -862,7 +864,7 @@ export default function Home() {
         { label: 'Animations', cls: 'tag-animations' },
       ],
       thumb: '/iron-pulse-thumb.png',
-      thumbAlt: 'Iron Pulse Website Preview',
+      thumbAlt: 'Iron Edge Website Preview',
       headerClass: 'project-header-gym',
       liveUrl: 'https://gym-xi-sand.vercel.app/',
       githubUrl: 'https://github.com/mrunali-hatzade/gym',
@@ -889,10 +891,10 @@ export default function Home() {
       githubId: 'gym-2-github',
     },
     {
-      id: 'lifeline-hospital',
+      id: 'nakade-hospital',
       category: 'hospital',
       status: 'live',
-      title: 'Lifeline Hospital',
+      title: 'Nakade Hospital',
       description: 'A professional hospital website with doctor listings, department info, appointment booking, and an emergency contact section — building trust with a clean, accessible design.',
       tech: [
         { label: 'React', cls: 'tag-react' },
@@ -900,7 +902,7 @@ export default function Home() {
         { label: 'Next.js', cls: 'tag-next' },
       ],
       thumb: '/lifeline-hospital-thumb.png',
-      thumbAlt: 'Lifeline Hospital Website Preview',
+      thumbAlt: 'Nakade Hospital Website Preview',
       headerClass: 'project-header-hospital',
       liveUrl: 'https://hospital-seven-orpin.vercel.app/',
       githubUrl: 'https://github.com/mrunali-hatzade/hospital',

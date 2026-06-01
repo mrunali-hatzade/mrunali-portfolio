@@ -30,9 +30,9 @@ Here is all the correct and official information about Mrunali Hatzade:
   * JS Salon Akurdi (Premium unisex hair salon website in Akurdi, Pune with stylist profiles, services menu, galleries. Demo: https://js-salon-akurdi.vercel.app/, GitHub: https://github.com/mrunali-hatzade/JS-salon-akurdi)
   * Club 36 Cafe (Vibrant cafe website built with Next.js, React, Tailwind, and animations, featuring a digital menu, location info, and customer outreach. Demo: https://club-36-cafe-bhandara.vercel.app/, GitHub: https://github.com/mrunali-hatzade/club-36-cafe-bhandara)
   * Seven The Salon (Contemporary unisex salon website in Nigdi Pradhikaran, Pune featuring styling portfolios, service lists, contact. Demo: https://seventhesalon.vercel.app/, GitHub: https://github.com/mrunali-hatzade/seventhesalon)
-  * Iron Pulse (Gym website with membership plans, class schedules. Demo: https://gym-xi-sand.vercel.app/, GitHub: https://github.com/mrunali-hatzade/gym)
+  * Iron Edge (Gym website with membership plans, class schedules. Demo: https://gym-xi-sand.vercel.app/, GitHub: https://github.com/mrunali-hatzade/gym)
   * Gym 2 (Secondary gym landing page with membership options and class details. Demo: https://gym2-lilac.vercel.app/, GitHub: https://github.com/mrunali-hatzade/gym2-)
-  * Lifeline Hospital (Hospital portal with doctor listings, appointments. Demo: https://hospital-seven-orpin.vercel.app/, GitHub: https://github.com/mrunali-hatzade/hospital)
+  * Nakade Hospital (Hospital portal with doctor listings, appointments. Demo: https://hospital-seven-orpin.vercel.app/, GitHub: https://github.com/mrunali-hatzade/hospital)
   * Jaycees Convent (Comprehensive school website built with React, Tailwind, and animations, featuring academic details, activity listings, and a dynamic student portal. Demo: https://jaycees-convent.vercel.app/, GitHub: https://github.com/mrunali-hatzade/jaycees-convent)
 - Professional Experience:
   * Java Full Stack Developer Intern (Bangalore, remote, Nov 25 - Jan 26) - Developed task management backend with Java/Spring Boot/Spring Security/JWT/MySQL.
@@ -111,11 +111,11 @@ function getLocalFallbackResponse(text) {
            "  &nbsp;&nbsp;🔗 <a href='https://club-36-cafe-bhandara.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/club-36-cafe-bhandara' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Seven The Salon</a></strong> (Salon Website)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://seventhesalon.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/seventhesalon' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
-           "• <strong><a href='#projects' class='chat-link'>Iron Pulse</a></strong> (Fitness/Gym Website)<br/>" +
+           "• <strong><a href='#projects' class='chat-link'>Iron Edge</a></strong> (Fitness/Gym Website)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://gym-xi-sand.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/gym' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Gym 2</a></strong> (Fitness/Gym Website)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://gym2-lilac.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/gym2-' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
-           "• <strong><a href='#projects' class='chat-link'>Lifeline Hospital</a></strong> (Medical/Hospital Portal)<br/>" +
+           "• <strong><a href='#projects' class='chat-link'>Nakade Hospital</a></strong> (Medical/Hospital Portal)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://hospital-seven-orpin.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/hospital' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Jaycees Convent</a></strong> (Education Website)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://jaycees-convent.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/jaycees-convent' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
