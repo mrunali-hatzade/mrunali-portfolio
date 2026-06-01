@@ -15,6 +15,10 @@ export default function Home() {
   const [errorMsg, setErrorMsg] = useState('');
   const [quickRead, setQuickRead] = useState(false);
 
+  // Project filter state
+  const [activeCategory, setActiveCategory] = useState('all');
+
+
   // Chatbot State
   const [chatOpen, setChatOpen] = useState(false);
   const [messages, setMessages] = useState([
@@ -407,11 +411,15 @@ export default function Home() {
         break;
       case 'projects':
         response = [
-          'Featured Projects:',
-          '  1. Café Aura        - Next.js, CSS, Tailwind (Café reservation)',
-          '  2. LuxeGlow Studio  - HTML/CSS, JS, Animations [Coming Soon]',
-          '  3. Iron Pulse       - React, Tailwind, Framer Motion [Coming Soon]',
-          '  4. Lifeline Hospital- Next.js, React, Tailwind (Medical dashboard)'
+          'Featured Projects (8 total — by industry):',
+          '  1. Café Aura        - Next.js, CSS, Tailwind       [Café] 🟢 Live',
+          '  2. JS Salon Akurdi  - Next.js, React, Tailwind     [Salon] 🟢 Live',
+          '  3. Glam & Glow      - HTML/CSS, JS, Animations     [Salon] 🟢 Live',
+          '  4. Seven The Salon  - React, HTML/CSS, JS, Anim.   [Salon] 🟢 Live',
+          '  5. Iron Pulse       - React, Tailwind, Animations  [Gym] 🟡 WIP',
+          '  6. Lifeline Hospital- Next.js, React, Tailwind     [Hospital] 🟢 Live',
+          '  7. NestFind Realty  - Next.js, React, Tailwind     [Real Estate] 🟡 WIP',
+          '  8. EduSpark Academy - React, Node.js, MongoDB      [Education] 🟡 WIP'
         ];
         break;
       case 'contact':
@@ -426,7 +434,7 @@ export default function Home() {
       case 'stats':
         response = [
           'Key Metrics:',
-          '  • Projects Completed : 5+',
+          '  • Projects Built     : 8+ (across 6 industries)',
           '  • Experience Level   : Fresh & Ready to Ship',
           '  • Client Trust Score : 100%',
           '  • Learning Curiosity: Infinite (∞)'
@@ -741,6 +749,202 @@ export default function Home() {
     }, 500);
   };
 
+  // ── PROJECT DATA ──────────────────────────────────────────────
+  const PROJECTS = [
+    {
+      id: 'cafe-aura',
+      category: 'cafe',
+      status: 'live',
+      title: 'Café Aura',
+      description: 'A beautiful, fully responsive café website featuring an interactive menu, gallery, reservation system, and warm brand identity — designed to bring the café experience online.',
+      tech: [
+        { label: 'Next.js', cls: 'tag-next' },
+        { label: 'CSS', cls: 'tag-css' },
+        { label: 'Tailwind', cls: 'tag-tailwind' },
+        { label: 'Other', cls: 'tag-other' },
+      ],
+      thumb: '/cafe-aura-thumb.png',
+      thumbAlt: 'Café Aura Website Preview',
+      headerClass: 'project-header-cafe',
+      liveUrl: 'https://cafe-aura-website.vercel.app',
+      githubUrl: 'https://github.com/mrunali-hatzade/cafe-aura-website',
+      liveId: 'cafe-live',
+      githubId: 'cafe-github',
+    },
+    {
+      id: 'js-salon-akurdi',
+      category: 'salon',
+      status: 'live',
+      title: 'JS Salon Akurdi',
+      description: 'A premium unisex hair salon website in Akurdi, Pune featuring stylist profiles, comprehensive service menus, interactive galleries, and a high-end luxury lookbook.',
+      tech: [
+        { label: 'Next.js', cls: 'tag-next' },
+        { label: 'React', cls: 'tag-react' },
+        { label: 'Tailwind', cls: 'tag-tailwind' },
+        { label: 'Animations', cls: 'tag-animations' },
+      ],
+      thumb: '/js-salon-akurdi-thumb.png',
+      thumbAlt: 'JS Salon Akurdi Website Preview',
+      headerClass: 'project-header-salon',
+      liveUrl: 'https://js-salon-akurdi.vercel.app/',
+      githubUrl: 'https://github.com/mrunali-hatzade/JS-salon-akurdi',
+      liveId: 'js-salon-live',
+      githubId: 'js-salon-github',
+    },
+    {
+      id: 'glam-glow-salon',
+      category: 'salon',
+      status: 'live',
+      title: 'Glam & Glow Salon',
+      description: 'A stunning salon website with elegant service showcases, gallery, online appointment booking, and a luxe brand identity — built to attract and convert beauty-conscious clients.',
+      tech: [
+        { label: 'HTML/CSS', cls: 'tag-html' },
+        { label: 'JavaScript', cls: 'tag-js' },
+        { label: 'Animations', cls: 'tag-animations' },
+      ],
+      thumb: '/glam-glow-salon-thumb.png',
+      thumbAlt: 'Glam & Glow Salon Website Preview',
+      headerClass: 'project-header-salon',
+      liveUrl: 'https://glamandglow-eight.vercel.app/',
+      githubUrl: 'https://github.com/mrunali-hatzade/salon-glam-glow',
+      liveId: 'glam-glow-live',
+      githubId: 'glam-glow-github',
+    },
+    {
+      id: 'seven-the-salon',
+      category: 'salon',
+      status: 'live',
+      title: 'Seven The Salon',
+      description: 'A contemporary unisex salon website in Nigdi Pradhikaran, Pune featuring dynamic styling portfolios, detail-oriented service lists, and seamless customer connection points.',
+      tech: [
+        { label: 'React', cls: 'tag-react' },
+        { label: 'HTML/CSS', cls: 'tag-html' },
+        { label: 'JavaScript', cls: 'tag-js' },
+        { label: 'Animations', cls: 'tag-animations' },
+      ],
+      thumb: '/seven-the-salon-thumb.png',
+      thumbAlt: 'Seven The Salon Website Preview',
+      headerClass: 'project-header-salon',
+      liveUrl: 'https://seventhesalon.vercel.app/',
+      githubUrl: 'https://github.com/mrunali-hatzade/seventhesalon',
+      liveId: 'seven-salon-live',
+      githubId: 'seven-salon-github',
+    },
+    {
+      id: 'iron-pulse',
+      category: 'gym',
+      status: 'wip',
+      title: 'Iron Pulse',
+      description: 'An energetic, high-impact gym website featuring membership plans, class schedules, trainer profiles, and a motivational design to convert visitors into members.',
+      tech: [
+        { label: 'React', cls: 'tag-react' },
+        { label: 'Tailwind', cls: 'tag-tailwind' },
+        { label: 'Animations', cls: 'tag-animations' },
+      ],
+      thumb: '/iron-pulse-thumb.png',
+      thumbAlt: 'Iron Pulse Website Preview',
+      headerClass: 'project-header-gym',
+      liveUrl: null,
+      githubUrl: null,
+    },
+    {
+      id: 'lifeline-hospital',
+      category: 'hospital',
+      status: 'live',
+      title: 'Lifeline Hospital',
+      description: 'A professional hospital website with doctor listings, department info, appointment booking, and an emergency contact section — building trust with a clean, accessible design.',
+      tech: [
+        { label: 'React', cls: 'tag-react' },
+        { label: 'Tailwind', cls: 'tag-tailwind' },
+        { label: 'Next.js', cls: 'tag-next' },
+      ],
+      thumb: '/lifeline-hospital-thumb.png',
+      thumbAlt: 'Lifeline Hospital Website Preview',
+      headerClass: 'project-header-hospital',
+      liveUrl: 'https://hospital-seven-orpin.vercel.app/',
+      githubUrl: 'https://github.com/mrunali-hatzade/hospital',
+      liveId: 'hospital-live',
+      githubId: 'hospital-github',
+    },
+    {
+      id: 'nestfind-realty',
+      category: 'realestate',
+      status: 'wip',
+      title: 'NestFind Realty',
+      description: 'A modern real estate platform with property search & filters, listing pages with virtual tour previews, agent profiles, and an AI-powered property recommendation flow.',
+      tech: [
+        { label: 'Next.js', cls: 'tag-next' },
+        { label: 'React', cls: 'tag-react' },
+        { label: 'Tailwind', cls: 'tag-tailwind' },
+        { label: 'Animations', cls: 'tag-animations' },
+      ],
+      thumb: '/nestfind-realty-thumb.png',
+      thumbAlt: 'NestFind Realty Website Preview',
+      headerClass: 'project-header-realestate',
+      liveUrl: null,
+      githubUrl: null,
+    },
+    {
+      id: 'eduspark-academy',
+      category: 'education',
+      status: 'wip',
+      title: 'EduSpark Academy',
+      description: 'A dynamic e-learning platform with course catalog, video lessons, instructor profiles, quiz modules, and a student dashboard — built to make education engaging and accessible.',
+      tech: [
+        { label: 'React', cls: 'tag-react' },
+        { label: 'Node.js', cls: 'tag-other' },
+        { label: 'MongoDB', cls: 'tag-other' },
+        { label: 'Tailwind', cls: 'tag-tailwind' },
+      ],
+      thumb: '/eduspark-academy-thumb.png',
+      thumbAlt: 'EduSpark Academy Website Preview',
+      headerClass: 'project-header-education',
+      liveUrl: null,
+      githubUrl: null,
+    },
+  ];
+
+  const CATEGORIES = [
+    { id: 'all', label: 'All', icon: '🗂️' },
+    { id: 'salon', label: 'Salon', icon: '💅' },
+    { id: 'cafe', label: 'Café / Restaurant', icon: '☕' },
+    { id: 'hospital', label: 'Hospital / Clinic', icon: '🏥' },
+    { id: 'realestate', label: 'Real Estate', icon: '🏠' },
+    { id: 'gym', label: 'Gym', icon: '💪' },
+    { id: 'education', label: 'Education', icon: '🎓' },
+  ];
+
+  const filteredProjects = PROJECTS.filter(p =>
+    activeCategory === 'all' || p.category === activeCategory
+  );
+
+  const getCategoryCount = (catId) => {
+    if (catId === 'all') return PROJECTS.length;
+    return PROJECTS.filter(p => p.category === catId).length;
+  };
+
+  const tiltHandlers = (card) => ({
+    onMouseMove: (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const rotateX = ((y - cy) / cy) * -10;
+      const rotateY = ((x - cx) / cx) * 10;
+      card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03,1.03,1.03)`;
+      const shine = card.querySelector('.tilt-shine');
+      if (shine) {
+        shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(100,255,218,0.13) 0%, transparent 65%)`;
+      }
+    },
+    onMouseLeave: (e) => {
+      e.currentTarget.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+      const shine = e.currentTarget.querySelector('.tilt-shine');
+      if (shine) shine.style.background = 'transparent';
+    },
+  });
+
   return (
     <>
       <canvas id="bg-3d-canvas" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: -2, pointerEvents: 'none' }} />
@@ -856,7 +1060,7 @@ export default function Home() {
               <p className="stats-header">// stats</p>
               <div className="stats-grid">
                 <div className="stats-card">
-                  <span className="stats-number">5+</span>
+                  <span className="stats-number">8+</span>
                   <span className="stats-label">Projects</span>
                 </div>
                 <div className="stats-card">
@@ -1086,217 +1290,116 @@ export default function Home() {
         <p className="section-label">03. Projects</p>
         <h2 className="section-title">Things I've Built</h2>
 
+        {/* Filter Bar */}
+        <div className="projects-filter-bar reveal">
+          <div className="projects-filter-header">
+            {/* Category Tabs */}
+            <div className="projects-category-tabs">
+              {CATEGORIES.map(cat => (
+                <button
+                  key={cat.id}
+                  className={`category-tab${activeCategory === cat.id ? ' active' : ''}`}
+                  onClick={() => setActiveCategory(cat.id)}
+                  id={`cat-tab-${cat.id}`}
+                >
+                  <span className="tab-icon">{cat.icon}</span>
+                  {cat.label}
+                  <span className="tab-count">{getCategoryCount(cat.id)}</span>
+                </button>
+              ))}
+            </div>
+
+          </div>
+
+          {/* Results info */}
+          <p className="projects-results-info">
+            Showing <span>{filteredProjects.length}</span> of <span>{PROJECTS.length}</span> projects
+            {activeCategory !== 'all' && (
+              <> in <span>{CATEGORIES.find(c => c.id === activeCategory)?.label}</span></>
+            )}
+          </p>
+        </div>
+
         <div className="projects-grid reveal">
-          {/* Cafe */}
-          <div
-            className="project-card tilt-card"
-            onMouseMove={e => {
-              const card = e.currentTarget;
-              const rect = card.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
-              const cx = rect.width / 2;
-              const cy = rect.height / 2;
-              const rotateX = ((y - cy) / cy) * -10;
-              const rotateY = ((x - cx) / cx) * 10;
-              card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03,1.03,1.03)`;
-              const shine = card.querySelector('.tilt-shine');
-              if (shine) {
-                shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(100,255,218,0.13) 0%, transparent 65%)`;
-              }
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
-              const shine = e.currentTarget.querySelector('.tilt-shine');
-              if (shine) shine.style.background = 'transparent';
-            }}
-          >
-            <div className="tilt-shine" />
-            <div className="project-card-header project-header-cafe">
-              <div className="project-mockup-frame">
-                <img src="/cafe-aura-thumb.png" alt="Café Aura Website Preview" />
-              </div>
+          {filteredProjects.length === 0 ? (
+            <div className="projects-empty-state">
+              <div className="empty-icon">🔍</div>
+              <p>No projects match this filter combination. Try a different category or status.</p>
             </div>
-            <div className="project-card-body">
-              <div className="project-tech">
-                <span className="tech-tag tag-next">Next.js</span>
-                <span className="tech-tag tag-css">CSS</span>
-                <span className="tech-tag tag-tailwind">Tailwind</span>
-                <span className="tech-tag tag-other">Other</span>
-              </div>
-              <h3>Café Aura</h3>
-              <p>A beautiful, fully responsive café website featuring an interactive menu, gallery, reservation system, and warm brand identity — designed to bring the café experience online.</p>
-              <div className="project-actions">
-                <a href="https://cafe-aura-website.vercel.app" target="_blank" rel="noopener noreferrer" className="project-btn-primary" id="cafe-live">
-                  View Demo →
-                </a>
-                <a href="https://github.com/mrunali-hatzade/cafe-aura-website" target="_blank" rel="noopener noreferrer" className="project-btn-github" id="cafe-github" title="GitHub Repository">
-                  <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
-                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
-                  </svg>
-                  GitHub
-                </a>
-              </div>
-            </div>
-          </div>
+          ) : (
+            filteredProjects.map(project => (
+              <div
+                key={project.id}
+                className="project-card tilt-card"
+                onMouseMove={e => {
+                  const card = e.currentTarget;
+                  const rect = card.getBoundingClientRect();
+                  const x = e.clientX - rect.left;
+                  const y = e.clientY - rect.top;
+                  const cx = rect.width / 2;
+                  const cy = rect.height / 2;
+                  const rotateX = ((y - cy) / cy) * -10;
+                  const rotateY = ((x - cx) / cx) * 10;
+                  card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03,1.03,1.03)`;
+                  const shine = card.querySelector('.tilt-shine');
+                  if (shine) {
+                    shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(100,255,218,0.13) 0%, transparent 65%)`;
+                  }
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+                  const shine = e.currentTarget.querySelector('.tilt-shine');
+                  if (shine) shine.style.background = 'transparent';
+                }}
+              >
+                <div className="tilt-shine" />
 
-          {/* Salon */}
-          <div
-            className="project-card tilt-card"
-            onMouseMove={e => {
-              const card = e.currentTarget;
-              const rect = card.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
-              const cx = rect.width / 2;
-              const cy = rect.height / 2;
-              const rotateX = ((y - cy) / cy) * -10;
-              const rotateY = ((x - cx) / cx) * 10;
-              card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03,1.03,1.03)`;
-              const shine = card.querySelector('.tilt-shine');
-              if (shine) {
-                shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(100,255,218,0.13) 0%, transparent 65%)`;
-              }
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
-              const shine = e.currentTarget.querySelector('.tilt-shine');
-              if (shine) shine.style.background = 'transparent';
-            }}
-          >
-            <div className="tilt-shine" />
-            <div className="project-card-header project-header-salon" style={{ position: 'relative' }}>
-              <div className="project-mockup-frame">
-                <img src="/luxeglow-studio-thumb.png" alt="LuxeGlow Studio Website Preview" />
-              </div>
-              <div className="project-coming-soon-overlay">
-                <div className="coming-soon-badge">
-                  <svg viewBox="0 0 24 24" strokeWidth="2.2" fill="none" stroke="currentColor" style={{ width: '12px', height: '12px' }}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                  COMING SOON
+                {/* Card Header with Thumbnail */}
+                <div className={`project-card-header ${project.headerClass}`}>
+                  <div className="project-mockup-frame">
+                    <img src={project.thumb} alt={project.thumbAlt} />
+                  </div>
+                </div>
+
+                {/* Card Body */}
+                <div className="project-card-body">
+                  {/* Category label */}
+                  <p className="project-category-label">
+                    {CATEGORIES.find(c => c.id === project.category)?.icon}{' '}
+                    {CATEGORIES.find(c => c.id === project.category)?.label}
+                  </p>
+
+                  <div className="project-tech">
+                    {project.tech.map(t => (
+                      <span key={t.label} className={`tech-tag ${t.cls}`}>{t.label}</span>
+                    ))}
+                  </div>
+                  <h3>{project.title}</h3>
+                  <p>{project.description}</p>
+                  <div className="project-actions">
+                    {project.liveUrl ? (
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-btn-primary" id={project.liveId}>
+                        View Demo →
+                      </a>
+                    ) : (
+                      <span className="project-btn-coming-soon">
+                        <svg viewBox="0 0 24 24" strokeWidth="2.2" fill="none" stroke="currentColor" style={{ width: '12px', height: '12px' }}><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                        Under Construction
+                      </span>
+                    )}
+                    {project.githubUrl && (
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="project-btn-github" id={project.githubId} title="GitHub Repository">
+                        <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
+                          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
+                        </svg>
+                        GitHub
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="project-card-body">
-              <div className="project-tech">
-                <span className="tech-tag tag-html">HTML/CSS</span>
-                <span className="tech-tag tag-js">JavaScript</span>
-                <span className="tech-tag tag-animations">Animations</span>
-              </div>
-              <h3>LuxeGlow Studio</h3>
-              <p>A sleek, modern salon website with service listings, stylist profiles, online booking integration, and a gallery — crafted to elevate the brand's digital presence.</p>
-              <div className="project-actions">
-                <span className="project-btn-coming-soon">
-                  <svg viewBox="0 0 24 24" strokeWidth="2.2" fill="none" stroke="currentColor" style={{ width: '12px', height: '12px' }}><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-                  Under Construction
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Gym */}
-          <div
-            className="project-card tilt-card"
-            onMouseMove={e => {
-              const card = e.currentTarget;
-              const rect = card.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
-              const cx = rect.width / 2;
-              const cy = rect.height / 2;
-              const rotateX = ((y - cy) / cy) * -10;
-              const rotateY = ((x - cx) / cx) * 10;
-              card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03,1.03,1.03)`;
-              const shine = card.querySelector('.tilt-shine');
-              if (shine) {
-                shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(100,255,218,0.13) 0%, transparent 65%)`;
-              }
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
-              const shine = e.currentTarget.querySelector('.tilt-shine');
-              if (shine) shine.style.background = 'transparent';
-            }}
-          >
-            <div className="tilt-shine" />
-            <div className="project-card-header project-header-gym" style={{ position: 'relative' }}>
-              <div className="project-mockup-frame">
-                <img src="/iron-pulse-thumb.png" alt="Iron Pulse Website Preview" />
-              </div>
-              <div className="project-coming-soon-overlay">
-                <div className="coming-soon-badge">
-                  <svg viewBox="0 0 24 24" strokeWidth="2.2" fill="none" stroke="currentColor" style={{ width: '12px', height: '12px' }}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                  COMING SOON
-                </div>
-              </div>
-            </div>
-            <div className="project-card-body">
-              <div className="project-tech">
-                <span className="tech-tag tag-react">React</span>
-                <span className="tech-tag tag-tailwind">Tailwind</span>
-                <span className="tech-tag tag-animations">Animations</span>
-              </div>
-              <h3>Iron Pulse</h3>
-              <p>An energetic, high-impact gym website featuring membership plans, class schedules, trainer profiles, and a motivational design to convert visitors into members.</p>
-              <div className="project-actions">
-                <span className="project-btn-coming-soon">
-                  <svg viewBox="0 0 24 24" strokeWidth="2.2" fill="none" stroke="currentColor" style={{ width: '12px', height: '12px' }}><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-                  Under Construction
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Hospital */}
-          <div
-            className="project-card tilt-card"
-            onMouseMove={e => {
-              const card = e.currentTarget;
-              const rect = card.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
-              const cx = rect.width / 2;
-              const cy = rect.height / 2;
-              const rotateX = ((y - cy) / cy) * -10;
-              const rotateY = ((x - cx) / cx) * 10;
-              card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03,1.03,1.03)`;
-              const shine = card.querySelector('.tilt-shine');
-              if (shine) {
-                shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(100,255,218,0.13) 0%, transparent 65%)`;
-              }
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
-              const shine = e.currentTarget.querySelector('.tilt-shine');
-              if (shine) shine.style.background = 'transparent';
-            }}
-          >
-            <div className="tilt-shine" />
-            <div className="project-card-header project-header-hospital">
-              <div className="project-mockup-frame">
-                <img src="/lifeline-hospital-thumb.png" alt="Lifeline Hospital Website Preview" />
-              </div>
-            </div>
-            <div className="project-card-body">
-              <div className="project-tech">
-                <span className="tech-tag tag-react">React</span>
-                <span className="tech-tag tag-tailwind">Tailwind</span>
-                <span className="tech-tag tag-next">Next.js</span>
-              </div>
-              <h3>Lifeline Hospital</h3>
-              <p>A professional hospital website with doctor listings, department info, appointment booking, and an emergency contact section — building trust with a clean, accessible design.</p>
-              <div className="project-actions">
-                <a href="https://hospital-seven-orpin.vercel.app/" target="_blank" rel="noopener noreferrer" className="project-btn-primary" id="hospital-live">
-                  View Demo →
-                </a>
-                <a href="https://github.com/mrunali-hatzade/hospital" target="_blank" rel="noopener noreferrer" className="project-btn-github" id="hospital-github" title="GitHub Repository">
-                  <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
-                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
-                  </svg>
-                  GitHub
-                </a>
-              </div>
-            </div>
-          </div>
+            ))
+          )}
         </div>
       </section>
 

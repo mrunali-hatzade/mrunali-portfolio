@@ -26,7 +26,8 @@ Here is all the correct and official information about Mrunali Hatzade:
   * Tech Content Creation (tutorials, docs, blogs, custom rates per piece/project)
 - Projects:
   * Café Aura (Café website built with Next.js, CSS, Tailwind, and other technologies, featuring menu, reservation. Demo: https://cafe-aura-website.vercel.app, GitHub: https://github.com/mrunali-hatzade/cafe-aura-website)
-  * LuxeGlow Studio (Modern salon website with stylist profiles, online booking. Demo: https://luxeglow-studio-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/LuxeGlow-Studio)
+  * JS Salon Akurdi (Premium unisex hair salon website in Akurdi, Pune with stylist profiles, services menu, galleries. Demo: https://js-salon-akurdi.vercel.app/, GitHub: https://github.com/mrunali-hatzade/JS-salon-akurdi)
+  * Seven The Salon (Contemporary unisex salon website in Nigdi Pradhikaran, Pune featuring styling portfolios, service lists, contact. Demo: https://seventhesalon.vercel.app/, GitHub: https://github.com/mrunali-hatzade/seventhesalon)
   * Iron Pulse (Gym website with membership plans, class schedules. Demo: https://iron-pulse-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/Iron-Pulse)
   * Lifeline Hospital (Hospital portal with doctor listings, appointments. Demo: https://hospital-seven-orpin.vercel.app/, GitHub: https://github.com/mrunali-hatzade/hospital)
 - Professional Experience:
@@ -98,8 +99,10 @@ function getLocalFallbackResponse(text) {
     return "Mrunali has built several premium web applications:<br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Café Aura</a></strong> (Café Website)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://cafe-aura-website.vercel.app' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/cafe-aura-website' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
-           "• <strong><a href='#projects' class='chat-link'>LuxeGlow Studio</a></strong> (Salon/Spa Website)<br/>" +
-           "  &nbsp;&nbsp;🔗 <a href='https://luxeglow-studio-demo.vercel.app' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/LuxeGlow-Studio' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
+           "• <strong><a href='#projects' class='chat-link'>JS Salon Akurdi</a></strong> (Salon/Spa Website)<br/>" +
+           "  &nbsp;&nbsp;🔗 <a href='https://js-salon-akurdi.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/JS-salon-akurdi' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
+           "• <strong><a href='#projects' class='chat-link'>Seven The Salon</a></strong> (Salon/Spa Website)<br/>" +
+           "  &nbsp;&nbsp;🔗 <a href='https://seventhesalon.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/seventhesalon' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Iron Pulse</a></strong> (Fitness/Gym Website)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://iron-pulse-demo.vercel.app' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/Iron-Pulse' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Lifeline Hospital</a></strong> (Medical/Hospital Portal)<br/>" +

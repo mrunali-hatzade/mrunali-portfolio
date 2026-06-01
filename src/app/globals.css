@@ -683,6 +683,107 @@ section { padding: 6rem 6%; max-width: 1100px; margin: 0 auto; }
 
 /* ── PROJECTS ── */
 
+/* Category Filter Tabs */
+.projects-filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.projects-filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.projects-category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.category-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  white-space: nowrap;
+}
+
+.category-tab:hover {
+  border-color: rgba(100, 255, 218, 0.4);
+  color: var(--accent);
+  background: rgba(100, 255, 218, 0.05);
+  transform: translateY(-2px);
+}
+
+.category-tab.active {
+  background: rgba(100, 255, 218, 0.1);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 16px rgba(100, 255, 218, 0.12);
+}
+
+.category-tab .tab-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.category-tab .tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 50px;
+  background: rgba(100, 255, 218, 0.1);
+  border: 1px solid rgba(100, 255, 218, 0.2);
+  font-size: 0.62rem;
+  color: var(--accent);
+  font-weight: 600;
+  transition: background 0.25s, border-color 0.25s;
+}
+
+.category-tab.active .tab-count {
+  background: rgba(100, 255, 218, 0.2);
+  border-color: rgba(100, 255, 218, 0.4);
+}
+
+
+/* Category label on card */
+.project-category-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+  opacity: 0.65;
+}
+
+/* Animated card hide/show for filter */
+.project-card-hidden {
+  display: none !important;
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1586,6 +1687,8 @@ footer {
   .svc-card:nth-child(5),
   .svc-card:nth-child(6) { border-top: none; }
   .testimonials-grid { grid-template-columns: 1fr; }
+  .projects-filter-header { flex-direction: column; align-items: flex-start; }
+  .projects-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 520px) {
@@ -2672,64 +2775,6 @@ footer {
   .toggle-segment-control {
     width: 100%;
   }
-}
-
-/* ── PROJECT COMING SOON OVERLAYS ── */
-.project-coming-soon-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(11, 12, 16, 0.75);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.8rem;
-  z-index: 5;
-  transition: backdrop-filter 0.3s, background 0.3s;
-}
-
-.coming-soon-badge {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--accent2);
-  background: rgba(127, 119, 221, 0.15);
-  border: 1px solid rgba(127, 119, 221, 0.3);
-  padding: 0.35rem 0.9rem;
-  border-radius: 50px;
-  letter-spacing: 0.08em;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 0 0 15px rgba(127, 119, 221, 0.15);
-  animation: csPulse 2s infinite ease-in-out;
-}
-
-@keyframes csPulse {
-  0% { opacity: 0.85; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.03); }
-  100% { opacity: 0.85; transform: scale(1); }
-}
-
-.project-btn-coming-soon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  width: 100%;
-  padding: 0.6rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--muted);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.78rem;
-  font-weight: 500;
-  border-radius: 6px;
-  text-decoration: none;
-  cursor: not-allowed;
-  pointer-events: none;
 }
 
 /* ── TECH TICKER SLIDER ── */
