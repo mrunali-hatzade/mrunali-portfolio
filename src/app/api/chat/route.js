@@ -30,7 +30,7 @@ Here is all the correct and official information about Mrunali Hatzade:
   * JS Salon Akurdi (Premium unisex hair salon website in Akurdi, Pune with stylist profiles, services menu, galleries. Demo: https://js-salon-akurdi.vercel.app/, GitHub: https://github.com/mrunali-hatzade/JS-salon-akurdi)
   * Club 36 Cafe (Vibrant cafe website built with Next.js, React, Tailwind, and animations, featuring a digital menu, location info, and customer outreach. Demo: https://club-36-cafe-bhandara.vercel.app/, GitHub: https://github.com/mrunali-hatzade/club-36-cafe-bhandara)
   * Seven The Salon (Contemporary unisex salon website in Nigdi Pradhikaran, Pune featuring styling portfolios, service lists, contact. Demo: https://seventhesalon.vercel.app/, GitHub: https://github.com/mrunali-hatzade/seventhesalon)
-  * Iron Pulse (Gym website with membership plans, class schedules. Demo: https://iron-pulse-demo.vercel.app, GitHub: https://github.com/mrunali-hatzade/Iron-Pulse)
+  * Iron Pulse (Gym website with membership plans, class schedules. Demo: https://gym-xi-sand.vercel.app/, GitHub: https://github.com/mrunali-hatzade/gym)
   * Lifeline Hospital (Hospital portal with doctor listings, appointments. Demo: https://hospital-seven-orpin.vercel.app/, GitHub: https://github.com/mrunali-hatzade/hospital)
 - Professional Experience:
   * Java Full Stack Developer Intern (Bangalore, remote, Nov 25 - Jan 26) - Developed task management backend with Java/Spring Boot/Spring Security/JWT/MySQL.
@@ -44,7 +44,7 @@ Here is all the correct and official information about Mrunali Hatzade:
 - Education:
   * B.E. in Electronics & Telecommunication Engineering (ENTC) (2021-2025) at Dr. D.Y. Patil Institute of Engineering, Management and Research (DYPIEMR), Akurdi, Pune.
   * HSC (2020-2021) at Lal Bahadur Shastri Jr. College, Bhandara.
-  * SSC (2018-2019) at Jaycees Convent School, Bhandara.
+  * SSC (2018-2019) at Jaycees Convent School, Bhandara (Demo/Website: https://jaycees-convent.vercel.app/, GitHub: https://github.com/mrunali-hatzade/jaycees-convent)
 - Certifications:
   * Oracle Cloud Infrastructure 2025 AI Foundations Associate (Certificate: https://drive.google.com/file/d/1PF7hd8L3kjDin6y7KCC4eBeH-7F67jP_/view?usp=sharing)
   * Full Stack Java Dev (Certificate: https://drive.google.com/file/d/1ZhR5oCYT_xZ86VUFdkF5ktDpXhrX6COH/view?usp=sharing)
@@ -110,7 +110,7 @@ function getLocalFallbackResponse(text) {
            "• <strong><a href='#projects' class='chat-link'>Seven The Salon</a></strong> (Salon Website)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://seventhesalon.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/seventhesalon' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Iron Pulse</a></strong> (Fitness/Gym Website)<br/>" +
-           "  &nbsp;&nbsp;🔗 <a href='https://iron-pulse-demo.vercel.app' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/Iron-Pulse' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
+           "  &nbsp;&nbsp;🔗 <a href='https://gym-xi-sand.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/gym' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Lifeline Hospital</a></strong> (Medical/Hospital Portal)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://hospital-seven-orpin.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/hospital' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "Click on any project name to view it on the page, or click the links to check them out directly!";
@@ -135,7 +135,7 @@ function getLocalFallbackResponse(text) {
            "• 🏫 <strong>HSC (Higher Secondary Education)</strong> (2020–2021)<br/>" +
            "  &nbsp;&nbsp;Lal Bahadur Shastri Jr. College, Bhandara<br/><br/>" +
            "• 🏫 <strong>SSC (Secondary School Education)</strong> (2018–2019)<br/>" +
-           "  &nbsp;&nbsp;Jaycees Convent School, Bhandara<br/><br/>" +
+           "  &nbsp;&nbsp;<a href='https://jaycees-convent.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Jaycees Convent School, Bhandara</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/jaycees-convent' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "You can click on the links to scroll directly to the <strong><a href='#education' class='chat-link'>Education</a></strong> section!";
   }
 

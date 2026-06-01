@@ -853,7 +853,7 @@ export default function Home() {
     {
       id: 'iron-pulse',
       category: 'gym',
-      status: 'wip',
+      status: 'live',
       title: 'Iron Pulse',
       description: 'An energetic, high-impact gym website featuring membership plans, class schedules, trainer profiles, and a motivational design to convert visitors into members.',
       tech: [
@@ -864,8 +864,10 @@ export default function Home() {
       thumb: '/iron-pulse-thumb.png',
       thumbAlt: 'Iron Pulse Website Preview',
       headerClass: 'project-header-gym',
-      liveUrl: null,
-      githubUrl: null,
+      liveUrl: 'https://gym-xi-sand.vercel.app/',
+      githubUrl: 'https://github.com/mrunali-hatzade/gym',
+      liveId: 'gym-live',
+      githubId: 'gym-github',
     },
     {
       id: 'lifeline-hospital',
@@ -1605,6 +1607,16 @@ export default function Home() {
             <div>
               <p className="edu-degree">Secondary School Education (SSC)</p>
               <p className="edu-school">Jaycees Convent School, Bhandara</p>
+              <div className="edu-links">
+                <a href="https://jaycees-convent.vercel.app/" target="_blank" rel="noopener noreferrer" className="edu-link">
+                  <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  Website
+                </a>
+                <a href="https://github.com/mrunali-hatzade/jaycees-convent" target="_blank" rel="noopener noreferrer" className="edu-link-github">
+                  <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                  GitHub
+                </a>
+              </div>
             </div>
             <span className="edu-year">2018 – 2019</span>
           </div>
