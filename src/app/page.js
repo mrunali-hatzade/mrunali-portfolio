@@ -434,7 +434,7 @@ export default function Home() {
       case 'stats':
         response = [
           'Key Metrics:',
-          '  • Projects Built     : 9+ (across 6 industries)',
+          '  • Projects Built     : 10+ (across 6 industries)',
           '  • Experience Level   : Fresh & Ready to Ship',
           '  • Client Trust Score : 100%',
           '  • Learning Curiosity: Infinite (∞)'
@@ -870,6 +870,25 @@ export default function Home() {
       githubId: 'gym-github',
     },
     {
+      id: 'gym-2',
+      category: 'gym',
+      status: 'live',
+      title: 'Gym 2',
+      description: 'A clean, fast, and fully responsive secondary gym landing page with dynamic membership options, class information, and an elegant dark user interface.',
+      tech: [
+        { label: 'React', cls: 'tag-react' },
+        { label: 'Tailwind', cls: 'tag-tailwind' },
+        { label: 'Animations', cls: 'tag-animations' },
+      ],
+      thumb: '/gym-2-thumb.png',
+      thumbAlt: 'Gym 2 Website Preview',
+      headerClass: 'project-header-gym',
+      liveUrl: 'https://gym2-lilac.vercel.app/',
+      githubUrl: 'https://github.com/mrunali-hatzade/gym2-',
+      liveId: 'gym-2-live',
+      githubId: 'gym-2-github',
+    },
+    {
       id: 'lifeline-hospital',
       category: 'hospital',
       status: 'live',
@@ -1082,7 +1101,7 @@ export default function Home() {
               <p className="stats-header">// stats</p>
               <div className="stats-grid">
                 <div className="stats-card">
-                  <span className="stats-number">9+</span>
+                  <span className="stats-number">10+</span>
                   <span className="stats-label">Projects</span>
                 </div>
                 <div className="stats-card">

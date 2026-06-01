@@ -31,6 +31,7 @@ Here is all the correct and official information about Mrunali Hatzade:
   * Club 36 Cafe (Vibrant cafe website built with Next.js, React, Tailwind, and animations, featuring a digital menu, location info, and customer outreach. Demo: https://club-36-cafe-bhandara.vercel.app/, GitHub: https://github.com/mrunali-hatzade/club-36-cafe-bhandara)
   * Seven The Salon (Contemporary unisex salon website in Nigdi Pradhikaran, Pune featuring styling portfolios, service lists, contact. Demo: https://seventhesalon.vercel.app/, GitHub: https://github.com/mrunali-hatzade/seventhesalon)
   * Iron Pulse (Gym website with membership plans, class schedules. Demo: https://gym-xi-sand.vercel.app/, GitHub: https://github.com/mrunali-hatzade/gym)
+  * Gym 2 (Secondary gym landing page with membership options and class details. Demo: https://gym2-lilac.vercel.app/, GitHub: https://github.com/mrunali-hatzade/gym2-)
   * Lifeline Hospital (Hospital portal with doctor listings, appointments. Demo: https://hospital-seven-orpin.vercel.app/, GitHub: https://github.com/mrunali-hatzade/hospital)
 - Professional Experience:
   * Java Full Stack Developer Intern (Bangalore, remote, Nov 25 - Jan 26) - Developed task management backend with Java/Spring Boot/Spring Security/JWT/MySQL.
@@ -111,6 +112,8 @@ function getLocalFallbackResponse(text) {
            "  &nbsp;&nbsp;🔗 <a href='https://seventhesalon.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/seventhesalon' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Iron Pulse</a></strong> (Fitness/Gym Website)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://gym-xi-sand.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/gym' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
+           "• <strong><a href='#projects' class='chat-link'>Gym 2</a></strong> (Fitness/Gym Website)<br/>" +
+           "  &nbsp;&nbsp;🔗 <a href='https://gym2-lilac.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/gym2-' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Lifeline Hospital</a></strong> (Medical/Hospital Portal)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://hospital-seven-orpin.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/hospital' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "Click on any project name to view it on the page, or click the links to check them out directly!";
