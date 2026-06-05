@@ -54,6 +54,10 @@ Here is all the correct and official information about Mrunali Hatzade:
 - Achievements:
   * Hackathon Winner: TECHCOMBACT 2.0 (Hardware) at DYPIEMR.
   * State Level Tennikoit Championship: 1st Place (Nandurbar 2016-17 & Nashik 2018-19).
+- Interactive Playground:
+  * Section 10 on the page, containing two engaging recruiter tools:
+    1. Build-a-Dev Matcher: Allows users to customize a tech stack and check project compatibility, leading to a 100% scorecard, resume download, and contact auto-fill.
+    2. Developer Clicker: An idle game where clicking a keyboard writes "Lines of Code" (LOC) and players purchase upgrades based on Mrunali's skills (like Java REST API or AI Integrations) to passively generate code and unlock achievements.
 
 FORMATTING RULES:
 1. ALWAYS format links using HTML anchor tags: <a href="url" target="_blank" rel="noopener noreferrer" class="chat-link">Link Text</a>.
@@ -172,6 +176,12 @@ function getLocalFallbackResponse(text) {
 
   if (normalizedText.includes('contact') || normalizedText.includes('email') || normalizedText.includes('phone') || normalizedText.includes('number') || normalizedText.includes('call') || normalizedText.includes('reach') || normalizedText.includes('message')) {
     return "You can reach Mrunali via email at mrunalithatzade20@gmail.com, or phone at +91 72184 05826. Her socials (LinkedIn, GitHub, Instagram, YouTube) are also linked in the footer!";
+  }
+  if (normalizedText.includes('game') || normalizedText.includes('playground') || normalizedText.includes('clicker') || normalizedText.includes('matcher') || normalizedText.includes('interact') || normalizedText.includes('impress') || normalizedText.includes('loc') || normalizedText.includes('play')) {
+    return "Check out the <strong><a href='#playground' class='chat-link'>Interactive Playground</a></strong> section (Section 10)! It has two fun features:<br/><br/>" +
+           "1. 🛠️ <strong>Build-a-Dev Matcher</strong>: Select a custom frontend, backend, cloud, and specialty stack to generate a 100% compatibility scorecard with resume download and auto-filled contact forms.<br/>" +
+           "2. ⌨️ <strong>Developer Clicker</strong>: Click a virtual keyboard to write Lines of Code (LOC), purchase technical skill upgrades, and unlock achievements.<br/><br/>" +
+           "Go ahead, play and explore Mrunali's technical skills dynamically!";
   }
 
   // ── General / unmatched — no longer blindly redirects to contact ──
