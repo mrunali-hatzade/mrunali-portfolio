@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 
 export default function Home() {
   const [navOpen, setNavOpen] = useState(false);
@@ -34,26 +34,72 @@ export default function Home() {
   // Scroll to Top state
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // ── INTERACTIVE PLAYGROUND STATE ──────────────────────────────
-  const [playgroundTab, setPlaygroundTab] = useState('matcher');
-  const [matcherSelections, setMatcherSelections] = useState({
-    frontend: '',
-    backend: '',
-    cloud: '',
-    specialty: ''
+  // ── INTERACTIVE RESUME BUILDER STATE ──────────────────────────
+  const [resumeTheme, setResumeTheme] = useState('ats'); // 'ats', 'slate', 'cyberpunk'
+  const [activeFormTab, setActiveFormTab] = useState('personal'); // 'personal', 'experience', 'education', 'skills', 'projects'
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentVerifying, setPaymentVerifying] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [resumeData, setResumeData] = useState({
+    personal: {
+      name: 'Mrunali Hatzade',
+      title: 'Full Stack Developer & AI Engineer',
+      email: 'mrunalithatzade20@gmail.com',
+      phone: '+91 72184 05826',
+      linkedin: 'linkedin.com/in/mrunali-hatzade',
+      github: 'github.com/mrunali-hatzade',
+      location: 'Pune, India',
+      summary: 'Passionate Java Full Stack Developer and AI Integration Engineer with internship experience building REST APIs with Spring Boot, writing responsive interfaces in React/Next.js, and deploying cloud services. Skilled in optimizing workflows, microservices, database management, and LLM chatbot integrations.'
+    },
+    experience: [
+      {
+        id: '1',
+        role: 'Java Full Stack Developer Intern',
+        company: 'Remote Tech Internships',
+        location: 'Bangalore (Remote)',
+        dates: 'Nov 2025 - Jan 2026',
+        description: 'Developed scalable backend microservices and secure REST APIs using Java and Spring Boot.\nImplemented user authentication and role-based access control with Spring Security & JWT.\nOptimized MySQL database queries and automated deployment pipelines.'
+      },
+      {
+        id: '2',
+        role: 'Full Stack Java Application Intern',
+        company: 'Vanguard Systems',
+        location: 'Pune, India',
+        dates: 'Dec 2023 - Mar 2024',
+        description: 'Maintained enterprise application database modules using Java JDBC and SQL queries.\nCollaborated on UI styling revisions, improving layout loading performance by 20%.\nParticipated in daily standups and agile software development cycles.'
+      }
+    ],
+    education: [
+      {
+        id: '1',
+        degree: 'B.E. in Electronics & Telecommunication',
+        school: 'Dr. D.Y. Patil Institute (DYPIEMR)',
+        location: 'Akurdi, Pune',
+        dates: '2021 - 2025',
+        description: 'Focus on Web Development, Databases, Embedded Systems, and AI Foundations.'
+      }
+    ],
+    skills: [
+      { id: '1', category: 'Frontend', items: 'React, Next.js, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS' },
+      { id: '2', category: 'Backend & DB', items: 'Java, Spring Boot, REST APIs, JWT, SQL (MySQL, Oracle), Node.js' },
+      { id: '3', category: 'Cloud & Tools', items: 'OCI Cloud, Docker, Git, CI/CD pipelines, Maven' }
+    ],
+    projects: [
+      {
+        id: '1',
+        name: 'Café Aura',
+        description: 'A beautiful café booking and reservation site featuring interactive service schedules and sleek brand layouts.',
+        link: 'cafe-aura-website.vercel.app'
+      },
+      {
+        id: '2',
+        name: 'Nakade Hospital Portal',
+        description: 'A responsive hospital appointment portal built to manage patient slots, doctor listings, and contact options.',
+        link: 'hospital-seven-orpin.vercel.app'
+      }
+    ]
   });
-  const [loc, setLoc] = useState(0);
-  const [locPerSec, setLocPerSec] = useState(0);
-  const [clickValue, setClickValue] = useState(1);
-  const [upgrades, setUpgrades] = useState([
-    { id: 'java-api', name: 'Java REST API', cost: 15, lps: 1.5, qty: 0, desc: 'Write Spring Boot controllers. Generates +1.5 LOC/sec.' },
-    { id: 'react-components', name: 'React Components', cost: 100, lps: 8, qty: 0, desc: 'Reusable frontend views. Generates +8 LOC/sec.' },
-    { id: 'security-audit', name: 'Spring Security Audit', cost: 500, lps: 45, qty: 0, desc: 'Secure endpoints and configure JWT. Generates +45 LOC/sec.' },
-    { id: 'ai-integrations', name: 'AI Models Integration', cost: 3000, lps: 260, qty: 0, desc: 'Integrate Gemini API and Agents. Generates +260 LOC/sec.' },
-    { id: 'cloud-devops', name: 'Cloud Infrastructure (OCI)', cost: 15000, lps: 1400, qty: 0, desc: 'Deploy auto-scaling APIs. Generates +1,400 LOC/sec.' }
-  ]);
-  const [clickEffects, setClickEffects] = useState([]);
-  const [activeAchievements, setActiveAchievements] = useState([]);
 
   // Custom cyber cursor state
   const cursorRef = useRef(null);
@@ -737,133 +783,73 @@ export default function Home() {
     }
   };
 
-  // ── PLAYGROUND LOGIC ──────────────────────────────────────────
-  const PLAYGROUND_ACHIEVEMENTS = [
-    { id: 'hello-world', name: '💻 Hello World', req: 10, desc: 'Write your first 10 Lines of Code' },
-    { id: 'stack-overflow', name: '🔥 Stack Overflow Expert', req: 500, desc: 'Accumulate 500 Lines of Code' },
-    { id: 'framework-architect', name: '🏗️ Framework Architect', req: 5000, desc: 'Unlock 5,000 Lines of Code' },
-    { id: 'tech-visionary', name: '👑 Tech Visionary', req: 50000, desc: 'Deploy massive systems at 50,000 Lines of Code' }
-  ];
-
-  // Check achievements
-  useEffect(() => {
-    PLAYGROUND_ACHIEVEMENTS.forEach(ach => {
-      if (loc >= ach.req && !activeAchievements.includes(ach.id)) {
-        setActiveAchievements(prev => [...prev, ach.id]);
-      }
-    });
-  }, [loc, activeAchievements]);
-
-  // Load clicker stats
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedLoc = localStorage.getItem('playground_loc');
-      const savedLps = localStorage.getItem('playground_lps');
-      const savedUpgrades = localStorage.getItem('playground_upgrades');
-      const savedAchievements = localStorage.getItem('playground_achievements');
-      if (savedLoc) setLoc(parseFloat(savedLoc));
-      if (savedLps) {
-        const parsedLps = parseFloat(savedLps);
-        setLocPerSec(parsedLps);
-        setClickValue(Math.max(1, Math.floor(parsedLps * 0.1)));
-      }
-      if (savedAchievements) {
-        try {
-          setActiveAchievements(JSON.parse(savedAchievements));
-        } catch (e) {
-          console.error(e);
-        }
-      }
-      if (savedUpgrades) {
-        try {
-          const parsed = JSON.parse(savedUpgrades);
-          setUpgrades(prev => prev.map(up => {
-            const match = parsed.find(p => p.id === up.id);
-            return match ? { ...up, qty: match.qty, cost: match.cost } : up;
-          }));
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    }
-  }, []);
-
-  // Save clicker stats
-  useEffect(() => {
-    if (typeof window !== 'undefined' && loc > 0) {
-      localStorage.setItem('playground_loc', loc.toString());
-      localStorage.setItem('playground_lps', locPerSec.toString());
-      localStorage.setItem('playground_upgrades', JSON.stringify(upgrades));
-      localStorage.setItem('playground_achievements', JSON.stringify(activeAchievements));
-    }
-  }, [loc, locPerSec, upgrades, activeAchievements]);
-
-  // LPS Ticker
-  useEffect(() => {
-    if (locPerSec <= 0) return;
-    const interval = setInterval(() => {
-      setLoc(prev => prev + (locPerSec / 10));
-    }, 100);
-    return () => clearInterval(interval);
-  }, [locPerSec]);
-
-  // Click keyboard handler
-  const handleKeyboardClick = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    setLoc(prev => prev + clickValue);
-    
-    const newEffect = {
-      id: Date.now() + Math.random(),
-      x,
-      y,
-      val: clickValue
-    };
-    setClickEffects(prev => [...prev, newEffect]);
-    
-    setTimeout(() => {
-      setClickEffects(prev => prev.filter(eff => eff.id !== newEffect.id));
-    }, 800);
-  };
-
-  // Buy upgrade handler
-  const buyUpgrade = (upgradeId) => {
-    setUpgrades(prev => prev.map(up => {
-      if (up.id === upgradeId) {
-        if (loc >= up.cost) {
-          const nextQty = up.qty + 1;
-          const nextCost = Math.round(up.cost * 1.35);
-          setLoc(prevLoc => prevLoc - up.cost);
-          setLocPerSec(prevLps => prevLps + up.lps);
-          
-          const newLps = locPerSec + up.lps;
-          setClickValue(Math.max(1, Math.floor(newLps * 0.1)));
-          return { ...up, qty: nextQty, cost: nextCost };
-        }
-      }
-      return up;
-    }));
-  };
-
-  // Auto scroll and fill form for matcher
-  const handlePreFillForm = () => {
-    setFormData(prev => ({
+  // ── RESUME BUILDER LOGIC ──────────────────────────────────────
+  const handlePersonalChange = (field, value) => {
+    setResumeData(prev => ({
       ...prev,
-      subject: 'Recruiter Match - Custom Dev Profile',
-      message: `Hi Mrunali,\n\nWe matched on your portfolio playground! We are looking for a developer with:\n- Frontend: ${matcherSelections.frontend}\n- Backend/DB: ${matcherSelections.backend}\n- Cloud/Infrastructure: ${matcherSelections.cloud}\n- Specialty Focus: ${matcherSelections.specialty}\n\nWe would love to discuss potential opportunities or project collaborations.\n\nBest regards,\n[Recruiter / Client Name]`
+      personal: {
+        ...prev.personal,
+        [field]: value
+      }
     }));
-    
-    const el = document.getElementById('contact');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Chatbot quick match reply helper
-  const handleMatcherChatbot = () => {
-    setChatOpen(true);
-    const query = `Tell me about your experience with ${matcherSelections.frontend}, ${matcherSelections.backend}, ${matcherSelections.cloud}, and ${matcherSelections.specialty}.`;
-    handleQuickReply(query);
+  const handleListItemChange = (section, id, field, value) => {
+    setResumeData(prev => ({
+      ...prev,
+      [section]: prev[section].map(item => item.id === id ? { ...item, [field]: value } : item)
+    }));
+  };
+
+  const addListItem = (section, template) => {
+    const newItem = {
+      ...template,
+      id: (Math.random() + 1).toString(36).substring(7)
+    };
+    setResumeData(prev => ({
+      ...prev,
+      [section]: [...prev[section], newItem]
+    }));
+  };
+
+  const removeListItem = (section, id) => {
+    setResumeData(prev => ({
+      ...prev,
+      [section]: prev[section].filter(item => item.id !== id)
+    }));
+  };
+
+  const handlePrint = () => {
+    if (isUnlocked) {
+      if (typeof window !== 'undefined') {
+        window.print();
+      }
+    } else {
+      setShowPaymentModal(true);
+    }
+  };
+
+  const handleVerifyPayment = () => {
+    setPaymentVerifying(true);
+    setTimeout(() => {
+      setPaymentVerifying(false);
+      setIsUnlocked(true);
+      setShowPaymentModal(false);
+      // Delay printing to allow modal transition to complete
+      setTimeout(() => {
+        if (typeof window !== 'undefined') {
+          window.print();
+        }
+      }, 300);
+    }, 3000);
+  };
+
+  const handleCopyUpi = () => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText('mrunalihatzade353@oksbi');
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   const promptNewChat = () => {
@@ -1151,7 +1137,7 @@ export default function Home() {
           <a href="#projects" onClick={() => setNavOpen(false)}>Projects</a>
           <a href="#experience" onClick={() => setNavOpen(false)}>Experience</a>
           <a href="#skills" onClick={() => setNavOpen(false)}>Skills</a>
-          <a href="#playground" onClick={() => setNavOpen(false)}>Playground</a>
+          <a href="#resume-builder" onClick={() => setNavOpen(false)}>Resume Builder</a>
           <a href="#contact" onClick={() => setNavOpen(false)}>Contact</a>
         </ul>
         <a href="#contact" className="nav-cta"><span className="nav-cta-dot"></span>Available for work</a>
@@ -1913,253 +1899,792 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 10. INTERACTIVE PLAYGROUND */}
-      <section id="playground">
-        <p className="section-label">10. Interactive Playground</p>
-        <h2 className="section-title">Developer Playground</h2>
-        <p className="playground-subtitle">
-          Ready to put Mrunali&apos;s skills to the test? Use the <strong>Build-a-Dev Matcher</strong> to check project compatibility, or play the <strong>Developer Clicker</strong> idle game to dynamically preview her technical stack.
+      {/* 10. INTERACTIVE RESUME BUILDER */}
+      <section id="resume-builder">
+        <p className="section-label">10. Resume Builder</p>
+        <h2 className="section-title">Build a Resume in 10 Minutes</h2>
+        <p className="builder-subtitle">
+          Need a professional resume instantly? Fill out the details below, choose a layout, and print or download your custom, print-optimized PDF!
         </p>
 
-        <div className="playground-container reveal">
-          <div className="playground-tabs">
-            <button
-              className={`playground-tab-btn ${playgroundTab === 'matcher' ? 'active' : ''}`}
-              onClick={() => setPlaygroundTab('matcher')}
-            >
-              🛠️ Build-a-Dev Matcher
-            </button>
-            <button
-              className={`playground-tab-btn ${playgroundTab === 'clicker' ? 'active' : ''}`}
-              onClick={() => setPlaygroundTab('clicker')}
-            >
-              ⌨️ Developer Clicker
-            </button>
-          </div>
-
-          <div className="playground-panel">
-            {playgroundTab === 'matcher' ? (
-              <div className="matcher-grid">
-                <div className="matcher-options">
-                  <div className="matcher-category">
-                    <h4>Frontend Skills</h4>
-                    <div className="matcher-chips">
-                      {['Next.js / React', 'Tailwind CSS', 'HTML5 / CSS3', 'JavaScript (ES6+)'].map((skill) => (
-                        <button
-                          key={skill}
-                          className={`matcher-chip ${matcherSelections.frontend === skill ? 'selected' : ''}`}
-                          onClick={() => setMatcherSelections(prev => ({ ...prev, frontend: prev.frontend === skill ? '' : skill }))}
-                        >
-                          {skill}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="matcher-category">
-                    <h4>Backend & Databases</h4>
-                    <div className="matcher-chips">
-                      {['Java / Spring Boot', 'REST APIs & JWT', 'Oracle SQL / MySQL', 'Node.js / Express'].map((skill) => (
-                        <button
-                          key={skill}
-                          className={`matcher-chip ${matcherSelections.backend === skill ? 'selected' : ''}`}
-                          onClick={() => setMatcherSelections(prev => ({ ...prev, backend: prev.backend === skill ? '' : skill }))}
-                        >
-                          {skill}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="matcher-category">
-                    <h4>Cloud & Tools</h4>
-                    <div className="matcher-chips">
-                      {['Oracle Cloud (OCI)', 'Vercel Deployments', 'Docker Containers', 'Git / GitHub'].map((skill) => (
-                        <button
-                          key={skill}
-                          className={`matcher-chip ${matcherSelections.cloud === skill ? 'selected' : ''}`}
-                          onClick={() => setMatcherSelections(prev => ({ ...prev, cloud: prev.cloud === skill ? '' : skill }))}
-                        >
-                          {skill}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="matcher-category">
-                    <h4>Specialty & Focus</h4>
-                    <div className="matcher-chips">
-                      {['Generative AI / LLMs', 'Intelligent Chatbots', 'Hospital/School Management', 'Commercial Café/Salon Sites'].map((skill) => (
-                        <button
-                          key={skill}
-                          className={`matcher-chip ${matcherSelections.specialty === skill ? 'selected' : ''}`}
-                          onClick={() => setMatcherSelections(prev => ({ ...prev, specialty: prev.specialty === skill ? '' : skill }))}
-                        >
-                          {skill}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="matcher-results-col">
-                  {matcherSelections.frontend && matcherSelections.backend && matcherSelections.cloud && matcherSelections.specialty ? (
-                    <div className="scorecard-card">
-                      <div className="scorecard-header">
-                        <h3>📋 Recruiter Compatibility Match</h3>
-                      </div>
-                      <div className="scorecard-body">
-                        <div className="scorecard-detail-item">
-                          <strong>Frontend Match:</strong> {matcherSelections.frontend} (100% Core Experience)
-                        </div>
-                        <div className="scorecard-detail-item">
-                          <strong>Backend/DB Match:</strong> {matcherSelections.backend} (100% Core Experience)
-                        </div>
-                        <div className="scorecard-detail-item">
-                          <strong>Infrastructure:</strong> {matcherSelections.cloud} (100% Core Experience)
-                        </div>
-                        <div className="scorecard-detail-item">
-                          <strong>Focus Match:</strong> {matcherSelections.specialty} (100% Core Experience)
-                        </div>
-                        <div className="scorecard-desc">
-                          ✨ <strong>Verdict: 100% Perfect Fit!</strong> Mrunali Hatzade has hands-on production and internship experience delivering solutions utilizing this exact stack.
-                        </div>
-                      </div>
-                      <div className="scorecard-actions">
-                        <button onClick={handlePreFillForm} className="scorecard-btn scorecard-btn-primary">
-                          💬 Pre-Fill Contact Form
-                        </button>
-                        <a
-                          href="https://drive.google.com/uc?export=download&id=13bFl8OEjv3xnyamQGS7wz9ozDqU4M7m0"
-                          download="Mrunali_Hatzade_Resume.pdf"
-                          className="scorecard-btn scorecard-btn-secondary"
-                        >
-                          📄 Download Official Resume
-                        </a>
-                        <button onClick={handleMatcherChatbot} className="scorecard-btn scorecard-btn-secondary">
-                          🤖 Ask AI Bot About This Stack
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="matcher-placeholder-wrap">
-                      <div className="match-radial">
-                        <svg>
-                          <circle className="circle-bg" cx="80" cy="80" r="70" />
-                          <circle
-                            className="circle-progress"
-                            cx="80"
-                            cy="80"
-                            r="70"
-                            strokeDasharray={440}
-                            strokeDashoffset={
-                              440 - (440 * (
-                                (matcherSelections.frontend ? 25 : 0) +
-                                (matcherSelections.backend ? 25 : 0) +
-                                (matcherSelections.cloud ? 25 : 0) +
-                                (matcherSelections.specialty ? 25 : 0)
-                              )) / 100
-                            }
-                          />
-                        </svg>
-                        <div className="match-percentage">
-                          {(matcherSelections.frontend ? 25 : 0) +
-                           (matcherSelections.backend ? 25 : 0) +
-                           (matcherSelections.cloud ? 25 : 0) +
-                           (matcherSelections.specialty ? 25 : 0)}%
-                        </div>
-                      </div>
-                      <p className="matcher-placeholder">
-                        Select one skill from each category above to generate a customized Developer Match Report.
-                      </p>
-                    </div>
-                  )}
-                </div>
+        <div className="builder-container reveal">
+          <div className="builder-grid">
+            
+            {/* LEFT COLUMN: EDITOR FORM */}
+            <div className="builder-form-panel">
+              <div className="builder-tabs">
+                <button
+                  type="button"
+                  className={`builder-tab-btn ${activeFormTab === 'personal' ? 'active' : ''}`}
+                  onClick={() => setActiveFormTab('personal')}
+                >
+                  👤 Contact
+                </button>
+                <button
+                  type="button"
+                  className={`builder-tab-btn ${activeFormTab === 'experience' ? 'active' : ''}`}
+                  onClick={() => setActiveFormTab('experience')}
+                >
+                  💼 Experience
+                </button>
+                <button
+                  type="button"
+                  className={`builder-tab-btn ${activeFormTab === 'education' ? 'active' : ''}`}
+                  onClick={() => setActiveFormTab('education')}
+                >
+                  🎓 Education
+                </button>
+                <button
+                  type="button"
+                  className={`builder-tab-btn ${activeFormTab === 'skills' ? 'active' : ''}`}
+                  onClick={() => setActiveFormTab('skills')}
+                >
+                  🛠️ Skills
+                </button>
+                <button
+                  type="button"
+                  className={`builder-tab-btn ${activeFormTab === 'projects' ? 'active' : ''}`}
+                  onClick={() => setActiveFormTab('projects')}
+                >
+                  📁 Projects
+                </button>
               </div>
-            ) : (
-              <div className="clicker-grid">
-                <div className="clicker-main-col">
-                  <div className="clicker-stats">
-                    <p className="clicker-loc-label">Lines of Code Written</p>
-                    <p className="clicker-loc-value">{Math.floor(loc).toLocaleString()}</p>
-                    <p className="clicker-lps-value">
-                      Development Rate: <span>{locPerSec.toFixed(1)} LOC/sec</span> (+{clickValue} per click)
-                    </p>
+
+              {/* TAB CONTENT: PERSONAL DETAILS */}
+              {activeFormTab === 'personal' && (
+                <div className="builder-form-section">
+                  <h3 className="builder-section-title">Contact Details</h3>
+                  <div className="form-group-row">
+                    <div className="form-group">
+                      <label htmlFor="res-name">Full Name</label>
+                      <input
+                        type="text"
+                        id="res-name"
+                        className="form-control"
+                        value={resumeData.personal.name}
+                        onChange={(e) => handlePersonalChange('name', e.target.value)}
+                        placeholder="John Doe"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="res-title">Role Title</label>
+                      <input
+                        type="text"
+                        id="res-title"
+                        className="form-control"
+                        value={resumeData.personal.title}
+                        onChange={(e) => handlePersonalChange('title', e.target.value)}
+                        placeholder="Software Engineer"
+                      />
+                    </div>
                   </div>
 
-                  <div className="clicker-keyboard-wrapper">
-                    <button
-                      className="clicker-keyboard-btn"
-                      onClick={handleKeyboardClick}
-                      aria-label="Write Code Keyboard"
-                    >
-                      <span>⌨️</span>
-                    </button>
-                    {clickEffects.map((eff) => (
-                      <span
-                        key={eff.id}
-                        className="floating-click-effect"
-                        style={{ left: `${eff.x}px`, top: `${eff.y}px` }}
+                  <div className="form-group-row">
+                    <div className="form-group">
+                      <label htmlFor="res-email">Email</label>
+                      <input
+                        type="email"
+                        id="res-email"
+                        className="form-control"
+                        value={resumeData.personal.email}
+                        onChange={(e) => handlePersonalChange('email', e.target.value)}
+                        placeholder="johndoe@gmail.com"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="res-phone">Phone</label>
+                      <input
+                        type="text"
+                        id="res-phone"
+                        className="form-control"
+                        value={resumeData.personal.phone}
+                        onChange={(e) => handlePersonalChange('phone', e.target.value)}
+                        placeholder="+91 98765 43210"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group-row">
+                    <div className="form-group">
+                      <label htmlFor="res-linkedin">LinkedIn</label>
+                      <input
+                        type="text"
+                        id="res-linkedin"
+                        className="form-control"
+                        value={resumeData.personal.linkedin}
+                        onChange={(e) => handlePersonalChange('linkedin', e.target.value)}
+                        placeholder="linkedin.com/in/johndoe"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="res-github">GitHub</label>
+                      <input
+                        type="text"
+                        id="res-github"
+                        className="form-control"
+                        value={resumeData.personal.github}
+                        onChange={(e) => handlePersonalChange('github', e.target.value)}
+                        placeholder="github.com/johndoe"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group-row">
+                    <div className="form-group">
+                      <label htmlFor="res-location">Location</label>
+                      <input
+                        type="text"
+                        id="res-location"
+                        className="form-control"
+                        value={resumeData.personal.location}
+                        onChange={(e) => handlePersonalChange('location', e.target.value)}
+                        placeholder="Pune, India"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="res-summary">Professional Summary</label>
+                    <textarea
+                      id="res-summary"
+                      className="form-control"
+                      value={resumeData.personal.summary}
+                      onChange={(e) => handlePersonalChange('summary', e.target.value)}
+                      placeholder="A short summary of your background and career goals..."
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* TAB CONTENT: EXPERIENCE */}
+              {activeFormTab === 'experience' && (
+                <div className="builder-form-section">
+                  <h3 className="builder-section-title">Work Experience</h3>
+                  {resumeData.experience.map((exp) => (
+                    <div key={exp.id} className="repeater-item">
+                      <button
+                        type="button"
+                        className="btn-remove-item"
+                        onClick={() => removeListItem('experience', exp.id)}
+                        title="Remove experience"
                       >
-                        +{eff.val} LOC
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="clicker-achievements">
-                    <h4>🏅 Achievements</h4>
-                    <div className="achievements-shelf">
-                      {PLAYGROUND_ACHIEVEMENTS.map((ach) => {
-                        const isUnlocked = activeAchievements.includes(ach.id);
-                        return (
-                          <div
-                            key={ach.id}
-                            className={`achievement-badge ${isUnlocked ? 'unlocked' : ''}`}
-                            title={`${ach.desc} (${isUnlocked ? 'Unlocked' : 'Locked'})`}
-                          >
-                            <span>{isUnlocked ? '✅' : '🔒'}</span> {ach.name}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="clicker-shop-col">
-                  {upgrades.map((up) => {
-                    const isAffordable = loc >= up.cost;
-                    return (
-                      <div key={up.id} className="shop-item-card">
-                        <div className="shop-item-info">
-                          <span className="shop-item-title">
-                            {up.name} {up.qty > 0 && <span className="shop-item-qty">x{up.qty}</span>}
-                          </span>
-                          <span className="shop-item-desc">{up.desc}</span>
-                          <span className="shop-item-cost">💸 Cost: {up.cost} LOC</span>
+                        ×
+                      </button>
+                      <div className="form-group-row">
+                        <div className="form-group">
+                          <label>Job Role</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={exp.role}
+                            onChange={(e) => handleListItemChange('experience', exp.id, 'role', e.target.value)}
+                            placeholder="Software Engineer"
+                          />
                         </div>
-                        <button
-                          className="shop-buy-btn"
-                          disabled={!isAffordable}
-                          onClick={() => buyUpgrade(up.id)}
-                        >
-                          Buy Upgrade
-                        </button>
+                        <div className="form-group">
+                          <label>Company</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={exp.company}
+                            onChange={(e) => handleListItemChange('experience', exp.id, 'company', e.target.value)}
+                            placeholder="Acme Corp"
+                          />
+                        </div>
                       </div>
-                    );
-                  })}
+                      <div className="form-group-row">
+                        <div className="form-group">
+                          <label>Dates</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={exp.dates}
+                            onChange={(e) => handleListItemChange('experience', exp.id, 'dates', e.target.value)}
+                            placeholder="Nov 2025 - Present"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Location</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={exp.location}
+                            onChange={(e) => handleListItemChange('experience', exp.id, 'location', e.target.value)}
+                            placeholder="Remote / Pune"
+                          />
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <label>Description (One sentence per line for bullets)</label>
+                        <textarea
+                          className="form-control"
+                          value={exp.description}
+                          onChange={(e) => handleListItemChange('experience', exp.id, 'description', e.target.value)}
+                          placeholder="Developed scalable microservices..."
+                        />
+                      </div>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    className="btn-add-item"
+                    onClick={() => addListItem('experience', { role: '', company: '', location: '', dates: '', description: '' })}
+                  >
+                    ➕ Add Experience
+                  </button>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
 
-          <div className="playground-template-sale">
-            <div className="sale-text">
-              <h4>💡 Developer Special: Want this Interactive Playground on your portfolio?</h4>
-              <p>Get the fully responsive, plug-and-play Next.js React component &amp; globals.css stylesheet for just $9.</p>
+              {/* TAB CONTENT: EDUCATION */}
+              {activeFormTab === 'education' && (
+                <div className="builder-form-section">
+                  <h3 className="builder-section-title">Education</h3>
+                  {resumeData.education.map((edu) => (
+                    <div key={edu.id} className="repeater-item">
+                      <button
+                        type="button"
+                        className="btn-remove-item"
+                        onClick={() => removeListItem('education', edu.id)}
+                        title="Remove education"
+                      >
+                        ×
+                      </button>
+                      <div className="form-group-row">
+                        <div className="form-group">
+                          <label>Degree / Qualification</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={edu.degree}
+                            onChange={(e) => handleListItemChange('education', edu.id, 'degree', e.target.value)}
+                            placeholder="B.E. in Computer Science"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>School / University</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={edu.school}
+                            onChange={(e) => handleListItemChange('education', edu.id, 'school', e.target.value)}
+                            placeholder="DY Patil Institute"
+                          />
+                        </div>
+                      </div>
+                      <div className="form-group-row">
+                        <div className="form-group">
+                          <label>Dates</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={edu.dates}
+                            onChange={(e) => handleListItemChange('education', edu.id, 'dates', e.target.value)}
+                            placeholder="2021 - 2025"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Location</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={edu.location}
+                            onChange={(e) => handleListItemChange('education', edu.id, 'location', e.target.value)}
+                            placeholder="Pune, India"
+                          />
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <label>Details / Summary (Optional)</label>
+                        <textarea
+                          className="form-control"
+                          value={edu.description}
+                          onChange={(e) => handleListItemChange('education', edu.id, 'description', e.target.value)}
+                          placeholder="Focus on software engineering, web technologies..."
+                        />
+                      </div>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    className="btn-add-item"
+                    onClick={() => addListItem('education', { degree: '', school: '', location: '', dates: '', description: '' })}
+                  >
+                    ➕ Add Education
+                  </button>
+                </div>
+              )}
+
+              {/* TAB CONTENT: SKILLS */}
+              {activeFormTab === 'skills' && (
+                <div className="builder-form-section">
+                  <h3 className="builder-section-title">Technical Skills</h3>
+                  {resumeData.skills.map((skill) => (
+                    <div key={skill.id} className="repeater-item">
+                      <button
+                        type="button"
+                        className="btn-remove-item"
+                        onClick={() => removeListItem('skills', skill.id)}
+                        title="Remove category"
+                      >
+                        ×
+                      </button>
+                      <div className="form-group">
+                        <label>Category (e.g. Programming Languages)</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={skill.category}
+                          onChange={(e) => handleListItemChange('skills', skill.id, 'category', e.target.value)}
+                          placeholder="Frontend"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Skills (Comma separated: React, Next.js, HTML5)</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={skill.items}
+                          onChange={(e) => handleListItemChange('skills', skill.id, 'items', e.target.value)}
+                          placeholder="React, Next.js, HTML, CSS"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    className="btn-add-item"
+                    onClick={() => addListItem('skills', { category: '', items: '' })}
+                  >
+                    ➕ Add Skill Category
+                  </button>
+                </div>
+              )}
+
+              {/* TAB CONTENT: PROJECTS */}
+              {activeFormTab === 'projects' && (
+                <div className="builder-form-section">
+                  <h3 className="builder-section-title">Key Projects</h3>
+                  {resumeData.projects.map((proj) => (
+                    <div key={proj.id} className="repeater-item">
+                      <button
+                        type="button"
+                        className="btn-remove-item"
+                        onClick={() => removeListItem('projects', proj.id)}
+                        title="Remove project"
+                      >
+                        ×
+                      </button>
+                      <div className="form-group-row">
+                        <div className="form-group">
+                          <label>Project Name</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={proj.name}
+                            onChange={(e) => handleListItemChange('projects', proj.id, 'name', e.target.value)}
+                            placeholder="Café Aura"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Project Link (Optional)</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={proj.link}
+                            onChange={(e) => handleListItemChange('projects', proj.id, 'link', e.target.value)}
+                            placeholder="cafe-aura.vercel.app"
+                          />
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <label>Description</label>
+                        <textarea
+                          className="form-control"
+                          value={proj.description}
+                          onChange={(e) => handleListItemChange('projects', proj.id, 'description', e.target.value)}
+                          placeholder="A premium restaurant site with reservation forms..."
+                        />
+                      </div>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    className="btn-add-item"
+                    onClick={() => addListItem('projects', { name: '', description: '', link: '' })}
+                  >
+                    ➕ Add Project
+                  </button>
+                </div>
+              )}
             </div>
-            <a href="https://mrunalihatzade.gumroad.com/l/portfolio-playground" target="_blank" rel="noopener noreferrer" className="sale-btn">
-              Get Source Code ($9) →
-            </a>
+
+            {/* RIGHT COLUMN: LIVE PREVIEW & CONTROLS */}
+            <div className="builder-preview-panel">
+              <div className="preview-header-controls">
+                <div className="theme-selector-wrap">
+                  <span>Theme:</span>
+                  <div className="theme-btn-group">
+                    <button
+                      type="button"
+                      className={`theme-btn ${resumeTheme === 'ats' ? 'active' : ''}`}
+                      onClick={() => setResumeTheme('ats')}
+                    >
+                      ATS Minimal
+                    </button>
+                    <button
+                      type="button"
+                      className={`theme-btn ${resumeTheme === 'slate' ? 'active' : ''}`}
+                      onClick={() => setResumeTheme('slate')}
+                    >
+                      Modern Slate
+                    </button>
+                    <button
+                      type="button"
+                      className={`theme-btn ${resumeTheme === 'cyberpunk' ? 'active' : ''}`}
+                      onClick={() => setResumeTheme('cyberpunk')}
+                    >
+                      Cyberpunk
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  className="btn-download-pdf"
+                  onClick={handlePrint}
+                >
+                  🖨️ Download PDF / Print
+                </button>
+              </div>
+
+              {/* LIVE RESUME SHEET RENDERING */}
+              <div className={`resume-paper theme-${resumeTheme}`} id="resume-sheet">
+                
+                {/* 1. ATS MINIMAL THEME VIEW */}
+                {resumeTheme === 'ats' && (
+                  <>
+                    <div className="ats-header">
+                      <h1>{resumeData.personal.name || 'Your Name'}</h1>
+                      <div className="ats-title">{resumeData.personal.title}</div>
+                      <div className="ats-contact-info">
+                        {resumeData.personal.email && <span>📧 {resumeData.personal.email}</span>}
+                        {resumeData.personal.phone && <span>📞 {resumeData.personal.phone}</span>}
+                        {resumeData.personal.location && <span>📍 {resumeData.personal.location}</span>}
+                        {resumeData.personal.linkedin && <span>🔗 {resumeData.personal.linkedin}</span>}
+                        {resumeData.personal.github && <span>💻 {resumeData.personal.github}</span>}
+                      </div>
+                    </div>
+
+                    {resumeData.personal.summary && (
+                      <div className="ats-section">
+                        <h4 className="ats-section-title">Summary</h4>
+                        <p className="ats-summary">{resumeData.personal.summary}</p>
+                      </div>
+                    )}
+
+                    {resumeData.experience.length > 0 && (
+                      <div className="ats-section">
+                        <h4 className="ats-section-title">Experience</h4>
+                        {resumeData.experience.map((exp) => (
+                          <div key={exp.id} className="ats-item">
+                            <div className="ats-item-header">
+                              <span className="ats-item-title">{exp.role}</span>
+                              <span className="ats-item-org">{exp.company}</span>
+                            </div>
+                            <div className="ats-item-meta">
+                              <span>{exp.location}</span>
+                              <span>{exp.dates}</span>
+                            </div>
+                            {exp.description && (
+                              <ul className="ats-item-desc">
+                                {exp.description.split('\n').filter(Boolean).map((line, idx) => (
+                                  <li key={idx}>{line}</li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {resumeData.education.length > 0 && (
+                      <div className="ats-section">
+                        <h4 className="ats-section-title">Education</h4>
+                        {resumeData.education.map((edu) => (
+                          <div key={edu.id} className="ats-item">
+                            <div className="ats-item-header">
+                              <span className="ats-item-title">{edu.degree}</span>
+                              <span className="ats-item-org">{edu.school}</span>
+                            </div>
+                            <div className="ats-item-meta">
+                              <span>{edu.location}</span>
+                              <span>{edu.dates}</span>
+                            </div>
+                            {edu.description && (
+                              <p style={{ fontSize: '0.8rem', color: '#444', marginTop: '0.2rem' }}>
+                                {edu.description}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {resumeData.projects.length > 0 && (
+                      <div className="ats-section">
+                        <h4 className="ats-section-title">Key Projects</h4>
+                        {resumeData.projects.map((proj) => (
+                          <div key={proj.id} className="ats-item" style={{ marginBottom: '0.6rem' }}>
+                            <div className="ats-item-header">
+                              <span className="ats-item-title" style={{ fontWeight: '700' }}>{proj.name}</span>
+                              {proj.link && <span className="ats-item-meta" style={{ fontStyle: 'normal' }}>🔗 {proj.link}</span>}
+                            </div>
+                            <p style={{ fontSize: '0.8rem', color: '#444', marginTop: '0.2rem', lineHeight: '1.4' }}>
+                              {proj.description}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {resumeData.skills.length > 0 && (
+                      <div className="ats-section">
+                        <h4 className="ats-section-title">Skills</h4>
+                        <div className="ats-skills-grid">
+                          {resumeData.skills.map((skill) => (
+                            <Fragment key={skill.id}>
+                              <div className="ats-skills-label">{skill.category}:</div>
+                              <div className="ats-skills-list">{skill.items}</div>
+                            </Fragment>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* 2. MODERN SLATE THEME VIEW */}
+                {resumeTheme === 'slate' && (
+                  <>
+                    <div className="slate-sidebar">
+                      <div className="slate-name-header">
+                        <h1>{resumeData.personal.name || 'Your Name'}</h1>
+                        <p>{resumeData.personal.title}</p>
+                      </div>
+
+                      <div className="slate-sb-section">
+                        <h3>Contact</h3>
+                        <div className="slate-contact-list">
+                          {resumeData.personal.email && (
+                            <div className="slate-contact-item">✉️ {resumeData.personal.email}</div>
+                          )}
+                          {resumeData.personal.phone && (
+                            <div className="slate-contact-item">📞 {resumeData.personal.phone}</div>
+                          )}
+                          {resumeData.personal.location && (
+                            <div className="slate-contact-item">📍 {resumeData.personal.location}</div>
+                          )}
+                          {resumeData.personal.linkedin && (
+                            <div className="slate-contact-item">🔗 {resumeData.personal.linkedin}</div>
+                          )}
+                          {resumeData.personal.github && (
+                            <div className="slate-contact-item">💻 {resumeData.personal.github}</div>
+                          )}
+                        </div>
+                      </div>
+
+                      {resumeData.skills.length > 0 && (
+                        <div className="slate-sb-section">
+                          <h3>Skills</h3>
+                          {resumeData.skills.map((skill) => (
+                            <div key={skill.id} className="slate-skill-group">
+                              <div className="slate-skill-group-title">{skill.category}</div>
+                              <div className="slate-skill-list">{skill.items}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="slate-main">
+                      {resumeData.personal.summary && (
+                        <div className="slate-main-section">
+                          <h3>Summary</h3>
+                          <p className="slate-summary">{resumeData.personal.summary}</p>
+                        </div>
+                      )}
+
+                      {resumeData.experience.length > 0 && (
+                        <div className="slate-main-section">
+                          <h3>Experience</h3>
+                          {resumeData.experience.map((exp) => (
+                            <div key={exp.id} className="slate-item">
+                              <div className="slate-item-header">
+                                <span className="slate-item-title">{exp.role}</span>
+                                <span className="slate-item-date">{exp.dates}</span>
+                              </div>
+                              <div className="slate-item-org">{exp.company} | {exp.location}</div>
+                              {exp.description && (
+                                <ul className="slate-item-desc">
+                                  {exp.description.split('\n').filter(Boolean).map((line, idx) => (
+                                    <li key={idx}>{line}</li>
+                                  ))}
+                                </ul>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {resumeData.education.length > 0 && (
+                        <div className="slate-main-section">
+                          <h3>Education</h3>
+                          {resumeData.education.map((edu) => (
+                            <div key={edu.id} className="slate-item">
+                              <div className="slate-item-header">
+                                <span className="slate-item-title">{edu.degree}</span>
+                                <span className="slate-item-date">{edu.dates}</span>
+                              </div>
+                              <div className="slate-item-org" style={{ color: '#475569' }}>
+                                {edu.school} | {edu.location}
+                              </div>
+                              {edu.description && (
+                                <p style={{ fontSize: '0.78rem', color: '#475569', marginTop: '0.2rem' }}>
+                                  {edu.description}
+                                </p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {resumeData.projects.length > 0 && (
+                        <div className="slate-main-section">
+                          <h3>Projects</h3>
+                          {resumeData.projects.map((proj) => (
+                            <div key={proj.id} className="slate-item" style={{ marginBottom: '0.8rem' }}>
+                              <div className="slate-item-header">
+                                <span className="slate-item-title">{proj.name}</span>
+                                {proj.link && <span className="slate-item-date">🔗 {proj.link}</span>}
+                              </div>
+                              <p style={{ fontSize: '0.78rem', color: '#475569', marginTop: '0.2rem', lineHeight: '1.4' }}>
+                                {proj.description}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+
+                {/* 3. CYBERPUNK THEME VIEW */}
+                {resumeTheme === 'cyberpunk' && (
+                  <>
+                    <div className="cyber-header">
+                      <h1>{resumeData.personal.name || 'Your Name'}</h1>
+                      <div className="cyber-title">// {resumeData.personal.title}</div>
+                      <div className="cyber-contact-grid">
+                        {resumeData.personal.email && (
+                          <div className="cyber-contact-item"><span>email:</span> {resumeData.personal.email}</div>
+                        )}
+                        {resumeData.personal.phone && (
+                          <div className="cyber-contact-item"><span>phone:</span> {resumeData.personal.phone}</div>
+                        )}
+                        {resumeData.personal.location && (
+                          <div className="cyber-contact-item"><span>loc:</span> {resumeData.personal.location}</div>
+                        )}
+                        {resumeData.personal.linkedin && (
+                          <div className="cyber-contact-item"><span>ln:</span> {resumeData.personal.linkedin}</div>
+                        )}
+                        {resumeData.personal.github && (
+                          <div className="cyber-contact-item"><span>gh:</span> {resumeData.personal.github}</div>
+                        )}
+                      </div>
+                    </div>
+
+                    {resumeData.personal.summary && (
+                      <div className="cyber-section">
+                        <div className="cyber-section-title">// SUMMARY</div>
+                        <p className="cyber-summary">{resumeData.personal.summary}</p>
+                      </div>
+                    )}
+
+                    {resumeData.experience.length > 0 && (
+                      <div className="cyber-section">
+                        <div className="cyber-section-title">// EXPERIENCE</div>
+                        {resumeData.experience.map((exp) => (
+                          <div key={exp.id} className="cyber-item">
+                            <div className="cyber-item-header">
+                              <span className="cyber-item-title">{exp.role} <span>@ {exp.company}</span></span>
+                              <span className="cyber-item-date">[{exp.dates}]</span>
+                            </div>
+                            <div className="cyber-item-org">&gt; {exp.location}</div>
+                            {exp.description && (
+                              <ul className="cyber-item-desc">
+                                {exp.description.split('\n').filter(Boolean).map((line, idx) => (
+                                  <li key={idx}>{line}</li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {resumeData.education.length > 0 && (
+                      <div className="cyber-section">
+                        <div className="cyber-section-title">// EDUCATION</div>
+                        {resumeData.education.map((edu) => (
+                          <div key={edu.id} className="cyber-item">
+                            <div className="cyber-item-header">
+                              <span className="cyber-item-title">{edu.degree}</span>
+                              <span className="cyber-item-date">[{edu.dates}]</span>
+                            </div>
+                            <div className="cyber-item-org">&gt; {edu.school} | {edu.location}</div>
+                            {edu.description && (
+                              <p style={{ fontSize: '0.75rem', color: '#8892b0', marginTop: '0.2rem' }}>
+                                {edu.description}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {resumeData.projects.length > 0 && (
+                      <div className="cyber-section">
+                        <div className="cyber-section-title">// PROJECTS</div>
+                        {resumeData.projects.map((proj) => (
+                          <div key={proj.id} className="cyber-item" style={{ marginBottom: '0.8rem' }}>
+                            <div className="cyber-item-header">
+                              <span className="cyber-item-title" style={{ color: '#e8f1ff' }}>{proj.name}</span>
+                              {proj.link && <span className="cyber-item-date">url: {proj.link}</span>}
+                            </div>
+                            <p style={{ fontSize: '0.75rem', color: '#8892b0', marginTop: '0.2rem', lineHeight: '1.4' }}>
+                              {proj.description}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {resumeData.skills.length > 0 && (
+                      <div className="cyber-section">
+                        <div className="cyber-section-title">// TECHNICAL STACK</div>
+                        {resumeData.skills.map((skill) => (
+                          <div key={skill.id} className="cyber-skills-group">
+                            <strong>{skill.category}:</strong> <span className="cyber-skills-list">{skill.items}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
+
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -2470,6 +2995,79 @@ export default function Home() {
         </div>
         <div className="cursor-dot"></div>
       </div>
+
+      {/* UPI PAYMENT MODAL FOR RESUME BUILDER */}
+      {showPaymentModal && (
+        <div className="payment-modal-overlay">
+          <div className="payment-modal-card">
+            <button 
+              type="button" 
+              className="payment-modal-close"
+              onClick={() => setShowPaymentModal(false)}
+            >
+              &times;
+            </button>
+            <div className="payment-modal-header">
+              <span className="payment-modal-icon">💳</span>
+              <h3>Unlock PDF Download</h3>
+              <p>Support the developer! Pay ₹10 to instantly unlock and print/download your styled resume.</p>
+            </div>
+            
+            <div className="payment-modal-qr-section">
+              <div className="qr-box">
+                <img 
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
+                    "upi://pay?pa=mrunalihatzade353@oksbi&pn=Mrunali%20Hatzade&am=10&cu=INR&tn=Resume%20Builder%20Download"
+                  )}`}
+                  alt="UPI QR Code"
+                  className="payment-qr-image"
+                />
+              </div>
+              <p className="qr-scan-instruction">Scan this QR code using GPay, PhonePe, Paytm or any UPI App to pay ₹10</p>
+            </div>
+
+            <div className="payment-modal-upi-section">
+              <span className="upi-label">UPI ID:</span>
+              <div className="upi-id-box">
+                <code className="upi-id-text">mrunalihatzade353@oksbi</code>
+                <button 
+                  type="button" 
+                  className={`upi-copy-btn ${copied ? 'copied' : ''}`}
+                  onClick={handleCopyUpi}
+                >
+                  {copied ? "Copied!" : "Copy"}
+                </button>
+              </div>
+            </div>
+
+            <div className="payment-modal-footer">
+              <button 
+                type="button" 
+                className="payment-verify-btn"
+                onClick={handleVerifyPayment}
+                disabled={paymentVerifying}
+              >
+                {paymentVerifying ? (
+                  <>
+                    <span className="payment-spinner"></span>
+                    Verifying transaction...
+                  </>
+                ) : (
+                  "I have paid, Unlock Download"
+                )}
+              </button>
+              <button 
+                type="button" 
+                className="payment-cancel-btn"
+                onClick={() => setShowPaymentModal(false)}
+                disabled={paymentVerifying}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
