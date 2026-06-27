@@ -1432,12 +1432,12 @@ export default function Home() {
       </div>
 
       {/* 03. PROJECTS */}
-      <section id="projects">
+      <section id="projects" className="reveal">
         <p className="section-label">03. Projects</p>
         <h2 className="section-title">Things I've Built</h2>
 
         {/* Filter Bar */}
-        <div className="projects-filter-bar reveal">
+        <div className="projects-filter-bar">
           <div className="projects-filter-header">
             {/* Category Tabs */}
             <div className="projects-category-tabs">
@@ -1466,45 +1466,129 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="projects-slider-container reveal">
-          {filteredProjects.length === 0 ? (
-            <div className="projects-empty-state">
-              <div className="empty-icon">🔍</div>
-              <p>No projects match this filter combination. Try a different category or status.</p>
-            </div>
-          ) : (
-            <div className="projects-slider-track">
-              {repeatedProjects.map((project, idx) => (
+        {activeCategory === 'all' ? (
+          <div className="projects-slider-container">
+            {filteredProjects.length === 0 ? (
+              <div className="projects-empty-state">
+                <div className="empty-icon">🔍</div>
+                <p>No projects match this filter combination. Try a different category or status.</p>
+              </div>
+            ) : (
+              <div className="projects-slider-track">
+                {repeatedProjects.map((project, idx) => (
+                  <div
+                    key={`${project.id}-${idx}`}
+                    className="project-slide-card"
+                  >
+                    <p className="project-category-label">
+                      {CATEGORIES.find(c => c.id === project.category)?.icon}{' '}
+                      {CATEGORIES.find(c => c.id === project.category)?.label}
+                    </p>
+                    <h3 className="project-slide-title">{project.title}</h3>
+                    <div className="project-actions">
+                      {project.liveUrl ? (
+                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-btn-primary" id={`${project.liveId}-${idx}`}>
+                          View Demo →
+                        </a>
+                      ) : (
+                        <span className="project-btn-coming-soon">
+                          Under Construction
+                        </span>
+                      )}
+                      {project.githubUrl && (
+                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="project-btn-github" id={`${project.githubId}-${idx}`} title="GitHub Repository">
+                          GitHub
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="projects-grid">
+            {filteredProjects.length === 0 ? (
+              <div className="projects-empty-state">
+                <div className="empty-icon">🔍</div>
+                <p>No projects match this filter combination. Try a different category or status.</p>
+              </div>
+            ) : (
+              filteredProjects.map(project => (
                 <div
-                  key={`${project.id}-${idx}`}
-                  className="project-slide-card"
+                  key={project.id}
+                  className="project-card tilt-card"
+                  onMouseMove={e => {
+                    const card = e.currentTarget;
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const cx = rect.width / 2;
+                    const cy = rect.height / 2;
+                    const rotateX = ((y - cy) / cy) * -10;
+                    const rotateY = ((x - cx) / cx) * 10;
+                    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03,1.03,1.03)`;
+                    const shine = card.querySelector('.tilt-shine');
+                    if (shine) {
+                      shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(100,255,218,0.13) 0%, transparent 65%)`;
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+                    const shine = e.currentTarget.querySelector('.tilt-shine');
+                    if (shine) shine.style.background = 'transparent';
+                  }}
                 >
-                  <p className="project-category-label">
-                    {CATEGORIES.find(c => c.id === project.category)?.icon}{' '}
-                    {CATEGORIES.find(c => c.id === project.category)?.label}
-                  </p>
-                  <h3 className="project-slide-title">{project.title}</h3>
-                  <div className="project-actions">
-                    {project.liveUrl ? (
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-btn-primary" id={`${project.liveId}-${idx}`}>
-                        View Demo →
-                      </a>
-                    ) : (
-                      <span className="project-btn-coming-soon">
-                        Under Construction
-                      </span>
-                    )}
-                    {project.githubUrl && (
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="project-btn-github" id={`${project.githubId}-${idx}`} title="GitHub Repository">
-                        GitHub
-                      </a>
-                    )}
+                  <div className="tilt-shine" />
+
+                  {/* Card Header with Thumbnail */}
+                  <div className={`project-card-header ${project.headerClass}`}>
+                    <div className="project-mockup-frame">
+                      <img src={project.thumb} alt={project.thumbAlt} />
+                    </div>
+                  </div>
+
+                  {/* Card Body */}
+                  <div className="project-card-body">
+                    {/* Category label */}
+                    <p className="project-category-label">
+                      {CATEGORIES.find(c => c.id === project.category)?.icon}{' '}
+                      {CATEGORIES.find(c => c.id === project.category)?.label}
+                    </p>
+
+                    <div className="project-tech">
+                      {project.tech.map(t => (
+                        <span key={t.label} className={`tech-tag ${t.cls}`}>{t.label}</span>
+                      ))}
+                    </div>
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+                    <div className="project-actions">
+                      {project.liveUrl ? (
+                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-btn-primary" id={project.liveId}>
+                          View Demo →
+                        </a>
+                      ) : (
+                        <span className="project-btn-coming-soon">
+                          <svg viewBox="0 0 24 24" strokeWidth="2.2" fill="none" stroke="currentColor" style={{ width: '12px', height: '12px' }}><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                          Under Construction
+                        </span>
+                      )}
+                      {project.githubUrl && (
+                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="project-btn-github" id={project.githubId} title="GitHub Repository">
+                          <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
+                          </svg>
+                          GitHub
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
+              ))
+            )}
+          </div>
+        )}
 
       </section>
 
