@@ -34,72 +34,89 @@ export default function Home() {
   // Scroll to Top state
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // ── INTERACTIVE RESUME BUILDER STATE ──────────────────────────
-  const [resumeTheme, setResumeTheme] = useState('ats'); // 'ats', 'slate', 'cyberpunk'
-  const [activeFormTab, setActiveFormTab] = useState('personal'); // 'personal', 'experience', 'education', 'skills', 'projects'
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [paymentVerifying, setPaymentVerifying] = useState(false);
-  const [isUnlocked, setIsUnlocked] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [resumeData, setResumeData] = useState({
-    personal: {
-      name: 'Mrunali Hatzade',
-      title: 'Full Stack Developer & AI Engineer',
-      email: 'mrunalithatzade20@gmail.com',
-      phone: '+91 72184 05826',
-      linkedin: 'linkedin.com/in/mrunali-hatzade',
-      github: 'github.com/mrunali-hatzade',
-      location: 'Pune, India',
-      summary: 'Passionate Java Full Stack Developer and AI Integration Engineer with internship experience building REST APIs with Spring Boot, writing responsive interfaces in React/Next.js, and deploying cloud services. Skilled in optimizing workflows, microservices, database management, and LLM chatbot integrations.'
+  // ── TECH QUIZ MODULE STATE ──────────────────────────
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showScore, setShowScore] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
+
+  const quizQuestions = [
+    {
+      question: "What is the primary benefit of Next.js Server Components?",
+      options: [
+        "They allow executing SQL directly in the browser.",
+        "They reduce client-side JavaScript bundle size.",
+        "They require a separate Node.js server to run.",
+        "They replace React hooks completely."
+      ],
+      answer: 1
     },
-    experience: [
-      {
-        id: '1',
-        role: 'Java Full Stack Developer Intern',
-        company: 'Remote Tech Internships',
-        location: 'Bangalore (Remote)',
-        dates: 'Nov 2025 - Jan 2026',
-        description: 'Developed scalable backend microservices and secure REST APIs using Java and Spring Boot.\nImplemented user authentication and role-based access control with Spring Security & JWT.\nOptimized MySQL database queries and automated deployment pipelines.'
-      },
-      {
-        id: '2',
-        role: 'Full Stack Java Application Intern',
-        company: 'Vanguard Systems',
-        location: 'Pune, India',
-        dates: 'Dec 2023 - Mar 2024',
-        description: 'Maintained enterprise application database modules using Java JDBC and SQL queries.\nCollaborated on UI styling revisions, improving layout loading performance by 20%.\nParticipated in daily standups and agile software development cycles.'
+    {
+      question: "Which interface does a typical Spring Data JPA repository extend?",
+      options: [
+        "JpaRepository",
+        "HibernateSession",
+        "CrudService",
+        "SqlTemplate"
+      ],
+      answer: 0
+    },
+    {
+      question: "What is the primary role of an embedding in an AI workflow?",
+      options: [
+        "To render 3D graphics on the GPU.",
+        "To securely hash user passwords.",
+        "To convert text/data into dense vector representations.",
+        "To host a large language model API."
+      ],
+      answer: 2
+    },
+    {
+      question: "How do you prevent SQL injection when executing database queries in Java?",
+      options: [
+        "Use String concatenation.",
+        "Use JavaScript validation on the frontend.",
+        "Use PreparedStatement or an ORM like Hibernate.",
+        "Encode the input using Base64."
+      ],
+      answer: 2
+    }
+  ];
+
+  const handleAnswerOptionClick = (index) => {
+    if (selectedAnswer !== null) return;
+    
+    setSelectedAnswer(index);
+    const correct = index === quizQuestions[currentQuestionIndex].answer;
+    setIsAnswerCorrect(correct);
+
+    if (correct) {
+      setScore(score + 1);
+    }
+
+    setTimeout(() => {
+      const nextQuestion = currentQuestionIndex + 1;
+      if (nextQuestion < quizQuestions.length) {
+        setCurrentQuestionIndex(nextQuestion);
+        setSelectedAnswer(null);
+        setIsAnswerCorrect(null);
+      } else {
+        setShowScore(true);
       }
-    ],
-    education: [
-      {
-        id: '1',
-        degree: 'B.E. in Electronics & Telecommunication',
-        school: 'Dr. D.Y. Patil Institute (DYPIEMR)',
-        location: 'Akurdi, Pune',
-        dates: '2021 - 2025',
-        description: 'Focus on Web Development, Databases, Embedded Systems, and AI Foundations.'
-      }
-    ],
-    skills: [
-      { id: '1', category: 'Frontend', items: 'React, Next.js, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS' },
-      { id: '2', category: 'Backend & DB', items: 'Java, Spring Boot, REST APIs, JWT, SQL (MySQL, Oracle), Node.js' },
-      { id: '3', category: 'Cloud & Tools', items: 'OCI Cloud, Docker, Git, CI/CD pipelines, Maven' }
-    ],
-    projects: [
-      {
-        id: '1',
-        name: 'Café Aura',
-        description: 'A beautiful café booking and reservation site featuring interactive service schedules and sleek brand layouts.',
-        link: 'cafe-aura-website.vercel.app'
-      },
-      {
-        id: '2',
-        name: 'Nakade Hospital Portal',
-        description: 'A responsive hospital appointment portal built to manage patient slots, doctor listings, and contact options.',
-        link: 'hospital-seven-orpin.vercel.app'
-      }
-    ]
-  });
+    }, 1500);
+  };
+
+  const restartQuiz = () => {
+    setQuizStarted(false);
+    setCurrentQuestionIndex(0);
+    setScore(0);
+    setShowScore(false);
+    setSelectedAnswer(null);
+    setIsAnswerCorrect(null);
+  };
+
 
   // Custom cyber cursor state
   const cursorRef = useRef(null);
@@ -109,11 +126,14 @@ export default function Home() {
   useEffect(() => {
     document.body.classList.add('custom-cursor-enabled');
 
+    let rafId = null;
     const handleMouseMove = (e) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.setProperty('--dot-x', `${e.clientX}px`);
-        cursorRef.current.style.setProperty('--dot-y', `${e.clientY}px`);
-      }
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        if (cursorRef.current) {
+          cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+        }
+      });
     };
 
     const handleMouseDown = (e) => {
@@ -157,7 +177,7 @@ export default function Home() {
     };
 
     const handleMouseOver = (e) => {
-      if (e.target.closest('a, button, [role="button"], .svc-card, .project-card, .stats-card, .cert-pill, .award-pill, .social-pill, .hamburger, .chatbot-toggle-btn')) {
+      if (e.target.closest('a, button, [role="button"], .svc-card, .project-card, .project-slide-card, .stats-card, .cert-pill, .award-pill, .social-pill, .hamburger, .chatbot-toggle-btn')) {
         setCursorState(prev => prev.includes('clicked') ? 'clicked hovered' : 'hovered');
       } else {
         setCursorState(prev => prev.includes('clicked') ? 'clicked' : '');
@@ -175,6 +195,7 @@ export default function Home() {
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
       window.removeEventListener('mouseover', handleMouseOver);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -783,74 +804,7 @@ export default function Home() {
     }
   };
 
-  // ── RESUME BUILDER LOGIC ──────────────────────────────────────
-  const handlePersonalChange = (field, value) => {
-    setResumeData(prev => ({
-      ...prev,
-      personal: {
-        ...prev.personal,
-        [field]: value
-      }
-    }));
-  };
 
-  const handleListItemChange = (section, id, field, value) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: prev[section].map(item => item.id === id ? { ...item, [field]: value } : item)
-    }));
-  };
-
-  const addListItem = (section, template) => {
-    const newItem = {
-      ...template,
-      id: (Math.random() + 1).toString(36).substring(7)
-    };
-    setResumeData(prev => ({
-      ...prev,
-      [section]: [...prev[section], newItem]
-    }));
-  };
-
-  const removeListItem = (section, id) => {
-    setResumeData(prev => ({
-      ...prev,
-      [section]: prev[section].filter(item => item.id !== id)
-    }));
-  };
-
-  const handlePrint = () => {
-    if (isUnlocked) {
-      if (typeof window !== 'undefined') {
-        window.print();
-      }
-    } else {
-      setShowPaymentModal(true);
-    }
-  };
-
-  const handleVerifyPayment = () => {
-    setPaymentVerifying(true);
-    setTimeout(() => {
-      setPaymentVerifying(false);
-      setIsUnlocked(true);
-      setShowPaymentModal(false);
-      // Delay printing to allow modal transition to complete
-      setTimeout(() => {
-        if (typeof window !== 'undefined') {
-          window.print();
-        }
-      }, 300);
-    }, 3000);
-  };
-
-  const handleCopyUpi = () => {
-    if (typeof navigator !== 'undefined' && navigator.clipboard) {
-      navigator.clipboard.writeText('mrunalihatzade353@oksbi');
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
 
   const promptNewChat = () => {
     if (messages[messages.length - 1]?.isConfirmation) return;
@@ -1098,6 +1052,17 @@ export default function Home() {
     activeCategory === 'all' || p.category === activeCategory
   );
 
+  const getRepeatedProjects = (projectsList) => {
+    if (projectsList.length === 0) return [];
+    let repeated = [...projectsList];
+    while (repeated.length < 12) {
+      repeated = [...repeated, ...projectsList];
+    }
+    return [...repeated, ...repeated];
+  };
+  const repeatedProjects = getRepeatedProjects(filteredProjects);
+
+
   const getCategoryCount = (catId) => {
     if (catId === 'all') return PROJECTS.length;
     return PROJECTS.filter(p => p.category === catId).length;
@@ -1137,7 +1102,7 @@ export default function Home() {
           <a href="#projects" onClick={() => setNavOpen(false)}>Projects</a>
           <a href="#experience" onClick={() => setNavOpen(false)}>Experience</a>
           <a href="#skills" onClick={() => setNavOpen(false)}>Skills</a>
-          <a href="#resume-builder" onClick={() => setNavOpen(false)}>Resume Builder</a>
+          <a href="#tech-quiz" onClick={() => setNavOpen(false)}>Tech Challenge</a>
           <a href="#contact" onClick={() => setNavOpen(false)}>Contact</a>
         </ul>
         <a href="#contact" className="nav-cta"><span className="nav-cta-dot"></span>Available for work</a>
@@ -1501,87 +1466,46 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="projects-grid reveal">
+        <div className="projects-slider-container reveal">
           {filteredProjects.length === 0 ? (
             <div className="projects-empty-state">
               <div className="empty-icon">🔍</div>
               <p>No projects match this filter combination. Try a different category or status.</p>
             </div>
           ) : (
-            filteredProjects.map(project => (
-              <div
-                key={project.id}
-                className="project-card tilt-card"
-                onMouseMove={e => {
-                  const card = e.currentTarget;
-                  const rect = card.getBoundingClientRect();
-                  const x = e.clientX - rect.left;
-                  const y = e.clientY - rect.top;
-                  const cx = rect.width / 2;
-                  const cy = rect.height / 2;
-                  const rotateX = ((y - cy) / cy) * -10;
-                  const rotateY = ((x - cx) / cx) * 10;
-                  card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03,1.03,1.03)`;
-                  const shine = card.querySelector('.tilt-shine');
-                  if (shine) {
-                    shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(100,255,218,0.13) 0%, transparent 65%)`;
-                  }
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
-                  const shine = e.currentTarget.querySelector('.tilt-shine');
-                  if (shine) shine.style.background = 'transparent';
-                }}
-              >
-                <div className="tilt-shine" />
-
-                {/* Card Header with Thumbnail */}
-                <div className={`project-card-header ${project.headerClass}`}>
-                  <div className="project-mockup-frame">
-                    <img src={project.thumb} alt={project.thumbAlt} />
-                  </div>
-                </div>
-
-                {/* Card Body */}
-                <div className="project-card-body">
-                  {/* Category label */}
+            <div className="projects-slider-track">
+              {repeatedProjects.map((project, idx) => (
+                <div
+                  key={`${project.id}-${idx}`}
+                  className="project-slide-card"
+                >
                   <p className="project-category-label">
                     {CATEGORIES.find(c => c.id === project.category)?.icon}{' '}
                     {CATEGORIES.find(c => c.id === project.category)?.label}
                   </p>
-
-                  <div className="project-tech">
-                    {project.tech.map(t => (
-                      <span key={t.label} className={`tech-tag ${t.cls}`}>{t.label}</span>
-                    ))}
-                  </div>
-                  <h3>{project.title}</h3>
-                  <p>{project.description}</p>
+                  <h3 className="project-slide-title">{project.title}</h3>
                   <div className="project-actions">
                     {project.liveUrl ? (
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-btn-primary" id={project.liveId}>
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-btn-primary" id={`${project.liveId}-${idx}`}>
                         View Demo →
                       </a>
                     ) : (
                       <span className="project-btn-coming-soon">
-                        <svg viewBox="0 0 24 24" strokeWidth="2.2" fill="none" stroke="currentColor" style={{ width: '12px', height: '12px' }}><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
                         Under Construction
                       </span>
                     )}
                     {project.githubUrl && (
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="project-btn-github" id={project.githubId} title="GitHub Repository">
-                        <svg viewBox="0 0 24 24" strokeWidth="1.8" fill="none" stroke="currentColor">
-                          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
-                        </svg>
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="project-btn-github" id={`${project.githubId}-${idx}`} title="GitHub Repository">
                         GitHub
                       </a>
                     )}
                   </div>
                 </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
+
       </section>
 
       {/* HOW I WORK — PROCESS */}
@@ -1899,793 +1823,121 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 10. INTERACTIVE RESUME BUILDER */}
-      <section id="resume-builder">
-        <p className="section-label">10. Resume Builder</p>
-        <h2 className="section-title">Build a Resume in 10 Minutes</h2>
-        <p className="builder-subtitle">
-          Need a professional resume instantly? Fill out the details below, choose a layout, and print or download your custom, print-optimized PDF!
+      {/* 10. INTERACTIVE TECH QUIZ */}
+      <section id="tech-quiz">
+        <p className="section-label">10. Tech Challenge</p>
+        <h2 className="section-title">Test Your Knowledge</h2>
+        <p className="quiz-subtitle" style={{ textAlign: 'center', marginBottom: '2rem', color: '#8892b0' }}>
+          Think you know Full Stack Development and AI? Take this quick quiz to find out!
         </p>
 
-        <div className="builder-container reveal">
-          <div className="builder-grid">
-            
-            {/* LEFT COLUMN: EDITOR FORM */}
-            <div className="builder-form-panel">
-              <div className="builder-tabs">
-                <button
-                  type="button"
-                  className={`builder-tab-btn ${activeFormTab === 'personal' ? 'active' : ''}`}
-                  onClick={() => setActiveFormTab('personal')}
-                >
-                  👤 Contact
-                </button>
-                <button
-                  type="button"
-                  className={`builder-tab-btn ${activeFormTab === 'experience' ? 'active' : ''}`}
-                  onClick={() => setActiveFormTab('experience')}
-                >
-                  💼 Experience
-                </button>
-                <button
-                  type="button"
-                  className={`builder-tab-btn ${activeFormTab === 'education' ? 'active' : ''}`}
-                  onClick={() => setActiveFormTab('education')}
-                >
-                  🎓 Education
-                </button>
-                <button
-                  type="button"
-                  className={`builder-tab-btn ${activeFormTab === 'skills' ? 'active' : ''}`}
-                  onClick={() => setActiveFormTab('skills')}
-                >
-                  🛠️ Skills
-                </button>
-                <button
-                  type="button"
-                  className={`builder-tab-btn ${activeFormTab === 'projects' ? 'active' : ''}`}
-                  onClick={() => setActiveFormTab('projects')}
-                >
-                  📁 Projects
-                </button>
-              </div>
-
-              {/* TAB CONTENT: PERSONAL DETAILS */}
-              {activeFormTab === 'personal' && (
-                <div className="builder-form-section">
-                  <h3 className="builder-section-title">Contact Details</h3>
-                  <div className="form-group-row">
-                    <div className="form-group">
-                      <label htmlFor="res-name">Full Name</label>
-                      <input
-                        type="text"
-                        id="res-name"
-                        className="form-control"
-                        value={resumeData.personal.name}
-                        onChange={(e) => handlePersonalChange('name', e.target.value)}
-                        placeholder="John Doe"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="res-title">Role Title</label>
-                      <input
-                        type="text"
-                        id="res-title"
-                        className="form-control"
-                        value={resumeData.personal.title}
-                        onChange={(e) => handlePersonalChange('title', e.target.value)}
-                        placeholder="Software Engineer"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group-row">
-                    <div className="form-group">
-                      <label htmlFor="res-email">Email</label>
-                      <input
-                        type="email"
-                        id="res-email"
-                        className="form-control"
-                        value={resumeData.personal.email}
-                        onChange={(e) => handlePersonalChange('email', e.target.value)}
-                        placeholder="johndoe@gmail.com"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="res-phone">Phone</label>
-                      <input
-                        type="text"
-                        id="res-phone"
-                        className="form-control"
-                        value={resumeData.personal.phone}
-                        onChange={(e) => handlePersonalChange('phone', e.target.value)}
-                        placeholder="+91 98765 43210"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group-row">
-                    <div className="form-group">
-                      <label htmlFor="res-linkedin">LinkedIn</label>
-                      <input
-                        type="text"
-                        id="res-linkedin"
-                        className="form-control"
-                        value={resumeData.personal.linkedin}
-                        onChange={(e) => handlePersonalChange('linkedin', e.target.value)}
-                        placeholder="linkedin.com/in/johndoe"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="res-github">GitHub</label>
-                      <input
-                        type="text"
-                        id="res-github"
-                        className="form-control"
-                        value={resumeData.personal.github}
-                        onChange={(e) => handlePersonalChange('github', e.target.value)}
-                        placeholder="github.com/johndoe"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group-row">
-                    <div className="form-group">
-                      <label htmlFor="res-location">Location</label>
-                      <input
-                        type="text"
-                        id="res-location"
-                        className="form-control"
-                        value={resumeData.personal.location}
-                        onChange={(e) => handlePersonalChange('location', e.target.value)}
-                        placeholder="Pune, India"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="res-summary">Professional Summary</label>
-                    <textarea
-                      id="res-summary"
-                      className="form-control"
-                      value={resumeData.personal.summary}
-                      onChange={(e) => handlePersonalChange('summary', e.target.value)}
-                      placeholder="A short summary of your background and career goals..."
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* TAB CONTENT: EXPERIENCE */}
-              {activeFormTab === 'experience' && (
-                <div className="builder-form-section">
-                  <h3 className="builder-section-title">Work Experience</h3>
-                  {resumeData.experience.map((exp) => (
-                    <div key={exp.id} className="repeater-item">
-                      <button
-                        type="button"
-                        className="btn-remove-item"
-                        onClick={() => removeListItem('experience', exp.id)}
-                        title="Remove experience"
-                      >
-                        ×
-                      </button>
-                      <div className="form-group-row">
-                        <div className="form-group">
-                          <label>Job Role</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={exp.role}
-                            onChange={(e) => handleListItemChange('experience', exp.id, 'role', e.target.value)}
-                            placeholder="Software Engineer"
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Company</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={exp.company}
-                            onChange={(e) => handleListItemChange('experience', exp.id, 'company', e.target.value)}
-                            placeholder="Acme Corp"
-                          />
-                        </div>
-                      </div>
-                      <div className="form-group-row">
-                        <div className="form-group">
-                          <label>Dates</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={exp.dates}
-                            onChange={(e) => handleListItemChange('experience', exp.id, 'dates', e.target.value)}
-                            placeholder="Nov 2025 - Present"
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Location</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={exp.location}
-                            onChange={(e) => handleListItemChange('experience', exp.id, 'location', e.target.value)}
-                            placeholder="Remote / Pune"
-                          />
-                        </div>
-                      </div>
-                      <div className="form-group">
-                        <label>Description (One sentence per line for bullets)</label>
-                        <textarea
-                          className="form-control"
-                          value={exp.description}
-                          onChange={(e) => handleListItemChange('experience', exp.id, 'description', e.target.value)}
-                          placeholder="Developed scalable microservices..."
-                        />
-                      </div>
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    className="btn-add-item"
-                    onClick={() => addListItem('experience', { role: '', company: '', location: '', dates: '', description: '' })}
-                  >
-                    ➕ Add Experience
-                  </button>
-                </div>
-              )}
-
-              {/* TAB CONTENT: EDUCATION */}
-              {activeFormTab === 'education' && (
-                <div className="builder-form-section">
-                  <h3 className="builder-section-title">Education</h3>
-                  {resumeData.education.map((edu) => (
-                    <div key={edu.id} className="repeater-item">
-                      <button
-                        type="button"
-                        className="btn-remove-item"
-                        onClick={() => removeListItem('education', edu.id)}
-                        title="Remove education"
-                      >
-                        ×
-                      </button>
-                      <div className="form-group-row">
-                        <div className="form-group">
-                          <label>Degree / Qualification</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={edu.degree}
-                            onChange={(e) => handleListItemChange('education', edu.id, 'degree', e.target.value)}
-                            placeholder="B.E. in Computer Science"
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>School / University</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={edu.school}
-                            onChange={(e) => handleListItemChange('education', edu.id, 'school', e.target.value)}
-                            placeholder="DY Patil Institute"
-                          />
-                        </div>
-                      </div>
-                      <div className="form-group-row">
-                        <div className="form-group">
-                          <label>Dates</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={edu.dates}
-                            onChange={(e) => handleListItemChange('education', edu.id, 'dates', e.target.value)}
-                            placeholder="2021 - 2025"
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Location</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={edu.location}
-                            onChange={(e) => handleListItemChange('education', edu.id, 'location', e.target.value)}
-                            placeholder="Pune, India"
-                          />
-                        </div>
-                      </div>
-                      <div className="form-group">
-                        <label>Details / Summary (Optional)</label>
-                        <textarea
-                          className="form-control"
-                          value={edu.description}
-                          onChange={(e) => handleListItemChange('education', edu.id, 'description', e.target.value)}
-                          placeholder="Focus on software engineering, web technologies..."
-                        />
-                      </div>
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    className="btn-add-item"
-                    onClick={() => addListItem('education', { degree: '', school: '', location: '', dates: '', description: '' })}
-                  >
-                    ➕ Add Education
-                  </button>
-                </div>
-              )}
-
-              {/* TAB CONTENT: SKILLS */}
-              {activeFormTab === 'skills' && (
-                <div className="builder-form-section">
-                  <h3 className="builder-section-title">Technical Skills</h3>
-                  {resumeData.skills.map((skill) => (
-                    <div key={skill.id} className="repeater-item">
-                      <button
-                        type="button"
-                        className="btn-remove-item"
-                        onClick={() => removeListItem('skills', skill.id)}
-                        title="Remove category"
-                      >
-                        ×
-                      </button>
-                      <div className="form-group">
-                        <label>Category (e.g. Programming Languages)</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={skill.category}
-                          onChange={(e) => handleListItemChange('skills', skill.id, 'category', e.target.value)}
-                          placeholder="Frontend"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Skills (Comma separated: React, Next.js, HTML5)</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={skill.items}
-                          onChange={(e) => handleListItemChange('skills', skill.id, 'items', e.target.value)}
-                          placeholder="React, Next.js, HTML, CSS"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    className="btn-add-item"
-                    onClick={() => addListItem('skills', { category: '', items: '' })}
-                  >
-                    ➕ Add Skill Category
-                  </button>
-                </div>
-              )}
-
-              {/* TAB CONTENT: PROJECTS */}
-              {activeFormTab === 'projects' && (
-                <div className="builder-form-section">
-                  <h3 className="builder-section-title">Key Projects</h3>
-                  {resumeData.projects.map((proj) => (
-                    <div key={proj.id} className="repeater-item">
-                      <button
-                        type="button"
-                        className="btn-remove-item"
-                        onClick={() => removeListItem('projects', proj.id)}
-                        title="Remove project"
-                      >
-                        ×
-                      </button>
-                      <div className="form-group-row">
-                        <div className="form-group">
-                          <label>Project Name</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={proj.name}
-                            onChange={(e) => handleListItemChange('projects', proj.id, 'name', e.target.value)}
-                            placeholder="Café Aura"
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Project Link (Optional)</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={proj.link}
-                            onChange={(e) => handleListItemChange('projects', proj.id, 'link', e.target.value)}
-                            placeholder="cafe-aura.vercel.app"
-                          />
-                        </div>
-                      </div>
-                      <div className="form-group">
-                        <label>Description</label>
-                        <textarea
-                          className="form-control"
-                          value={proj.description}
-                          onChange={(e) => handleListItemChange('projects', proj.id, 'description', e.target.value)}
-                          placeholder="A premium restaurant site with reservation forms..."
-                        />
-                      </div>
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    className="btn-add-item"
-                    onClick={() => addListItem('projects', { name: '', description: '', link: '' })}
-                  >
-                    ➕ Add Project
-                  </button>
-                </div>
-              )}
+        <div className="quiz-container reveal" style={{ maxWidth: '600px', margin: '0 auto', background: '#112240', borderRadius: '12px', padding: '2rem', boxShadow: '0 10px 30px -15px rgba(2, 12, 27, 0.7)', border: '1px solid rgba(100, 255, 218, 0.1)' }}>
+          {!quizStarted ? (
+            <div className="quiz-start-screen" style={{ textAlign: 'center' }}>
+              <h3 style={{ color: '#ccd6f6', marginBottom: '1rem' }}>Ready to start the challenge?</h3>
+              <p style={{ color: '#8892b0', marginBottom: '2rem' }}>4 Questions • Java • Next.js • AI</p>
+              <button 
+                className="btn-start-quiz" 
+                onClick={() => setQuizStarted(true)}
+                style={{ background: 'transparent', border: '1px solid #64ffda', color: '#64ffda', padding: '0.75rem 1.5rem', borderRadius: '4px', cursor: 'pointer', fontFamily: "'JetBrains Mono', monospace", transition: 'all 0.2s' }}
+                onMouseOver={(e) => { e.target.style.background = 'rgba(100, 255, 218, 0.1)'; }}
+                onMouseOut={(e) => { e.target.style.background = 'transparent'; }}
+              >
+                🚀 Start Quiz
+              </button>
             </div>
-
-            {/* RIGHT COLUMN: LIVE PREVIEW & CONTROLS */}
-            <div className="builder-preview-panel">
-              <div className="preview-header-controls">
-                <div className="theme-selector-wrap">
-                  <span>Theme:</span>
-                  <div className="theme-btn-group">
-                    <button
-                      type="button"
-                      className={`theme-btn ${resumeTheme === 'ats' ? 'active' : ''}`}
-                      onClick={() => setResumeTheme('ats')}
-                    >
-                      ATS Minimal
-                    </button>
-                    <button
-                      type="button"
-                      className={`theme-btn ${resumeTheme === 'slate' ? 'active' : ''}`}
-                      onClick={() => setResumeTheme('slate')}
-                    >
-                      Modern Slate
-                    </button>
-                    <button
-                      type="button"
-                      className={`theme-btn ${resumeTheme === 'cyberpunk' ? 'active' : ''}`}
-                      onClick={() => setResumeTheme('cyberpunk')}
-                    >
-                      Cyberpunk
-                    </button>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  className="btn-download-pdf"
-                  onClick={handlePrint}
-                >
-                  🖨️ Download PDF / Print
-                </button>
+          ) : showScore ? (
+            <div className="quiz-score-screen" style={{ textAlign: 'center' }}>
+              <h3 style={{ color: '#ccd6f6', marginBottom: '1rem' }}>Quiz Completed!</h3>
+              <div className="score-display" style={{ fontSize: '3rem', fontWeight: 'bold', color: '#64ffda', margin: '1.5rem 0' }}>
+                <span className="score-number">{score}</span> <span style={{ fontSize: '1.5rem', color: '#8892b0' }}>/ {quizQuestions.length}</span>
               </div>
+              <p className="score-message" style={{ color: '#ccd6f6', marginBottom: '2rem', fontSize: '1.1rem' }}>
+                {score === quizQuestions.length ? "Incredible! You're a Senior Dev! 🏆" : 
+                 score >= 2 ? "Great job! Solid fundamentals. 👍" : 
+                 "Keep learning! Every expert was once a beginner. 📚"}
+              </p>
+              <button 
+                className="btn-restart-quiz" 
+                onClick={restartQuiz}
+                style={{ background: 'transparent', border: '1px solid #64ffda', color: '#64ffda', padding: '0.75rem 1.5rem', borderRadius: '4px', cursor: 'pointer', fontFamily: "'JetBrains Mono', monospace", transition: 'all 0.2s' }}
+                onMouseOver={(e) => { e.target.style.background = 'rgba(100, 255, 218, 0.1)'; }}
+                onMouseOut={(e) => { e.target.style.background = 'transparent'; }}
+              >
+                🔄 Retake Quiz
+              </button>
+            </div>
+          ) : (
+            <div className="quiz-question-screen">
+              <div className="quiz-progress-bar" style={{ width: '100%', height: '4px', background: '#233554', borderRadius: '2px', marginBottom: '1.5rem', overflow: 'hidden' }}>
+                <div 
+                  className="quiz-progress-fill" 
+                  style={{ width: `${((currentQuestionIndex + 1) / quizQuestions.length) * 100}%`, height: '100%', background: '#64ffda', transition: 'width 0.3s ease' }}
+                ></div>
+              </div>
+              <div className="quiz-header" style={{ display: 'flex', justifyContent: 'space-between', color: '#8892b0', fontSize: '0.9rem', marginBottom: '1.5rem', fontFamily: "'JetBrains Mono', monospace" }}>
+                <span className="question-count">Question {currentQuestionIndex + 1} of {quizQuestions.length}</span>
+                <span className="current-score">Score: {score}</span>
+              </div>
+              <h3 className="quiz-question-text" style={{ color: '#e6f1ff', fontSize: '1.2rem', marginBottom: '2rem', lineHeight: '1.5' }}>
+                {quizQuestions[currentQuestionIndex].question}
+              </h3>
+              <div className="quiz-options-grid" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                {quizQuestions[currentQuestionIndex].options.map((option, index) => {
+                  let bgColor = 'rgba(2, 12, 27, 0.7)';
+                  let borderColor = '#233554';
+                  let textColor = '#ccd6f6';
 
-              {/* LIVE RESUME SHEET RENDERING */}
-              <div className={`resume-paper theme-${resumeTheme}`} id="resume-sheet">
-                
-                {/* 1. ATS MINIMAL THEME VIEW */}
-                {resumeTheme === 'ats' && (
-                  <>
-                    <div className="ats-header">
-                      <h1>{resumeData.personal.name || 'Your Name'}</h1>
-                      <div className="ats-title">{resumeData.personal.title}</div>
-                      <div className="ats-contact-info">
-                        {resumeData.personal.email && <span>📧 {resumeData.personal.email}</span>}
-                        {resumeData.personal.phone && <span>📞 {resumeData.personal.phone}</span>}
-                        {resumeData.personal.location && <span>📍 {resumeData.personal.location}</span>}
-                        {resumeData.personal.linkedin && <span>🔗 {resumeData.personal.linkedin}</span>}
-                        {resumeData.personal.github && <span>💻 {resumeData.personal.github}</span>}
-                      </div>
-                    </div>
+                  if (selectedAnswer !== null) {
+                    if (index === quizQuestions[currentQuestionIndex].answer) {
+                      bgColor = 'rgba(16, 185, 129, 0.1)';
+                      borderColor = '#10b981';
+                      textColor = '#10b981';
+                    } else if (index === selectedAnswer) {
+                      bgColor = 'rgba(239, 68, 68, 0.1)';
+                      borderColor = '#ef4444';
+                      textColor = '#ef4444';
+                    }
+                  }
 
-                    {resumeData.personal.summary && (
-                      <div className="ats-section">
-                        <h4 className="ats-section-title">Summary</h4>
-                        <p className="ats-summary">{resumeData.personal.summary}</p>
-                      </div>
-                    )}
-
-                    {resumeData.experience.length > 0 && (
-                      <div className="ats-section">
-                        <h4 className="ats-section-title">Experience</h4>
-                        {resumeData.experience.map((exp) => (
-                          <div key={exp.id} className="ats-item">
-                            <div className="ats-item-header">
-                              <span className="ats-item-title">{exp.role}</span>
-                              <span className="ats-item-org">{exp.company}</span>
-                            </div>
-                            <div className="ats-item-meta">
-                              <span>{exp.location}</span>
-                              <span>{exp.dates}</span>
-                            </div>
-                            {exp.description && (
-                              <ul className="ats-item-desc">
-                                {exp.description.split('\n').filter(Boolean).map((line, idx) => (
-                                  <li key={idx}>{line}</li>
-                                ))}
-                              </ul>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {resumeData.education.length > 0 && (
-                      <div className="ats-section">
-                        <h4 className="ats-section-title">Education</h4>
-                        {resumeData.education.map((edu) => (
-                          <div key={edu.id} className="ats-item">
-                            <div className="ats-item-header">
-                              <span className="ats-item-title">{edu.degree}</span>
-                              <span className="ats-item-org">{edu.school}</span>
-                            </div>
-                            <div className="ats-item-meta">
-                              <span>{edu.location}</span>
-                              <span>{edu.dates}</span>
-                            </div>
-                            {edu.description && (
-                              <p style={{ fontSize: '0.8rem', color: '#444', marginTop: '0.2rem' }}>
-                                {edu.description}
-                              </p>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {resumeData.projects.length > 0 && (
-                      <div className="ats-section">
-                        <h4 className="ats-section-title">Key Projects</h4>
-                        {resumeData.projects.map((proj) => (
-                          <div key={proj.id} className="ats-item" style={{ marginBottom: '0.6rem' }}>
-                            <div className="ats-item-header">
-                              <span className="ats-item-title" style={{ fontWeight: '700' }}>{proj.name}</span>
-                              {proj.link && <span className="ats-item-meta" style={{ fontStyle: 'normal' }}>🔗 {proj.link}</span>}
-                            </div>
-                            <p style={{ fontSize: '0.8rem', color: '#444', marginTop: '0.2rem', lineHeight: '1.4' }}>
-                              {proj.description}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {resumeData.skills.length > 0 && (
-                      <div className="ats-section">
-                        <h4 className="ats-section-title">Skills</h4>
-                        <div className="ats-skills-grid">
-                          {resumeData.skills.map((skill) => (
-                            <Fragment key={skill.id}>
-                              <div className="ats-skills-label">{skill.category}:</div>
-                              <div className="ats-skills-list">{skill.items}</div>
-                            </Fragment>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </>
-                )}
-
-                {/* 2. MODERN SLATE THEME VIEW */}
-                {resumeTheme === 'slate' && (
-                  <>
-                    <div className="slate-sidebar">
-                      <div className="slate-name-header">
-                        <h1>{resumeData.personal.name || 'Your Name'}</h1>
-                        <p>{resumeData.personal.title}</p>
-                      </div>
-
-                      <div className="slate-sb-section">
-                        <h3>Contact</h3>
-                        <div className="slate-contact-list">
-                          {resumeData.personal.email && (
-                            <div className="slate-contact-item">✉️ {resumeData.personal.email}</div>
-                          )}
-                          {resumeData.personal.phone && (
-                            <div className="slate-contact-item">📞 {resumeData.personal.phone}</div>
-                          )}
-                          {resumeData.personal.location && (
-                            <div className="slate-contact-item">📍 {resumeData.personal.location}</div>
-                          )}
-                          {resumeData.personal.linkedin && (
-                            <div className="slate-contact-item">🔗 {resumeData.personal.linkedin}</div>
-                          )}
-                          {resumeData.personal.github && (
-                            <div className="slate-contact-item">💻 {resumeData.personal.github}</div>
-                          )}
-                        </div>
-                      </div>
-
-                      {resumeData.skills.length > 0 && (
-                        <div className="slate-sb-section">
-                          <h3>Skills</h3>
-                          {resumeData.skills.map((skill) => (
-                            <div key={skill.id} className="slate-skill-group">
-                              <div className="slate-skill-group-title">{skill.category}</div>
-                              <div className="slate-skill-list">{skill.items}</div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="slate-main">
-                      {resumeData.personal.summary && (
-                        <div className="slate-main-section">
-                          <h3>Summary</h3>
-                          <p className="slate-summary">{resumeData.personal.summary}</p>
-                        </div>
-                      )}
-
-                      {resumeData.experience.length > 0 && (
-                        <div className="slate-main-section">
-                          <h3>Experience</h3>
-                          {resumeData.experience.map((exp) => (
-                            <div key={exp.id} className="slate-item">
-                              <div className="slate-item-header">
-                                <span className="slate-item-title">{exp.role}</span>
-                                <span className="slate-item-date">{exp.dates}</span>
-                              </div>
-                              <div className="slate-item-org">{exp.company} | {exp.location}</div>
-                              {exp.description && (
-                                <ul className="slate-item-desc">
-                                  {exp.description.split('\n').filter(Boolean).map((line, idx) => (
-                                    <li key={idx}>{line}</li>
-                                  ))}
-                                </ul>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {resumeData.education.length > 0 && (
-                        <div className="slate-main-section">
-                          <h3>Education</h3>
-                          {resumeData.education.map((edu) => (
-                            <div key={edu.id} className="slate-item">
-                              <div className="slate-item-header">
-                                <span className="slate-item-title">{edu.degree}</span>
-                                <span className="slate-item-date">{edu.dates}</span>
-                              </div>
-                              <div className="slate-item-org" style={{ color: '#475569' }}>
-                                {edu.school} | {edu.location}
-                              </div>
-                              {edu.description && (
-                                <p style={{ fontSize: '0.78rem', color: '#475569', marginTop: '0.2rem' }}>
-                                  {edu.description}
-                                </p>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {resumeData.projects.length > 0 && (
-                        <div className="slate-main-section">
-                          <h3>Projects</h3>
-                          {resumeData.projects.map((proj) => (
-                            <div key={proj.id} className="slate-item" style={{ marginBottom: '0.8rem' }}>
-                              <div className="slate-item-header">
-                                <span className="slate-item-title">{proj.name}</span>
-                                {proj.link && <span className="slate-item-date">🔗 {proj.link}</span>}
-                              </div>
-                              <p style={{ fontSize: '0.78rem', color: '#475569', marginTop: '0.2rem', lineHeight: '1.4' }}>
-                                {proj.description}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </>
-                )}
-
-                {/* 3. CYBERPUNK THEME VIEW */}
-                {resumeTheme === 'cyberpunk' && (
-                  <>
-                    <div className="cyber-header">
-                      <h1>{resumeData.personal.name || 'Your Name'}</h1>
-                      <div className="cyber-title">// {resumeData.personal.title}</div>
-                      <div className="cyber-contact-grid">
-                        {resumeData.personal.email && (
-                          <div className="cyber-contact-item"><span>email:</span> {resumeData.personal.email}</div>
-                        )}
-                        {resumeData.personal.phone && (
-                          <div className="cyber-contact-item"><span>phone:</span> {resumeData.personal.phone}</div>
-                        )}
-                        {resumeData.personal.location && (
-                          <div className="cyber-contact-item"><span>loc:</span> {resumeData.personal.location}</div>
-                        )}
-                        {resumeData.personal.linkedin && (
-                          <div className="cyber-contact-item"><span>ln:</span> {resumeData.personal.linkedin}</div>
-                        )}
-                        {resumeData.personal.github && (
-                          <div className="cyber-contact-item"><span>gh:</span> {resumeData.personal.github}</div>
-                        )}
-                      </div>
-                    </div>
-
-                    {resumeData.personal.summary && (
-                      <div className="cyber-section">
-                        <div className="cyber-section-title">// SUMMARY</div>
-                        <p className="cyber-summary">{resumeData.personal.summary}</p>
-                      </div>
-                    )}
-
-                    {resumeData.experience.length > 0 && (
-                      <div className="cyber-section">
-                        <div className="cyber-section-title">// EXPERIENCE</div>
-                        {resumeData.experience.map((exp) => (
-                          <div key={exp.id} className="cyber-item">
-                            <div className="cyber-item-header">
-                              <span className="cyber-item-title">{exp.role} <span>@ {exp.company}</span></span>
-                              <span className="cyber-item-date">[{exp.dates}]</span>
-                            </div>
-                            <div className="cyber-item-org">&gt; {exp.location}</div>
-                            {exp.description && (
-                              <ul className="cyber-item-desc">
-                                {exp.description.split('\n').filter(Boolean).map((line, idx) => (
-                                  <li key={idx}>{line}</li>
-                                ))}
-                              </ul>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {resumeData.education.length > 0 && (
-                      <div className="cyber-section">
-                        <div className="cyber-section-title">// EDUCATION</div>
-                        {resumeData.education.map((edu) => (
-                          <div key={edu.id} className="cyber-item">
-                            <div className="cyber-item-header">
-                              <span className="cyber-item-title">{edu.degree}</span>
-                              <span className="cyber-item-date">[{edu.dates}]</span>
-                            </div>
-                            <div className="cyber-item-org">&gt; {edu.school} | {edu.location}</div>
-                            {edu.description && (
-                              <p style={{ fontSize: '0.75rem', color: '#8892b0', marginTop: '0.2rem' }}>
-                                {edu.description}
-                              </p>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {resumeData.projects.length > 0 && (
-                      <div className="cyber-section">
-                        <div className="cyber-section-title">// PROJECTS</div>
-                        {resumeData.projects.map((proj) => (
-                          <div key={proj.id} className="cyber-item" style={{ marginBottom: '0.8rem' }}>
-                            <div className="cyber-item-header">
-                              <span className="cyber-item-title" style={{ color: '#e8f1ff' }}>{proj.name}</span>
-                              {proj.link && <span className="cyber-item-date">url: {proj.link}</span>}
-                            </div>
-                            <p style={{ fontSize: '0.75rem', color: '#8892b0', marginTop: '0.2rem', lineHeight: '1.4' }}>
-                              {proj.description}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {resumeData.skills.length > 0 && (
-                      <div className="cyber-section">
-                        <div className="cyber-section-title">// TECHNICAL STACK</div>
-                        {resumeData.skills.map((skill) => (
-                          <div key={skill.id} className="cyber-skills-group">
-                            <strong>{skill.category}:</strong> <span className="cyber-skills-list">{skill.items}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                )}
-
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => handleAnswerOptionClick(index)}
+                      disabled={selectedAnswer !== null}
+                      style={{
+                        background: bgColor,
+                        border: `1px solid ${borderColor}`,
+                        color: textColor,
+                        padding: '1rem 1.5rem',
+                        borderRadius: '8px',
+                        cursor: selectedAnswer !== null ? 'default' : 'pointer',
+                        textAlign: 'left',
+                        fontSize: '1rem',
+                        transition: 'all 0.2s ease',
+                        fontFamily: 'inherit',
+                        lineHeight: '1.4'
+                      }}
+                      onMouseOver={(e) => {
+                        if (selectedAnswer === null) {
+                          e.target.style.background = '#233554';
+                          e.target.style.borderColor = '#64ffda';
+                        }
+                      }}
+                      onMouseOut={(e) => {
+                        if (selectedAnswer === null) {
+                          e.target.style.background = 'rgba(2, 12, 27, 0.7)';
+                          e.target.style.borderColor = '#233554';
+                        }
+                      }}
+                    >
+                      {option}
+                    </button>
+                  );
+                })}
               </div>
             </div>
-
-          </div>
+          )}
         </div>
       </section>
 
@@ -2996,78 +2248,7 @@ export default function Home() {
         <div className="cursor-dot"></div>
       </div>
 
-      {/* UPI PAYMENT MODAL FOR RESUME BUILDER */}
-      {showPaymentModal && (
-        <div className="payment-modal-overlay">
-          <div className="payment-modal-card">
-            <button 
-              type="button" 
-              className="payment-modal-close"
-              onClick={() => setShowPaymentModal(false)}
-            >
-              &times;
-            </button>
-            <div className="payment-modal-header">
-              <span className="payment-modal-icon">💳</span>
-              <h3>Unlock PDF Download</h3>
-              <p>Support the developer! Pay ₹10 to instantly unlock and print/download your styled resume.</p>
-            </div>
-            
-            <div className="payment-modal-qr-section">
-              <div className="qr-box">
-                <img 
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
-                    "upi://pay?pa=mrunalihatzade353@oksbi&pn=Mrunali%20Hatzade&am=10&cu=INR&tn=Resume%20Builder%20Download"
-                  )}`}
-                  alt="UPI QR Code"
-                  className="payment-qr-image"
-                />
-              </div>
-              <p className="qr-scan-instruction">Scan this QR code using GPay, PhonePe, Paytm or any UPI App to pay ₹10</p>
-            </div>
 
-            <div className="payment-modal-upi-section">
-              <span className="upi-label">UPI ID:</span>
-              <div className="upi-id-box">
-                <code className="upi-id-text">mrunalihatzade353@oksbi</code>
-                <button 
-                  type="button" 
-                  className={`upi-copy-btn ${copied ? 'copied' : ''}`}
-                  onClick={handleCopyUpi}
-                >
-                  {copied ? "Copied!" : "Copy"}
-                </button>
-              </div>
-            </div>
-
-            <div className="payment-modal-footer">
-              <button 
-                type="button" 
-                className="payment-verify-btn"
-                onClick={handleVerifyPayment}
-                disabled={paymentVerifying}
-              >
-                {paymentVerifying ? (
-                  <>
-                    <span className="payment-spinner"></span>
-                    Verifying transaction...
-                  </>
-                ) : (
-                  "I have paid, Unlock Download"
-                )}
-              </button>
-              <button 
-                type="button" 
-                className="payment-cancel-btn"
-                onClick={() => setShowPaymentModal(false)}
-                disabled={paymentVerifying}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
