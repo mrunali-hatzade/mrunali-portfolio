@@ -499,17 +499,22 @@ export default function Home() {
         break;
       case 'projects':
         response = [
-          'Featured Projects (10 total — by industry):',
-          '  1. Café Aura        - Next.js, CSS, Tailwind       [Café] 🟢 Live',
-          '  2. Glam & Glow      - HTML/CSS, JS, Animations     [Salon] 🟢 Live',
-          '  3. JS Salon Akurdi  - Next.js, React, Tailwind     [Salon] 🟢 Live',
-          '  4. Club 36 Cafe     - Next.js, React, Tailwind     [Café] 🟢 Live',
-          '  5. Seven The Salon  - React, HTML/CSS, JS, Anim.   [Salon] 🟢 Live',
-          '  6. Iron Edge        - React, Tailwind, Animations  [Gym] 🟢 Live',
-          '  7. Gym 2            - React, Tailwind, Animations  [Gym] 🟢 Live',
-          '  8. Nakade Hospital  - Next.js, React, Tailwind     [Hospital] 🟢 Live',
-          '  9. NestFind Realty  - Next.js, React, Tailwind     [Real Estate] 🟡 WIP',
-          '  10. Jaycees Convent - React, Tailwind, Animations  [Education] 🟢 Live'
+          'Featured Projects (15 total — by industry):',
+          '  1. Café Aura         - Next.js, CSS, Tailwind       [Café] 🟢 Live',
+          '  2. Glam & Glow       - HTML/CSS, JS, Animations     [Salon] 🟢 Live',
+          '  3. JS Salon Akurdi   - Next.js, React, Tailwind     [Salon] 🟢 Live',
+          '  4. Club 36 Cafe      - Next.js, React, Tailwind     [Café] 🟢 Live',
+          '  5. Seven The Salon   - React, HTML/CSS, JS, Anim.   [Salon] 🟢 Live',
+          '  6. Iron Edge         - React, Tailwind, Animations  [Gym] 🟢 Live',
+          '  7. Gym 2             - React, Tailwind, Animations  [Gym] 🟢 Live',
+          '  8. Nakade Hospital   - Next.js, React, Tailwind     [Hospital] 🟢 Live',
+          '  9. NestFind Realty   - Next.js, React, Tailwind     [Real Estate] 🟡 WIP',
+          '  10. Jaycees Convent  - React, Tailwind, Animations  [Education] 🟢 Live',
+          '  11. Cake Basket      - React, Vite, CSS, Anim.      [Shops] 🟢 Live',
+          '  12. Luxe Haven Stay  - React, Vite, CSS, Icons      [Hotel] 🟢 Live',
+          '  13. Demo NGO         - HTML5, CSS, JS, Animations   [NGO] 🟢 Live',
+          '  14. Demo Eye Hospital- HTML5, CSS, JS, Animations   [Hospital] 🟢 Live',
+          '  15. Millet Bar 3D    - HTML5, CSS, GSAP, WebGL      [3D Templates] 🟢 Live'
         ];
         break;
       case 'contact':
@@ -524,7 +529,7 @@ export default function Home() {
       case 'stats':
         response = [
           'Key Metrics:',
-          '  • Projects Built     : 10+ (across 6 industries)',
+          '  • Projects Built     : 15+ (across 10 industries)',
           '  • Experience Level   : Fresh & Ready to Ship',
           '  • Client Trust Score : 100%',
           '  • Learning Curiosity: Infinite (∞)'
@@ -1036,16 +1041,120 @@ export default function Home() {
       liveId: 'jaycees-convent-live',
       githubId: 'jaycees-convent-github',
     },
+    {
+      id: 'cake-basket-akurdi',
+      category: 'shops',
+      status: 'live',
+      title: 'Cake Basket Akurdi',
+      description: 'A premium, modern cake shop and bakery website featuring a dynamic menu showcase, online order tracking, cart & wishlist system, custom design orders, and WhatsApp integration.',
+      tech: [
+        { label: 'React', cls: 'tag-react' },
+        { label: 'Vite', cls: 'tag-js' },
+        { label: 'CSS', cls: 'tag-css' },
+        { label: 'Animations', cls: 'tag-animations' },
+      ],
+      thumb: '/cake-basket-thumb.png',
+      thumbAlt: 'Cake Basket Akurdi Website Preview',
+      headerClass: 'project-header-cafe',
+      liveUrl: 'https://cake-basket-akurdi-sp3d.vercel.app/',
+      githubUrl: 'https://github.com/mrunali-hatzade/cake-basket-akurdi',
+      liveId: 'cake-basket-live',
+      githubId: 'cake-basket-github',
+    },
+    {
+      id: 'luxe-haven-stay',
+      category: 'hotel',
+      status: 'live',
+      title: 'Luxe Haven Stay',
+      description: 'A premium hotel and villa booking dashboard featuring real-time room availability checks, interactive booking management, admin dashboards, feedback systems, and multi-channel channel synchronization.',
+      tech: [
+        { label: 'React', cls: 'tag-react' },
+        { label: 'Vite', cls: 'tag-js' },
+        { label: 'CSS', cls: 'tag-css' },
+        { label: 'Lucide', cls: 'tag-other' },
+      ],
+      thumb: '/hotel-booking-thumb.png',
+      thumbAlt: 'Luxe Haven Booking Website Preview',
+      headerClass: 'project-header-hospital',
+      liveUrl: 'https://demo-hotel-booking.vercel.app/',
+      githubUrl: 'https://github.com/mrunali-hatzade/demo-hotel-booking',
+      liveId: 'hotel-live',
+      githubId: 'hotel-github',
+    },
+    {
+      id: 'demo-ngo',
+      category: 'ngo',
+      status: 'live',
+      title: 'Demo NGO',
+      description: 'A compelling non-profit organization website dedicated to global reforestation, clean water access, and sustainable agriculture. Features impactful campaign showcases, donation flows, community impact statistics, and inspiring storytelling.',
+      tech: [
+        { label: 'HTML5', cls: 'tag-other' },
+        { label: 'CSS', cls: 'tag-css' },
+        { label: 'JavaScript', cls: 'tag-js' },
+        { label: 'Animations', cls: 'tag-animations' },
+      ],
+      thumb: '/ngo-thumb.png',
+      thumbAlt: 'Demo NGO Website Preview',
+      headerClass: 'project-header-hospital',
+      liveUrl: 'https://demo-ngo-beryl.vercel.app/',
+      githubUrl: 'https://github.com/mrunali-hatzade/demoNGO',
+      liveId: 'ngo-live',
+      githubId: 'ngo-github',
+    },
+    {
+      id: 'demo-eye-hospital',
+      category: 'hospital',
+      status: 'live',
+      title: 'Demo Eye Hospital',
+      description: 'A professional ophthalmology and eye care clinic website featuring detailed service pages for LASIK, cataract, and glaucoma treatments, doctor profiles, appointment booking, patient testimonials, and a modern healthcare aesthetic.',
+      tech: [
+        { label: 'HTML5', cls: 'tag-other' },
+        { label: 'CSS', cls: 'tag-css' },
+        { label: 'JavaScript', cls: 'tag-js' },
+        { label: 'Animations', cls: 'tag-animations' },
+      ],
+      thumb: '/eye-hospital-thumb.png',
+      thumbAlt: 'Demo Eye Hospital Website Preview',
+      headerClass: 'project-header-hospital',
+      liveUrl: 'https://demo-eye-hospital.vercel.app/',
+      githubUrl: 'https://github.com/mrunali-hatzade/demo-eye-hospital',
+      liveId: 'eye-hospital-live',
+      githubId: 'eye-hospital-github',
+    },
+    {
+      id: 'millet-bar-chocolate',
+      category: '3d',
+      status: 'live',
+      title: 'Millet Bar Chocolate 3D',
+      description: 'A luxurious interactive craft chocolate landing page featuring state-of-the-art cinematic scrolling animations, customized scroll-based video sequences, high-fidelity GSAP and ScrollTrigger page transitions, responsive layout, and an immersive user experience.',
+      tech: [
+        { label: 'HTML5', cls: 'tag-other' },
+        { label: 'CSS', cls: 'tag-css' },
+        { label: 'GSAP', cls: 'tag-animations' },
+        { label: 'ScrollTrigger', cls: 'tag-animations' },
+      ],
+      thumb: '/millet-bar-thumb.png',
+      thumbAlt: 'Millet Bar Chocolate 3D Website Preview',
+      headerClass: 'project-header-other',
+      liveUrl: 'https://milletbar.vercel.app/',
+      githubUrl: 'https://github.com/mrunali-hatzade/3d',
+      liveId: 'millet-bar-live',
+      githubId: 'millet-bar-github',
+    },
   ];
 
   const CATEGORIES = [
     { id: 'all', label: 'All', icon: '🗂️' },
     { id: 'salon', label: 'Salon', icon: '💅' },
     { id: 'cafe', label: 'Café / Restaurant', icon: '☕' },
+    { id: 'hotel', label: 'Hotel / Villa', icon: '🏨' },
+    { id: 'shops', label: 'Shops', icon: '🛍️' },
     { id: 'hospital', label: 'Hospital / Clinic', icon: '🏥' },
     { id: 'realestate', label: 'Real Estate', icon: '🏠' },
     { id: 'gym', label: 'Gym', icon: '💪' },
     { id: 'education', label: 'Education', icon: '🎓' },
+    { id: 'ngo', label: 'NGO / Non-Profit', icon: '🌱' },
+    { id: '3d', label: '3D Website Templates', icon: '✨' },
   ];
 
   const filteredProjects = PROJECTS.filter(p =>
@@ -1206,7 +1315,7 @@ export default function Home() {
               <p className="stats-header">// stats</p>
               <div className="stats-grid">
                 <div className="stats-card">
-                  <span className="stats-number">10+</span>
+                  <span className="stats-number">15+</span>
                   <span className="stats-label">Projects</span>
                 </div>
                 <div className="stats-card">
@@ -1479,27 +1588,25 @@ export default function Home() {
                   <div
                     key={`${project.id}-${idx}`}
                     className="project-slide-card"
+                    style={{ padding: 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}
                   >
-                    <p className="project-category-label">
-                      {CATEGORIES.find(c => c.id === project.category)?.icon}{' '}
-                      {CATEGORIES.find(c => c.id === project.category)?.label}
-                    </p>
-                    <h3 className="project-slide-title">{project.title}</h3>
-                    <div className="project-actions">
-                      {project.liveUrl ? (
-                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-btn-primary" id={`${project.liveId}-${idx}`}>
-                          View Demo →
-                        </a>
-                      ) : (
-                        <span className="project-btn-coming-soon">
-                          Under Construction
-                        </span>
-                      )}
-                      {project.githubUrl && (
-                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="project-btn-github" id={`${project.githubId}-${idx}`} title="GitHub Repository">
-                          GitHub
-                        </a>
-                      )}
+                    {project.liveUrl ? (
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', height: '100%' }}>
+                        <img 
+                          src={project.thumb} 
+                          alt={project.thumbAlt} 
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px', cursor: 'pointer' }} 
+                        />
+                      </a>
+                    ) : (
+                      <img 
+                        src={project.thumb} 
+                        alt={project.thumbAlt} 
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} 
+                      />
+                    )}
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', padding: '16px 12px', background: 'linear-gradient(to top, rgba(0,0,0,0.9), transparent)', pointerEvents: 'none', borderBottomLeftRadius: '16px', borderBottomRightRadius: '16px', textAlign: 'center' }}>
+                      <h3 style={{ margin: 0, color: '#fff', fontSize: '1.1rem', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>{project.title}</h3>
                     </div>
                   </div>
                 ))}

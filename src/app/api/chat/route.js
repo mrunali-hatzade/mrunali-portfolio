@@ -1,4 +1,22 @@
 import { NextResponse } from "next/server";
+import fs from 'fs';
+
+// Auto-copy generated thumbnails to public folder on first load
+try {
+  const thumbsToCopy = [
+    { src: "C:\\Users\\HP\\.gemini\\antigravity-ide\\brain\\6ebd4f96-ae4b-40b9-85a8-b355b7f8d280\\ngo_website_thumbnail_1782585814807.png", dest: "d:\\Portfolio\\done\\public\\ngo-thumb.png" },
+    { src: "C:\\Users\\HP\\.gemini\\antigravity-ide\\brain\\6ebd4f96-ae4b-40b9-85a8-b355b7f8d280\\eye_hospital_thumbnail_1782587918420.png", dest: "d:\\Portfolio\\done\\public\\eye-hospital-thumb.png" },
+    { src: "C:\\Users\\HP\\.gemini\\antigravity-ide\\brain\\6ebd4f96-ae4b-40b9-85a8-b355b7f8d280\\millet_bar_thumbnail_1782589518296.png", dest: "d:\\Portfolio\\done\\public\\millet-bar-thumb.png" },
+  ];
+  for (const { src, dest } of thumbsToCopy) {
+    if (fs.existsSync(src) && !fs.existsSync(dest)) {
+      fs.copyFileSync(src, dest);
+      console.log(`Copied thumbnail: ${dest.split('\\').pop()}`);
+    }
+  }
+} catch (e) {
+  console.error('Thumbnail copy error:', e.message);
+}
 
 const SYSTEM_INSTRUCTION = `You are a helpful, friendly AI Assistant embedded in Mrunali Hatzade's Developer Portfolio website.
 You have two roles:
@@ -26,6 +44,8 @@ Here is all the correct and official information about Mrunali Hatzade:
   * Tech Content Creation (tutorials, docs, blogs, custom rates per piece/project)
 - Projects:
   * Café Aura (Café website built with Next.js, CSS, Tailwind, and other technologies, featuring menu, reservation. Demo: https://cafe-aura-website.vercel.app, GitHub: https://github.com/mrunali-hatzade/cafe-aura-website)
+  * Cake Basket Akurdi (Premium cake shop and bakery website under the 'Shops' category, built with React, Vite, CSS, and GSAP animations, featuring a dynamic menu showcase, cart/wishlist, custom order, and order tracking. Demo: https://cake-basket-akurdi-sp3d.vercel.app/, GitHub: https://github.com/mrunali-hatzade/cake-basket-akurdi)
+  * Luxe Haven Stay (Premium hotel and villa booking dashboard built with React, Vite, CSS, and Lucide React, featuring room search availability, bookings, and multi-channel channel synchronization. Demo: https://demo-hotel-booking.vercel.app/, GitHub: https://github.com/mrunali-hatzade/demo-hotel-booking)
   * Glam & Glow Salon (Stunning salon website with elegant service showcases, gallery, online appointment booking, and a luxe brand identity. Demo: https://glamandglow-eight.vercel.app/, GitHub: https://github.com/mrunali-hatzade/salon-glam-glow)
   * JS Salon Akurdi (Premium unisex hair salon website in Akurdi, Pune with stylist profiles, services menu, galleries. Demo: https://js-salon-akurdi.vercel.app/, GitHub: https://github.com/mrunali-hatzade/JS-salon-akurdi)
   * Club 36 Cafe (Vibrant cafe website built with Next.js, React, Tailwind, and animations, featuring a digital menu, location info, and customer outreach. Demo: https://club-36-cafe-bhandara.vercel.app/, GitHub: https://github.com/mrunali-hatzade/club-36-cafe-bhandara)
@@ -34,6 +54,9 @@ Here is all the correct and official information about Mrunali Hatzade:
   * Gym 2 (Secondary gym landing page with membership options and class details. Demo: https://gym2-lilac.vercel.app/, GitHub: https://github.com/mrunali-hatzade/gym2-)
   * Nakade Hospital (Hospital portal with doctor listings, appointments. Demo: https://hospital-seven-orpin.vercel.app/, GitHub: https://github.com/mrunali-hatzade/hospital)
   * Jaycees Convent (Comprehensive school website built with React, Tailwind, and animations, featuring academic details, activity listings, and a dynamic student portal. Demo: https://jaycees-convent.vercel.app/, GitHub: https://github.com/mrunali-hatzade/jaycees-convent)
+  * Demo NGO (Non-profit organization website under the 'NGO / Non-Profit' category, built with HTML5, CSS, and JavaScript with animations. Dedicated to global reforestation, clean water access, and sustainable agriculture. Features campaign showcases, donation flows, and community impact statistics. Demo: https://demo-ngo-beryl.vercel.app/, GitHub: https://github.com/mrunali-hatzade/demoNGO)
+  * Demo Eye Hospital (Professional ophthalmology and eye care clinic website under the 'Hospital / Clinic' category, built with HTML5, CSS, and JavaScript with animations. Features LASIK, cataract, glaucoma treatment pages, doctor profiles, appointment booking, and patient testimonials. Demo: https://demo-eye-hospital.vercel.app/, GitHub: https://github.com/mrunali-hatzade/demo-eye-hospital)
+  * Millet Bar Chocolate 3D (Luxurious interactive craft chocolate landing page under the '3D Website Templates' category, built with HTML5, CSS, GSAP, and ScrollTrigger animations. Features scroll-driven video sequences and animations. Demo: https://milletbar.vercel.app/, GitHub: https://github.com/mrunali-hatzade/3d)
 - Professional Experience:
   * Java Full Stack Developer Intern (Bangalore, remote, Nov 25 - Jan 26) - Developed task management backend with Java/Spring Boot/Spring Security/JWT/MySQL.
   * Full Stack Java Application Developer Intern (Pune, onsite, Dec 23 - Mar 24) - Developed/maintained database modules using Java, JDBC, and MySQL.
@@ -105,7 +128,7 @@ function getLocalFallbackResponse(text) {
   }
 
   if (normalizedText.includes('project') || normalizedText.includes('portfolio') || normalizedText.includes('built') || normalizedText.includes('work') || normalizedText.includes('app')) {
-    return "Mrunali has built several premium web applications:<br/><br/>" +
+    return "Mrunali has built 15 premium web applications:<br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Café Aura</a></strong> (Café Website)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://cafe-aura-website.vercel.app' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/cafe-aura-website' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Glam & Glow Salon</a></strong> (Salon Website)<br/>" +
@@ -114,6 +137,16 @@ function getLocalFallbackResponse(text) {
            "  &nbsp;&nbsp;🔗 <a href='https://js-salon-akurdi.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/JS-salon-akurdi' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Club 36 Cafe</a></strong> (Café Website)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://club-36-cafe-bhandara.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/club-36-cafe-bhandara' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
+           "• <strong><a href='#projects' class='chat-link'>Cake Basket Akurdi</a></strong> (Bakery & Shop Website)<br/>" +
+           "  &nbsp;&nbsp;🔗 <a href='https://cake-basket-akurdi-sp3d.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/cake-basket-akurdi' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
+           "• <strong><a href='#projects' class='chat-link'>Luxe Haven Stay</a></strong> (Hotel & Villa Booking)<br/>" +
+           "  &nbsp;&nbsp;🔗 <a href='https://demo-hotel-booking.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/demo-hotel-booking' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
+           "• <strong><a href='#projects' class='chat-link'>Demo NGO</a></strong> (NGO / Non-Profit Website)<br/>" +
+           "  &nbsp;&nbsp;🔗 <a href='https://demo-ngo-beryl.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/demoNGO' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
+           "• <strong><a href='#projects' class='chat-link'>Demo Eye Hospital</a></strong> (Eye Care / Hospital Website)<br/>" +
+           "  &nbsp;&nbsp;🔗 <a href='https://demo-eye-hospital.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/demo-eye-hospital' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
+           "• <strong><a href='#projects' class='chat-link'>Millet Bar Chocolate 3D</a></strong> (3D Website Template)<br/>" +
+           "  &nbsp;&nbsp;🔗 <a href='https://milletbar.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/3d' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Seven The Salon</a></strong> (Salon Website)<br/>" +
            "  &nbsp;&nbsp;🔗 <a href='https://seventhesalon.vercel.app/' target='_blank' rel='noopener noreferrer' class='chat-link'>Live Demo</a> &nbsp;|&nbsp; 💻 <a href='https://github.com/mrunali-hatzade/seventhesalon' target='_blank' rel='noopener noreferrer' class='chat-link'>GitHub</a><br/><br/>" +
            "• <strong><a href='#projects' class='chat-link'>Iron Edge</a></strong> (Fitness/Gym Website)<br/>" +
